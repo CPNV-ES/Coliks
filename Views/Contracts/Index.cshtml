@@ -1,0 +1,101 @@
+@model IEnumerable<coliks.Models.Contracts>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Creationdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Effectivereturn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Plannedreturn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Takenon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Paidon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Insurance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Goget)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HelpStaff)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TuneStaff)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Creationdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Effectivereturn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plannedreturn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Takenon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paidon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Insurance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Goget)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HelpStaff.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TuneStaff.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

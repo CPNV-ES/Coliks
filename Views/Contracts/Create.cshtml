@@ -1,0 +1,73 @@
+@model coliks.Models.Contracts
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Contracts</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Creationdate" class="control-label"></label>
+                <input asp-for="Creationdate" class="form-control" />
+                <span asp-validation-for="Creationdate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Effectivereturn" class="control-label"></label>
+                <input asp-for="Effectivereturn" class="form-control" />
+                <span asp-validation-for="Effectivereturn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Plannedreturn" class="control-label"></label>
+                <input asp-for="Plannedreturn" class="form-control" />
+                <span asp-validation-for="Plannedreturn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Takenon" class="control-label"></label>
+                <input asp-for="Takenon" class="form-control" />
+                <span asp-validation-for="Takenon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Paidon" class="control-label"></label>
+                <input asp-for="Paidon" class="form-control" />
+                <span asp-validation-for="Paidon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Insurance" class="control-label"></label>
+                <input asp-for="Insurance" class="form-control" />
+                <span asp-validation-for="Insurance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Goget" class="control-label"></label>
+                <input asp-for="Goget" class="form-control" />
+                <span asp-validation-for="Goget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HelpStaffId" class="control-label"></label>
+                <select asp-for="HelpStaffId" class ="form-control" asp-items="ViewBag.HelpStaffId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TuneStaffId" class="control-label"></label>
+                <select asp-for="TuneStaffId" class ="form-control" asp-items="ViewBag.TuneStaffId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
