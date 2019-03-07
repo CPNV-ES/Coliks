@@ -49,7 +49,7 @@ namespace coliks.Controllers
         // GET: Contracts/Create
         public IActionResult Create()
         {
-            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Firstname");
+            ViewData["CustomersLastName"] = new SelectList(_context.Customers, "Lastname", "Lastname");
             ViewData["HelpStaffId"] = new SelectList(_context.Staffs, "Id", "Id");
             ViewData["TuneStaffId"] = new SelectList(_context.Staffs, "Id", "Id");
             return View();
