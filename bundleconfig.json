@@ -14,5 +14,15 @@
             "enabled": true,
             "renameLocals": true
         }
+    },
+    {
+        "outputFileName": "wwwroot/js/ContractCreate.min.js",
+        "inputFileName": [
+            "wwwroot/js/ContractCreate.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        }
     }
 ]
