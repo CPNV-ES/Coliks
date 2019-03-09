@@ -30,5 +30,15 @@ namespace coliks.Controllers
 
             return await _context.Customers.Where(customer => customer.Lastname == lastName).ToListAsync();
         }
+
+        [HttpGet("/api/customer-contracts/{id}")]
+        public async Task<ActionResult<List<Contracts>>> GetCustomerContracts(int? id)
+        {
+            if (id == null) {
+                return NotFound();
+            }
+
+            return await _context.Contracts.Where(contract => contract.CustomerId == id).ToListAsync();
+        }
     }
 }

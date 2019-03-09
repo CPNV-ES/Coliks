@@ -8,47 +8,66 @@
 
 <h4>Contracts</h4>
 <hr />
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="Create">
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label class="control-label">Nom</label>
-                        @Html.DropDownList("LastNames", ViewBag.CustomersLastName, "Nom", new { @class = "form-control" })
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Create">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="control-label">Nom</label>
+                            @Html.DropDownList("LastNames", ViewBag.CustomersLastName, "Nom", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="control-label">Prénom</label>
+                            <select id="FirstName" name="FirstName" disabled class="form-control">
+                                <option>Prénom</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label class="control-label">Prénom</label>
-                        <select id="FirstName" name="FirstName" disabled class="form-control">
-                            <option>Prénom</option>
-                        </select>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="control-label">N° de téléphone</label>
+                            <input id="Phone" name="Phone" class="form-control" disabled />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="control-label">Addresse</label>
+                            <input id="Address" name="Address" class="form-control" disabled />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label class="control-label">N° de téléphone</label>
-                        <input id="Phone" name="Phone" class="form-control" disabled />
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-2 offset-10">
+                            <button class="btn btn-primary">Nouveau contrat</button>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label class="control-label">Addresse</label>
-                        <input id="Address" name="Address" class="form-control" disabled />
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-2 offset-10">
-                        <button class="btn btn-primary">Nouveau contrat</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
+    </div>
+
+    <div id="CustomerContracts" class="row mt-5">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Consulter</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -58,5 +77,6 @@
 
 <environment include="Development">
     <script src="~/js/ContractCreate.js"></script>
+    <link rel="stylesheet" href="~/css/ContractCreate.css" />
 </environment>
 
