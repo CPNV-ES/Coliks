@@ -43,6 +43,7 @@ setCustomerInfo = async () => {
     document.getElementById('Phone').value = customers[0].phone !== null ? customers[0].phone : 'Non défini'
     document.getElementById('Address').value = customers[0].address !== null ? customers[0].address : 'Non définie'
     contracts = await getCustomerContracts(customers[0].id)
+    document.getElementById('NewContract').disabled = false
 
     fillContractsTable()
 }
@@ -93,5 +94,6 @@ document.getElementById('FirstName').onchange = async () => {
     document.getElementById('Phone').value = selectedCustomer.phone !== null ? selectedCustomer.phone : 'Non défini'
     document.getElementById('Address').value = selectedCustomer.address !== null ? selectedCustomer.address : 'Non définie'
     contracts = await getCustomerContracts(Number(document.getElementById('FirstName').value))
+    document.getElementById('NewContract').disabled = false
     fillContractsTable()
 }
