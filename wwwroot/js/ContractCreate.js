@@ -4,12 +4,52 @@
 
 let customers = []
 let contracts = []
+let items = []
 
 getCustomerContracts = async (id) => {
     const response = await fetch(`https://localhost:5001/api/customer-contracts/${id}`)
     const contracts = await response.json()
 
     return contracts
+}
+
+addItemSlot = (tableBody) => {
+    tableBody.appendChild(document.createElement('tr'))
+    const row = tableBody.getElementsByTagName('tr')[tableBody.childElementCount - 1]
+    const rowItems = document.createElement('td')
+    const selectItems = document.createElement('select')
+    selectItems.classList.add('form-control')
+
+    for (let item of items) {
+        const option = document.createElement('option')
+        option.text = `${item.brand} : ${item.model}`
+        option.value = `${item.id}`
+        selectItems.add(option)
+    }
+
+    selectItems.onchange = () => {
+        const item = items.filter(i => {
+            return i.id == selectItems.value
+        })
+        selectItems.parentNode.parentNode.childNodes[1].innerText = item[0].stock
+    }
+
+    rowItems.appendChild(selectItems)
+    row.appendChild(rowItems)
+    const rowStock = document.createElement('td')
+    rowStock.innerText = items[0].stock
+    row.appendChild(rowStock)
+    const rowDuration = document.createElement('td')
+    const selectDuration = document.createElement('select')
+    rowDuration.appendChild(selectDuration)
+    row.appendChild(rowDuration)
+}
+
+fillItemsTable = () => {
+    document.getElementById('CustomerContracts').style.display = 'none'
+    const tableBody = document.getElementById('ItemsContractsTable').getElementsByTagName('tbody')[0]
+    addItemSlot(tableBody)
+    document.getElementById('ItemsContracts').style.display = 'block'
 }
 
 fillContractsTable = () => {
@@ -101,5 +141,12 @@ document.getElementById('FirstName').onchange = async () => {
 document.getElementById('NewContract').onclick = async (e) => {
     e.preventDefault()
     const response = await fetch('https://localhost:5001/api/items')
-    const items = await response.json()
+    items = await response.json()
+
+    document.getElementById('NewContract').style.display = 'none'
+    fillItemsTable()
+}
+
+document.getElementById('AddItem').onclick = () => {
+    addItemSlot(document.getElementById('ItemsContractsTable').getElementsByTagName('tbody')[0])
 }
