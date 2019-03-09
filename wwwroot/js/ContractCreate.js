@@ -12,10 +12,39 @@ getCustomerContracts = async (id) => {
     return contracts
 }
 
+fillContractsTable = () => {
+    const oldTableBody = document.getElementById('CustomerContracts').getElementsByTagName('tbody')[0]
+    const newTableBody = document.createElement('tbody')
+    for (const [index, contract] of contracts.entries()) {
+        newTableBody.appendChild(document.createElement('tr'))
+        const row = newTableBody.getElementsByTagName('tr')[index]
+        const rowId = document.createElement('th')
+        rowId.setAttribute('scope', 'row')
+        rowId.innerText = contract.id
+        row.appendChild(rowId)
+        const rowTotal = document.createElement('td')
+        rowTotal.innerText = contract.total
+        row.appendChild(rowTotal)
+        const rowButton = document.createElement('td')
+        const detailsButton = document.createElement('a')
+        detailsButton.setAttribute('role', 'button')
+        detailsButton.classList.add('btn')
+        detailsButton.classList.add('btn-info')
+        detailsButton.innerText = 'Consulter'
+        detailsButton.setAttribute('href', `/Contracts/Details/${contract.id}`)
+        rowButton.appendChild(detailsButton)
+        row.appendChild(rowButton)
+    }
+    oldTableBody.parentNode.replaceChild(newTableBody, oldTableBody)
+    document.getElementById('CustomerContracts').style.display = 'block'
+}
+
 setCustomerInfo = async () => {
     document.getElementById('Phone').value = customers[0].phone !== null ? customers[0].phone : 'Non défini'
     document.getElementById('Address').value = customers[0].address !== null ? customers[0].address : 'Non définie'
     contracts = await getCustomerContracts(customers[0].id)
+
+    fillContractsTable()
 }
 
 document.getElementById('LastNames').onchange = async () => {
@@ -63,4 +92,5 @@ document.getElementById('FirstName').onchange = async () => {
     document.getElementById('Phone').value = selectedCustomer.phone !== null ? selectedCustomer.phone : 'Non défini'
     document.getElementById('Address').value = selectedCustomer.address !== null ? selectedCustomer.address : 'Non définie'
     contracts = await getCustomerContracts(Number(document.getElementById('FirstName').value))
+    fillContractsTable()
 }
