@@ -2,16 +2,21 @@
  * File for Contracts form
  */
 
+let customers = []
+
 document.getElementById('LastNames').onchange = async () => {
     try {
         const response = await fetch(`https://localhost:5001/api/names-list/${document.getElementById('LastNames').value}`, { 
             headers: { "Content-Type": "application/json" }
           })
-        const customers = await response.json()
+        customers = await response.json()
         if (customers.length > 0) {
             for (let i = document.getElementById('FirstName').length - 1; i >= 0; i--) {
                 document.getElementById('FirstName').remove(i)
             }
+
+            document.getElementById('Phone').value = null
+            document.getElementById('Address').value = null
 
             if (customers.length === 1) {
                 let optionFirstName = document.createElement('option')
@@ -28,9 +33,21 @@ document.getElementById('LastNames').onchange = async () => {
                     document.getElementById('FirstName').add(optionTemp)
                     document.getElementById('FirstName').disabled = false
                 }
+                document.getElementById('Phone').value = customers[0].phone
+                document.getElementById('Address').value = customers[0].address !== null ? customers[0].address : 'Non définie'
             }
         }
     } catch (error) {
         console.log(error)
     }
+}
+
+document.getElementById('FirstName').onchange = () => {
+    let selectedCustomer = null
+    for (const customer of customers) {
+        if (customer.id === Number(document.getElementById('FirstName').value)) selectedCustomer = customer
+    }
+
+    document.getElementById('Phone').value = selectedCustomer.phone
+    document.getElementById('Address').value = selectedCustomer.address !== null ? selectedCustomer.address : 'Non définie'
 }
