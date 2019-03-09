@@ -97,3 +97,9 @@ document.getElementById('FirstName').onchange = async () => {
     document.getElementById('NewContract').disabled = false
     fillContractsTable()
 }
+
+document.getElementById('NewContract').onclick = async (e) => {
+    e.preventDefault()
+    const response = await fetch('https://localhost:5001/api/items')
+    const items = await response.json()
+}
