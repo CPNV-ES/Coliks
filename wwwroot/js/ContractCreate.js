@@ -3,6 +3,20 @@
  */
 
 let customers = []
+let contracts = []
+
+getCustomerContracts = async (id) => {
+    const response = await fetch(`https://localhost:5001/api/customer-contracts/${id}`)
+    const contracts = await response.json()
+
+    return contracts
+}
+
+setCustomerInfo = async () => {
+    document.getElementById('Phone').value = customers[0].phone
+    document.getElementById('Address').value = customers[0].address !== null ? customers[0].address : 'Non définie'
+    contracts = await getCustomerContracts(customers[0].id)
+}
 
 document.getElementById('LastNames').onchange = async () => {
     try {
@@ -23,8 +37,7 @@ document.getElementById('LastNames').onchange = async () => {
                 optionFirstName.text = `${customers[0].firstname} (${customers[0].phone})`
                 optionFirstName.value = customers[0].id
                 document.getElementById('FirstName').add(optionFirstName)
-                document.getElementById('Phone').value = customers[0].phone
-                document.getElementById('Address').value = customers[0].address !== null ? customers[0].address : 'Non définie'
+                setCustomerInfo()
             } else {
                 for (const customer of customers) {
                     let optionTemp = document.createElement('option')
@@ -33,8 +46,7 @@ document.getElementById('LastNames').onchange = async () => {
                     document.getElementById('FirstName').add(optionTemp)
                     document.getElementById('FirstName').disabled = false
                 }
-                document.getElementById('Phone').value = customers[0].phone
-                document.getElementById('Address').value = customers[0].address !== null ? customers[0].address : 'Non définie'
+                setCustomerInfo()
             }
         }
     } catch (error) {
@@ -42,7 +54,7 @@ document.getElementById('LastNames').onchange = async () => {
     }
 }
 
-document.getElementById('FirstName').onchange = () => {
+document.getElementById('FirstName').onchange = async () => {
     let selectedCustomer = null
     for (const customer of customers) {
         if (customer.id === Number(document.getElementById('FirstName').value)) selectedCustomer = customer
@@ -50,4 +62,5 @@ document.getElementById('FirstName').onchange = () => {
 
     document.getElementById('Phone').value = selectedCustomer.phone
     document.getElementById('Address').value = selectedCustomer.address !== null ? selectedCustomer.address : 'Non définie'
+    contracts = await getCustomerContracts(Number(document.getElementById('FirstName').value))
 }
