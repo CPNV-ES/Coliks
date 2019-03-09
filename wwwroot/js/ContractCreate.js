@@ -62,6 +62,7 @@ document.getElementById('LastNames').onchange = async () => {
             document.getElementById('Address').value = null
 
             if (customers.length === 1) {
+                document.getElementById('FirstName').disabled = true
                 let optionFirstName = document.createElement('option')
                 optionFirstName.text = `${customers[0].firstname} (${customers[0].phone})`
                 optionFirstName.value = customers[0].id
