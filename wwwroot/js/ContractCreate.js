@@ -43,6 +43,17 @@ addItemSlot = (tableBody) => {
     const selectDuration = document.createElement('select')
     rowDuration.appendChild(selectDuration)
     row.appendChild(rowDuration)
+    const rowDelete = document.createElement('td')
+    const buttonDelete = document.createElement('button')
+    buttonDelete.classList.add('btn', 'btn-danger')
+    buttonDelete.innerText = 'Supprimer'
+
+    buttonDelete.onclick = () => {
+        tableBody.removeChild(row)
+    }
+    
+    rowDelete.appendChild(buttonDelete)
+    row.appendChild(rowDelete)
 }
 
 fillItemsTable = () => {
@@ -68,8 +79,7 @@ fillContractsTable = () => {
         const rowButton = document.createElement('td')
         const detailsButton = document.createElement('a')
         detailsButton.setAttribute('role', 'button')
-        detailsButton.classList.add('btn')
-        detailsButton.classList.add('btn-info')
+        detailsButton.classList.add('btn', 'btn-info')
         detailsButton.innerText = 'Consulter'
         detailsButton.setAttribute('href', `/Contracts/Details/${contract.id}`)
         rowButton.appendChild(detailsButton)
