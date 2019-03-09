@@ -15,13 +15,13 @@
                 <div class="col">
                     <div class="form-group">
                         <label class="control-label">Nom</label>
-                        @Html.DropDownList("Customers", ViewBag.CustomersLastName, "Nom", new { @class = "form-control" })
+                        @Html.DropDownList("LastNames", ViewBag.CustomersLastName, "Nom", new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label class="control-label">Prénom</label>
-                        <select disabled class="form-control">
+                        <select id="FirstName" name="FirstName" disabled class="form-control">
                             <option>Prénom</option>
                         </select>
                     </div>
@@ -31,13 +31,13 @@
                 <div class="col">
                     <div class="form-group">
                         <label class="control-label">N° de téléphone</label>
-                        <input class="form-control" disabled />
+                        <input id="Phone" name="Phone" class="form-control" disabled />
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <label class="control-label">Addresse</label>
-                        <input class="form-control" disabled />
+                        <input id="Address" name="Address" class="form-control" disabled />
                     </div>
                 </div>
             </div>
@@ -55,4 +55,8 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<environment include="Development">
+    <script src="~/js/ContractCreate.js"></script>
+</environment>
 
