@@ -46,5 +46,11 @@ namespace coliks.Controllers
         {
             return await _context.Items.ToListAsync();
         }
+
+        [HttpGet("/api/durations")]
+        public async Task<ActionResult<List<Durations>>> GetDurations()
+        {
+            return await _context.Durations.ToListAsync();
+        }
     }
 }
