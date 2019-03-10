@@ -5,6 +5,7 @@
 let customers = []
 let contracts = []
 let items = []
+let durations = []
 
 getCustomerContracts = async (id) => {
     const response = await fetch(`https://localhost:5001/api/customer-contracts/${id}`)
@@ -41,11 +42,20 @@ addItemSlot = (tableBody) => {
     row.appendChild(rowStock)
     const rowDuration = document.createElement('td')
     const selectDuration = document.createElement('select')
+    selectDuration.classList.add('form-control')
+
+    for (let duration of durations) {
+        const option = document.createElement('option')
+        option.text = duration.details
+        option.value = duration.id
+        selectDuration.add(option)
+    }
+
     rowDuration.appendChild(selectDuration)
     row.appendChild(rowDuration)
     const rowDelete = document.createElement('td')
     const buttonDelete = document.createElement('button')
-    buttonDelete.classList.add('btn', 'btn-danger')
+    buttonDelete.classList.add('btn', 'btn-danger', 'btn-sm')
     buttonDelete.innerText = 'Supprimer'
 
     buttonDelete.onclick = () => {
@@ -150,8 +160,11 @@ document.getElementById('FirstName').onchange = async () => {
 
 document.getElementById('NewContract').onclick = async (e) => {
     e.preventDefault()
-    const response = await fetch('https://localhost:5001/api/items')
-    items = await response.json()
+    const responseItems = await fetch('https://localhost:5001/api/items')
+    items = await responseItems.json()
+
+    const responseDurations = await fetch('https://localhost:5001/api/durations')
+    durations = await responseDurations.json()
 
     document.getElementById('NewContract').style.display = 'none'
     fillItemsTable()
