@@ -8,10 +8,21 @@ let items = []
 let durations = []
 
 getCustomerContracts = async (id) => {
+    try {
     const response = await fetch(`https://localhost:5001/api/customer-contracts/${id}`)
     const contracts = await response.json()
 
     return contracts
+    } catch (error) {
+        showAlertMessage(error)
+    }
+}
+
+showAlertMessage = (error) => {
+    const alert = document.getElementById('AlertMessage')
+    alert.innerHTML = error
+    $('#AlertMessage').fadeIn()
+    setTimeout(() => { $('#AlertMessage').fadeOut() }, 1500)
 }
 
 addItemSlot = (tableBody) => {
@@ -100,12 +111,16 @@ fillContractsTable = () => {
 }
 
 setCustomerInfo = async () => {
-    document.getElementById('Phone').value = customers[0].phone !== null ? customers[0].phone : 'Non défini'
-    document.getElementById('Address').value = customers[0].address !== null ? customers[0].address : 'Non définie'
-    contracts = await getCustomerContracts(customers[0].id)
-    document.getElementById('NewContract').disabled = false
+    try {
+        document.getElementById('Phone').value = customers[0].phone !== null ? customers[0].phone : 'Non défini'
+        document.getElementById('Address').value = customers[0].address !== null ? customers[0].address : 'Non définie'
+        contracts = await getCustomerContracts(customers[0].id)
+        document.getElementById('NewContract').disabled = false
 
-    fillContractsTable()
+        fillContractsTable()
+    } catch (error) {
+        showAlertMessage(error)
+    }
 }
 
 document.getElementById('LastNames').onchange = async () => {
@@ -141,33 +156,41 @@ document.getElementById('LastNames').onchange = async () => {
             }
         }
     } catch (error) {
-        console.log(error)
+        showAlertMessage(error)
     }
 }
 
 document.getElementById('FirstName').onchange = async () => {
-    let selectedCustomer = null
-    for (const customer of customers) {
-        if (customer.id === Number(document.getElementById('FirstName').value)) selectedCustomer = customer
-    }
+    try {
+        let selectedCustomer = null
+        for (const customer of customers) {
+            if (customer.id === Number(document.getElementById('FirstName').value)) selectedCustomer = customer
+        }
 
-    document.getElementById('Phone').value = selectedCustomer.phone !== null ? selectedCustomer.phone : 'Non défini'
-    document.getElementById('Address').value = selectedCustomer.address !== null ? selectedCustomer.address : 'Non définie'
-    contracts = await getCustomerContracts(Number(document.getElementById('FirstName').value))
-    document.getElementById('NewContract').disabled = false
-    fillContractsTable()
+        document.getElementById('Phone').value = selectedCustomer.phone !== null ? selectedCustomer.phone : 'Non défini'
+        document.getElementById('Address').value = selectedCustomer.address !== null ? selectedCustomer.address : 'Non définie'
+        contracts = await getCustomerContracts(Number(document.getElementById('FirstName').value))
+        document.getElementById('NewContract').disabled = false
+        fillContractsTable()
+    } catch (error) {
+        showAlertMessage(error)
+    }
 }
 
 document.getElementById('NewContract').onclick = async (e) => {
-    e.preventDefault()
-    const responseItems = await fetch('https://localhost:5001/api/items')
-    items = await responseItems.json()
+    try {
+        e.preventDefault()
+        const responseItems = await fetch('https://localhost:5001/api/items')
+        items = await responseItems.json()
 
-    const responseDurations = await fetch('https://localhost:5001/api/durations')
-    durations = await responseDurations.json()
+        const responseDurations = await fetch('https://localhost:5001/api/durations')
+        durations = await responseDurations.json()
 
-    document.getElementById('NewContract').style.display = 'none'
-    fillItemsTable()
+        document.getElementById('NewContract').style.display = 'none'
+        fillItemsTable()
+    } catch (error) {
+        showAlertMessage(error)
+    }
 }
 
 document.getElementById('AddItem').onclick = () => {
