@@ -5,6 +5,7 @@
 let customers = []
 let contracts = []
 let items = []
+let durations = []
 
 getCustomerContracts = async (id) => {
     const response = await fetch(`https://localhost:5001/api/customer-contracts/${id}`)
@@ -150,8 +151,11 @@ document.getElementById('FirstName').onchange = async () => {
 
 document.getElementById('NewContract').onclick = async (e) => {
     e.preventDefault()
-    const response = await fetch('https://localhost:5001/api/items')
-    items = await response.json()
+    const responseItems = await fetch('https://localhost:5001/api/items')
+    items = await responseItems.json()
+
+    const responseDurations = await fetch('https://localhost:5001/api/durations')
+    durations = await responseDurations.json()
 
     document.getElementById('NewContract').style.display = 'none'
     fillItemsTable()
