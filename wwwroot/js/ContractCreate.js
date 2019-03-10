@@ -42,11 +42,20 @@ addItemSlot = (tableBody) => {
     row.appendChild(rowStock)
     const rowDuration = document.createElement('td')
     const selectDuration = document.createElement('select')
+    selectDuration.classList.add('form-control')
+
+    for (let duration of durations) {
+        const option = document.createElement('option')
+        option.text = duration.details
+        option.value = duration.id
+        selectDuration.add(option)
+    }
+
     rowDuration.appendChild(selectDuration)
     row.appendChild(rowDuration)
     const rowDelete = document.createElement('td')
     const buttonDelete = document.createElement('button')
-    buttonDelete.classList.add('btn', 'btn-danger')
+    buttonDelete.classList.add('btn', 'btn-danger', 'btn-sm')
     buttonDelete.innerText = 'Supprimer'
 
     buttonDelete.onclick = () => {
