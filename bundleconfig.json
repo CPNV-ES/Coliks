@@ -14,5 +14,15 @@
             "enabled": true,
             "renameLocals": true
         }
+    },
+    {
+        "outputFileName": "wwwroot/js/item.min.js",
+        "inputFileName": [
+            "wwwroot/js/item.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        }
     }
 ]
