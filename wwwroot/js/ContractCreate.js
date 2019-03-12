@@ -110,11 +110,14 @@ fillContractsTable = () => {
     document.getElementById('CustomerContracts').style.display = 'block'
 }
 
-setCustomerInfo = async () => {
+setCustomerInfo = async (customer = customers[0]) => {
     try {
-        document.getElementById('Phone').value = customers[0].phone !== null ? customers[0].phone : 'Non défini'
-        document.getElementById('Address').value = customers[0].address !== null ? customers[0].address : 'Non définie'
-        contracts = await getCustomerContracts(customers[0].id)
+        document.getElementById('Email').value = customer.email !== null ? customer.email : 'Non défini'
+        document.getElementById('Mobile').value = customer.mobile !== null ? customer.mobile : 'Non défini'
+        document.getElementById('Locality').value = customer.city !== null ? customer.city : 'Non définie'
+        document.getElementById('Phone').value = customer.phone !== null ? customer.phone : 'Non défini'
+        document.getElementById('Address').value = customer.address !== null ? customer.address : 'Non définie'
+        contracts = await getCustomerContracts(customer.id)
         document.getElementById('NewContract').disabled = false
 
         fillContractsTable()
@@ -167,10 +170,7 @@ document.getElementById('FirstName').onchange = async () => {
             if (customer.id === Number(document.getElementById('FirstName').value)) selectedCustomer = customer
         }
 
-        document.getElementById('Phone').value = selectedCustomer.phone !== null ? selectedCustomer.phone : 'Non défini'
-        document.getElementById('Address').value = selectedCustomer.address !== null ? selectedCustomer.address : 'Non définie'
-        contracts = await getCustomerContracts(Number(document.getElementById('FirstName').value))
-        document.getElementById('NewContract').disabled = false
+        setCustomerInfo(selectedCustomer)
         fillContractsTable()
     } catch (error) {
         showAlertMessage(error)
