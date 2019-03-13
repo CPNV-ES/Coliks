@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using coliks.Models;
+using ReflectionIT.Mvc.Paging;
 
 namespace coliks.Controllers
 {
@@ -19,10 +20,11 @@ namespace coliks.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var coliksContext = _context.Customers.Include(c => c.City);
-            return View(await coliksContext.ToListAsync());
+            var coliksContext = _context.Customers.Include(c => c.City).AsNoTracking().OrderBy(p => p.Lastname);
+            var model = await PagingList.CreateAsync(coliksContext, 100, page);
+            return View(model);
         }
 
         // GET: Customers/Details/5
