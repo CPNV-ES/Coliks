@@ -21,25 +21,25 @@
     <thead>
         <tr>
             <th>
-                Prenom
+                @Html.SortableHeaderFor(model => model.Lastname, this.Model)
             </th>
             <th>
-                Nom
+                @Html.SortableHeaderFor(model => model.Firstname, this.Model)
             </th>
             <th>
-                Adresse
+                @Html.SortableHeaderFor(model => model.Address, this.Model)
             </th>
             <th>
-                Phone
+                @Html.SortableHeaderFor(model => model.Phone, this.Model)
             </th>
             <th>
-                Email
+                @Html.SortableHeaderFor(model => model.Email, this.Model)
             </th>
             <th>
-                Mobile
+                @Html.SortableHeaderFor(model => model.Mobile, this.Model)
             </th>
             <th>
-                Ville
+                @Html.SortableHeaderFor(model => model.City, this.Model)
             </th>
             <th>Actions</th>
         </tr>
