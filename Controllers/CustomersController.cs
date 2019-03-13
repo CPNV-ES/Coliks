@@ -20,10 +20,17 @@ namespace coliks.Controllers
         }
 
         // GET: Customers
+        /// <summary>
+        /// Show customers list using pagination and sorting method
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="sortExpression"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Index(int page = 1, string sortExpression = "Lastname")
         {
+            var lines = 10;
             var coliksContext = _context.Customers.Include(c => c.City).AsNoTracking().OrderBy(p => p.Lastname);
-            var model = await PagingList.CreateAsync(coliksContext, 10, page, sortExpression, "Lastname");
+            var model = await PagingList.CreateAsync(coliksContext, lines, page, sortExpression, "Lastname");
             return View(model);
         }
 
