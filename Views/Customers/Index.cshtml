@@ -8,6 +8,14 @@
 
 <h1>Liste des Clients</h1>
 
+<form method="get" class="form-inline">
+    <input name="filter" class="form-control" placeholder="filter"
+           value="@Model.RouteValue["Filter"]" />
+    <button type="submit" class="btn btn-info">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+    </button>
+</form>
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
