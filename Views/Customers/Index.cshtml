@@ -6,26 +6,35 @@
     ViewData["Title"] = "Clients";
 }
 
-<h1>Liste des Clients</h1>
+<div id="customer-header">
 
-<form method="get" class="form-inline">
-    <input name="filter" class="form-control" placeholder="filter"
-           value="@Model.RouteValue["Filter"]" />
-    <button type="submit" class="btn btn-info">
-        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-    </button>
-</form>
+    <div id="content">
+        <div id="title">
+            <h1>Clients</h1>
+            <p><a asp-action="Create">Create New</a></p>
+        </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+        <div id="search-box">
+            <form method="get" class="form-inline" id="customer-search-box">
+                <input name="filter" class="form-control" placeholder="filter"
+                       value="@Model.RouteValue["Filter"]" />
+                <button type="submit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </form>
+        </div>
+    </div>
 
-<nav aria-label="Suppliers navigation example">
-    <partial name="PagerBootstrap4" model="@this.Model" />
-    @*<pager model="Model" />*@
-</nav>
+    <div id="pagination-header">
+        <nav aria-label="Suppliers navigation example">
+            <partial name="PagerBootstrap4" model="@this.Model" />
+            @*<pager model="Model" />*@
+        </nav>
+    </div>
 
-<table class="table">
+</div>
+
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -86,7 +95,11 @@
     </tbody>
 </table>
 
-<nav aria-label="Suppliers navigation example">
-    <partial name="PagerBootstrap4" model="@this.Model" />
-    @*<pager model="Model" />*@
-</nav>
+<div id="customer-footer">
+    <div id="pagination-footer">
+        <nav aria-label="Suppliers navigation example">
+            <partial name="PagerBootstrap4" model="@this.Model" />
+            @*<pager model="Model" />*@
+        </nav>
+    </div>
+</div>
