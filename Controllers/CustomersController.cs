@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using coliks.Models;
 using ReflectionIT.Mvc.Paging;
+using Microsoft.AspNetCore.Routing;
 
 namespace coliks.Controllers
 {
@@ -19,18 +20,35 @@ namespace coliks.Controllers
             _context = context;
         }
 
-        // GET: Customers
         /// <summary>
-        /// Show customers list using pagination and sorting method
+        /// Get: Customers list using pagination and sorting method
         /// </summary>
         /// <param name="page"></param>
         /// <param name="sortExpression"></param>
+        /// <param name="filter"</param>
         /// <returns></returns>
-        public async Task<IActionResult> Index(int page = 1, string sortExpression = "Lastname")
+        public async Task<IActionResult> Index(string filter, int page = 1, string sortExpression = "Lastname")
         {
-            var lines = 10;
-            var coliksContext = _context.Customers.Include(c => c.City).AsNoTracking().OrderBy(p => p.Lastname);
+            // lines par page
+            var lines = 10;    
+            var coliksContext = _context.Customers.Include(c => c.City).AsNoTracking().OrderBy(p => p.Lastname).AsQueryable(); ;
+
+            // criteria to use in the seach filter (search value in firstname, lastname, email, address, etc.)
+            if (!string.IsNullOrWhiteSpace(filter))
+                coliksContext = coliksContext.Where(p => 
+                    p.Lastname.Contains(filter) || 
+                    p.Firstname.Contains(filter) ||
+                    p.Address.Contains(filter) ||
+                    p.Email.Contains(filter) ||
+                    p.Phone.Contains(filter) ||
+                    p.Mobile.Contains(filter) ||
+                   ( (p.Firstname + " " + p.Lastname).Contains(filter)) ||
+                   ( (p.Lastname + " " + p.Firstname).Contains(filter)));
+
+            // prepare model with pagination
             var model = await PagingList.CreateAsync(coliksContext, lines, page, sortExpression, "Lastname");
+            //apply filter
+            model.RouteValue = new RouteValueDictionary {{ "filter", filter}};
             return View(model);
         }
 
