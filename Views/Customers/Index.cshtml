@@ -1,4 +1,6 @@
-@model IEnumerable<coliks.Models.Customers>
+@model ReflectionIT.Mvc.Paging.PagingList<coliks.Models.Customers>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
 
 @{
     ViewData["Title"] = "Clients";
@@ -9,6 +11,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<nav aria-label="Suppliers navigation example">
+    <partial name="PagerBootstrap4" model="@this.Model" />
+    @*<pager model="Model" />*@
+</nav>
+
 <table class="table">
     <thead>
         <tr>
@@ -69,3 +77,8 @@
 }
     </tbody>
 </table>
+
+<nav aria-label="Suppliers navigation example">
+    <partial name="PagerBootstrap4" model="@this.Model" />
+    @*<pager model="Model" />*@
+</nav>
