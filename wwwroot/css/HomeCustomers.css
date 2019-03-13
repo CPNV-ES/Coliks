@@ -1,3 +1,60 @@
 ﻿#customer-home-actions{
     
 }
+
+#customer-header #content {
+    
+}
+
+#customer-header #content{
+    display:flex;
+    justify-content: space-between;
+}
+
+#customer-header #title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-direction:row;
+}
+
+#customer-header #pagination-header {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+#customer-footer #pagination-footer {
+    display: flex;
+    justify-content: center;
+}
+
+
+#customer-header #content {
+    display: flex;
+    justify-content: space-between;
+}
+
+#customer-header #title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    flex-direction: row;
+}
+
+
+#customer-header #title :first-child{
+    margin-right:10px;
+}
+
+
+#customer-header #search-box input {
+   margin-right:10px;
+}
+
+#customer-search-box {
+    position: relative;
+    top: 0;
+    right: 0;
+}
+
