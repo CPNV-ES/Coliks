@@ -20,7 +20,12 @@
                     <div class="col">
                         <div class="form-group">
                             <label class="control-label">Nom</label>
-                            @Html.DropDownList("LastNames", ViewBag.CustomersLastName, "Nom", new { @class = "form-control" })
+                            <select id="LastNames" name="LastNames" class="form-control">
+                                @foreach (var LastName in ViewBag.CustomersLastName)
+                                {
+                                    <option value="@LastName">@LastName</option>
+                                }
+                            </select>
                         </div>
                     </div>
                     <div class="col">
