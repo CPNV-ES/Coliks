@@ -49,7 +49,8 @@ namespace coliks.Controllers
         // GET: Contracts/Create
         public IActionResult Create()
         {
-            ViewData["CustomersLastName"] = new SelectList(_context.Customers, "Lastname", "Lastname");
+
+            ViewData["CustomersLastName"] = _context.Customers.OrderBy(c => c.Lastname).Select(c => c.Lastname).Distinct().ToList();
             ViewData["HelpStaffId"] = new SelectList(_context.Staffs, "Id", "Id");
             ViewData["TuneStaffId"] = new SelectList(_context.Staffs, "Id", "Id");
             return View();
