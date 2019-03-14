@@ -23,7 +23,7 @@
 </div>
 
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -91,7 +91,7 @@
                     @Html.DisplayFor(modelItem => item.Serialnumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Category.Code)
+                    @Html.DisplayFor(modelItem => item.Category.Description)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
