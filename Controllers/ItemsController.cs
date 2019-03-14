@@ -20,10 +20,10 @@ namespace coliks.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(int page = 1, string sortExpression = "Itemnb")
         {
             var qry = _context.Items.Include(i => i.Category).AsNoTracking().OrderBy(p => p.Itemnb); // Add the pagination and an order by Itemnb who is the id of the item 
-            var model = await PagingList.CreateAsync(qry, 100, page); // create the pagination with 100 items for a page, start at page 1
+            var model = await PagingList.CreateAsync(qry, 100, page, sortExpression, "Itemnb"); // create the pagination with 100 items for a page, start at page 1 and add default sort by Itemnb
             return View(model); 
         }
 
