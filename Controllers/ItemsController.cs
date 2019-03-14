@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using coliks.Models;
+using ReflectionIT.Mvc.Paging;
 
 namespace coliks.Controllers
 {
@@ -19,10 +20,11 @@ namespace coliks.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var coliksContext = _context.Items.Include(i => i.Category);
-            return View(await coliksContext.ToListAsync());
+            var qry = _context.Items.Include(i => i.Category).AsNoTracking().OrderBy(p => p.Itemnb); // Add the pagination and an order by Itemnb who is the id of the item 
+            var model = await PagingList.CreateAsync(qry, 100, page); // create the pagination with 100 items for a page, start at page 1
+            return View(model); 
         }
 
         // GET: Items/Details/5
