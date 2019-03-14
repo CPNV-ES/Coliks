@@ -143,14 +143,14 @@ document.getElementById('LastNames').onchange = async () => {
             if (customers.length === 1) {
                 document.getElementById('FirstName').disabled = true
                 let optionFirstName = document.createElement('option')
-                optionFirstName.text = `${customers[0].firstname} (${customers[0].phone})`
+                optionFirstName.text = `${customers[0].firstname} (${customers[0].phone !== null ? customers[0].phone : customers[0].mobile !== null ? customers[0].mobile : 'Non défini'})`
                 optionFirstName.value = customers[0].id
                 document.getElementById('FirstName').add(optionFirstName)
                 setCustomerInfo()
             } else {
                 for (const customer of customers) {
                     let optionTemp = document.createElement('option')
-                    optionTemp.text = `${customer.firstname} (${customer.phone})`
+                    optionTemp.text = `${customer.firstname} (${customer.phone !== null ? customer.phone : customer.mobile !== null ? customer.mobile : 'Non défini'})`
                     optionTemp.value = customer.id
                     document.getElementById('FirstName').add(optionTemp)
                     document.getElementById('FirstName').disabled = false
