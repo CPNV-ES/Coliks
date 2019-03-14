@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -53,8 +54,36 @@ namespace coliks.Models
         #endregion
 
         #region custom validation
+        public class UniqueCustomer : ValidationAttribute
+        {
+            private String _firstName = string.Empty;
+            private String _lastName = String.Empty;
 
-       
+            public UniqueCustomer(String lastName, String firstName)
+            {
+                _lastName = lastName;
+                _firstName = firstName;
+            }
+
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+            {
+                Customers customer = (Customers)validationContext.ObjectInstance;
+
+                if (....)
+                {
+                    return new ValidationResult(GetErrorMessage());
+                }
+
+                return ValidationResult.Success;
+            }
+
+            private string GetErrorMessage()
+            {
+                return $"Le client exsiste déja dans la base des données";
+            }
+
+        }
+
 
         #endregion
     }
