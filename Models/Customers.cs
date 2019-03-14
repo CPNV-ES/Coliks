@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,10 +26,12 @@ namespace coliks.Models
         [DisplayName("Nom")]
         [Required (ErrorMessage ="Le nom du client est obligatoire")]
         [StringLength(50, ErrorMessage = "La taille doit être plus petite que 50 caracters")]
+        [Remote(action: "VerifyName", controller: "Customers", AdditionalFields = nameof(Firstname),ErrorMessage = "Le client exsiste déja")]
         public string Lastname { get; set; }
         [DisplayName("Prenom")]
         [Required(ErrorMessage = "Le prenom du client est obligatoire")]
         [StringLength(50, ErrorMessage = "La taille doit être plus petite que 50 caracters")]
+        [Remote(action: "VerifyName", controller: "Customers", AdditionalFields = nameof(Firstname), ErrorMessage = "Le client exsiste déja")]
         public string Firstname { get; set; }
         [DisplayName("Adresse")]
         [StringLength(50, ErrorMessage ="La taille doit être plus petite que 50 caracters")]
@@ -50,41 +53,11 @@ namespace coliks.Models
         public virtual Cities City { get; set; }
         public virtual ICollection<Contracts> Contracts { get; set; }
         public virtual ICollection<Purchases> Purchases { get; set; }
-
-        #endregion
-
-        #region custom validation
-        public class UniqueCustomer : ValidationAttribute
-        {
-            private String _firstName = string.Empty;
-            private String _lastName = String.Empty;
-
-            public UniqueCustomer(String lastName, String firstName)
-            {
-                _lastName = lastName;
-                _firstName = firstName;
-            }
-
-            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-            {
-                Customers customer = (Customers)validationContext.ObjectInstance;
-
-                if ("" != null)
-                {
-                    return new ValidationResult(GetErrorMessage());
-                }
-
-                return ValidationResult.Success;
-            }
-
-            private string GetErrorMessage()
-            {
-                return $"Le client exsiste déja dans la base des données";
-            }
-
-        }
-
-
+        
         #endregion
     }
+
 }
+
+
+
