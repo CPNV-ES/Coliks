@@ -56,7 +56,7 @@ namespace coliks.Controllers
         public IActionResult VerifyName(string firstName, string lastName)
         {
             var coliksContext = _context.Customers.AsQueryable();
-            coliksContext = coliksContext.Where(p => p.Lastname.Contains(lastName) && p.Firstname.Contains(firstName));
+            coliksContext = coliksContext.Where(p => p.Lastname.Equals(lastName) && p.Firstname.Equals(firstName));
 
             if (coliksContext.Count() != 0)
             {
