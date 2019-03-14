@@ -52,6 +52,20 @@ namespace coliks.Controllers
             return View(model);
         }
 
+        [AcceptVerbs("Get", "Post")]
+        public IActionResult VerifyName(string firstName, string lastName)
+        {
+            var coliksContext = _context.Customers.AsQueryable();
+            coliksContext = coliksContext.Where(p => p.Lastname.Contains(lastName) && p.Firstname.Contains(firstName));
+
+            if (coliksContext.Count() != 0)
+            {
+                return Json(data: false);
+            }
+
+            return Json(data: true);
+        }
+
         // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
