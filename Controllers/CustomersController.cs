@@ -76,6 +76,7 @@ namespace coliks.Controllers
 
             var customers = await _context.Customers
                 .Include(c => c.City)
+                .Include( c=> c.Purchases)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (customers == null)
             {
