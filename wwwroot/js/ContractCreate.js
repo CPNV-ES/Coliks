@@ -84,6 +84,15 @@ fillItemsTable = () => {
     document.getElementById('ItemsContracts').style.display = 'block'
 }
 
+removeItemsTable = () => {
+    document.getElementById('NewContract').style.display = 'block'
+    document.getElementById('ItemsContracts').style.display = 'none'
+    document.getElementById('ItemsContractsTable').getElementsByTagName('tbody')[0].parentNode.replaceChild(
+        document.createElement('tbody'),
+        document.getElementById('ItemsContractsTable').getElementsByTagName('tbody')[0]
+    )
+}
+
 fillContractsTable = () => {
     const oldTableBody = document.getElementById('CustomerContracts').getElementsByTagName('tbody')[0]
     const newTableBody = document.createElement('tbody')
@@ -128,11 +137,11 @@ setCustomerInfo = async (customer = customers[0]) => {
 
 document.getElementById('LastNames').onchange = async () => {
     try {
+        removeItemsTable()
         const response = await fetch(`https://localhost:5001/api/names-list/${document.getElementById('LastNames').value}`, { 
             headers: { "Content-Type": "application/json" }
           })
         customers = await response.json()
-        console.log(customers)
         if (customers.length > 0) {
             for (let i = document.getElementById('FirstName').length - 1; i >= 0; i--) {
                 document.getElementById('FirstName').remove(i)
