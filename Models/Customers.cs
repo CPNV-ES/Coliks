@@ -69,7 +69,7 @@ namespace coliks.Models
             {
                 Customers customer = (Customers)validationContext.ObjectInstance;
 
-                if (....)
+                if ("" != null)
                 {
                     return new ValidationResult(GetErrorMessage());
                 }
