@@ -28,7 +28,7 @@ namespace coliks.Controllers
                 return NotFound();
             }
 
-            return await _context.Customers.Where(customer => customer.Lastname == lastName).ToListAsync();
+            return await _context.Customers.Include(c => c.City).Where(customer => customer.Lastname == lastName).ToListAsync();
         }
 
         [HttpGet("/api/customer-contracts/{id}")]
