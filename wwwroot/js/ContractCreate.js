@@ -114,7 +114,7 @@ setCustomerInfo = async (customer = customers[0]) => {
     try {
         document.getElementById('Email').value = customer.email !== null ? customer.email : 'Non défini'
         document.getElementById('Mobile').value = customer.mobile !== null ? customer.mobile : 'Non défini'
-        document.getElementById('Locality').value = customer.city !== null ? customer.city : 'Non définie'
+        document.getElementById('Locality').value = customer.city !== null ? customer.city.name : 'Non définie'
         document.getElementById('Phone').value = customer.phone !== null ? customer.phone : 'Non défini'
         document.getElementById('Address').value = customer.address !== null ? customer.address : 'Non définie'
         contracts = await getCustomerContracts(customer.id)
@@ -132,6 +132,7 @@ document.getElementById('LastNames').onchange = async () => {
             headers: { "Content-Type": "application/json" }
           })
         customers = await response.json()
+        console.log(customers)
         if (customers.length > 0) {
             for (let i = document.getElementById('FirstName').length - 1; i >= 0; i--) {
                 document.getElementById('FirstName').remove(i)
