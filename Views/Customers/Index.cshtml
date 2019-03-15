@@ -9,19 +9,23 @@
 <div id="customer-header">
 
     <div id="content">
-        <div id="title">
-            <h1>Clients</h1>
-            <p><a asp-action="Create">Create New</a></p>
-        </div>
+        <h1>Clients</h1>
+        <div id="search-new">
+            <div class="form-group has-search">
+                <form method="get" class="form-inline" id="customer-search-box">
+                    <span class="form-control-container d-flex justify-content-center">
+                        <span id="delete-search" class="fa fa-eraser form-control-feedback"></span>
+                        <span id="search-values" class="fa fa-search form-control-feedback"></span>
+                    </span>
+                    <input autofocus name="filter" class="form-control" placeholder="sercher" value="@Model.RouteValue["Filter"]" />
+                </form>
+            </div>
 
-        <div id="search-box">
-            <form method="get" class="form-inline" id="customer-search-box">
-                <input name="filter" class="form-control" placeholder="filter"
-                       value="@Model.RouteValue["Filter"]" />
-                <button type="submit" class="btn btn-info">
-                    <span class="fas fa-search" aria-hidden="true"></span> Search
-                </button>
-            </form>
+            <div class="form-group">
+                <a asp-action="Create">
+                    <button class="btn btn-success">Nouveau</button>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -86,9 +90,9 @@
                 @Html.DisplayFor(modelItem => item.City.Name)
             </td>
             <td id="customer-home-actions">
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-user-edit"></i></a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="d-none">Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id" class="fas fa-user-times"></a>
             </td>
         </tr>
 }
