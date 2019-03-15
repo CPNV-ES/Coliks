@@ -17,7 +17,24 @@ var htmlPage = {
         $(".customer-clickable-row .clickable").on("click", function (e) {
             e.preventDefault();
             customer.details($(this));
-        })
+        });
+
+        $("#search-values").on("click", function () {
+            if ($("#customer-search-box input").val() == "")
+                return;
+            $('#customer-search-box').submit();
+        });
+
+        $("#delete-search").on("click", function () {
+            if ($("#customer-search-box input").val() == "")
+                return;
+            $("#customer-search-box input").val("");
+            $('#customer-search-box').submit();
+        });
+
+        var v = $("#customer-search-box input").val();
+        $("#customer-search-box input").val("").val(v);
+
     },
 }
 
