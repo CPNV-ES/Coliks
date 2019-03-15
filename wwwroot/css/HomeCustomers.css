@@ -1,27 +1,24 @@
-﻿#customer-home-actions{
-    
-}
-
-#customer-header #content {
-    
-}
-
-#customer-header #content{
-    display:flex;
+﻿#customer-header #content,
+#customer-header #table-top-header {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
 }
 
-#customer-header #title {
+#customer-header #search-new {
     display: flex;
-    justify-content: flex-start;
-    align-items: baseline;
-    flex-direction:row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
 }
 
-#customer-header #pagination-header {
-    margin-top: 40px;
-    display: flex;
-    justify-content: center;
+#customer-header div:first-child {
+    margin-right: 10px;
+}
+
+#customer-header #pagination-header{
+    margin-top:50px;
 }
 
 #customer-footer #pagination-footer {
@@ -48,17 +45,6 @@
 }
 
 
-#customer-header #search-box input {
-   margin-right:10px;
-}
-
-#customer-search-box,
-#customer-search-box {
-    position: relative;
-    top: 0;
-    right: 0;
-}
-
 /*
 // Clickable row
 */
@@ -72,4 +58,82 @@
 {
     background-color:rgb(0, 148, 255,0.3);
     z-index:999 !important;
+}
+
+/*
+    awesome icons animations
+*/
+
+.fas {
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.fas:hover {
+    color: lightseagreen;
+    transition: 0.2s;
+    transform: scale(1.3);
+}
+
+/*
+    search bar
+*/
+
+.has-search .form-control {
+    padding-left: 4.750rem;
+}
+
+.form-control-container {
+    position: absolute;
+    width: 4rem;
+    height: 2.375rem;
+    z-index: 2;
+    color: #aaa;
+    background-color: transparent;
+    border-right-style: solid;
+    border-right-color: lightgray;
+    border-right-width:1px;
+    cursor: pointer;
+}
+
+.form-control-feedback:first-child {
+    z-index: 2;
+    width: 2rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    color: #aaa;
+    background-color: transparent;
+    border-style: none;
+    border-color: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-control-feedback:last-child {
+    z-index: 2;
+    width: 2rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    color: #aaa;
+    background-color: transparent;
+    border-style: none;
+    border-color: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-control-feedback:last-child:hover {
+    color: rebeccapurple;
+    transform: scale(1.4);
+    transition: 0.3s;
+    border: none;
+}
+
+.form-control-feedback:first-child:hover {
+    color: rebeccapurple;
+    transform: scale(1.4);
+    transition: 0.3s;
+    border: none;
 }
