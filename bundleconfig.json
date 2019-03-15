@@ -1,15 +1,17 @@
 [
     {
         "outputFileName": "wwwroot/css/site.min.css",
-        "inputFileName": [
-            "wwwroot/css/site.css"
-        ]
+      "inputFileName": [
+        "wwwroot/css/site.css",
+        "wwwroot/css/HomeCustomers.css"
+      ]
     },
     {
         "outputFileName": "wwwroot/js/site.min.js",
-        "inputFileName": [
-            "wwwroot/js/site.js"
-        ],
+      "inputFileName": [
+        "wwwroot/js/site.js",
+        "wwwroot/js/cusomers.js"
+      ],
         "minify": {
             "enabled": true,
             "renameLocals": true
