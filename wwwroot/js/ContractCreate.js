@@ -4,7 +4,6 @@
 
 let customers = []
 let contracts = []
-let items = []
 let durations = []
 
 getCustomerContracts = async (id) => {
@@ -29,27 +28,34 @@ addItemSlot = (tableBody) => {
     tableBody.appendChild(document.createElement('tr'))
     const row = tableBody.getElementsByTagName('tr')[tableBody.childElementCount - 1]
     const rowItems = document.createElement('td')
-    const selectItems = document.createElement('select')
+    const selectItems = document.createElement('input')
+    selectItems.setAttribute('list', 'items')
     selectItems.classList.add('form-control')
+    const datalistItems = document.createElement('datalist')
+    datalistItems.setAttribute('id', 'items')
 
-    for (let item of items) {
-        const option = document.createElement('option')
-        option.text = `${item.brand} : ${item.model}`
-        option.value = `${item.id}`
-        selectItems.add(option)
-    }
+    selectItems.oninput = async (e) => {
+        while (datalistItems.hasChildNodes()) {
+            datalistItems.removeChild(datalistItems.lastChild)
+        }
 
-    selectItems.onchange = () => {
-        const item = items.filter(i => {
-            return i.id == selectItems.value
-        })
-        selectItems.parentNode.parentNode.childNodes[1].innerText = item[0].stock
+        if (e.target.value.length >= 2) {
+            const responseItems = await fetch(`https://localhost:5001/api/items?input=${e.target.value}`)
+            items = await responseItems.json()
+            
+            for (const item of items) {
+                const option = document.createElement('option')
+                option.value = `${item.brand} : ${item.model}`
+                datalistItems.appendChild(option)
+            }
+        }
     }
 
     rowItems.appendChild(selectItems)
+    rowItems.appendChild(datalistItems)
     row.appendChild(rowItems)
     const rowStock = document.createElement('td')
-    rowStock.innerText = items[0].stock
+    rowStock.innerText = 'hello'
     row.appendChild(rowStock)
     const rowDuration = document.createElement('td')
     const selectDuration = document.createElement('select')
@@ -190,9 +196,6 @@ document.getElementById('FirstName').onchange = async () => {
 document.getElementById('NewContract').onclick = async (e) => {
     try {
         e.preventDefault()
-        const responseItems = await fetch('https://localhost:5001/api/items')
-        items = await responseItems.json()
-
         const responseDurations = await fetch('https://localhost:5001/api/durations')
         durations = await responseDurations.json()
 
