@@ -5,6 +5,7 @@
 let customers = []
 let contracts = []
 let durations = []
+let items = []
 
 getCustomerContracts = async (id) => {
     try {
@@ -45,7 +46,8 @@ addItemSlot = (tableBody) => {
             
             for (const item of items) {
                 const option = document.createElement('option')
-                option.value = `${item.brand} : ${item.model}`
+                option.value = item.id
+                option.text = `${item.brand} : ${item.model}`
                 datalistItems.appendChild(option)
             }
         }
