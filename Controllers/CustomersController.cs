@@ -42,6 +42,7 @@ namespace coliks.Controllers
                     p.Email.Contains(filter) ||
                     p.Phone.Contains(filter) ||
                     p.Mobile.Contains(filter) ||
+                    p.City.Name.Contains(filter) ||
                    ( (p.Firstname + " " + p.Lastname).Contains(filter)) ||
                    ( (p.Lastname + " " + p.Firstname).Contains(filter)));
 
