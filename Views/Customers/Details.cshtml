@@ -1,4 +1,4 @@
-@model coliks.Models.Customers
+@model Tuple<coliks.Models.Customers, coliks.Models.Purchases>
 
 @{
     ViewData["Title"] = "Details";
@@ -10,7 +10,7 @@
         <h1>Details du client</h1>
     </div>
     <div>
-        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Edit", "Customers", new { id = Model.Id })'">Modifier</button>
+        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Edit", "Customers", new { id = Model.Item1.Id })'">Modifier</button>
         <button type="submit" class="btn btn-info" onclick="location.href='@Url.Action("Index", "Customers")'">Liste clients</button>
     </div>
 </div>
@@ -21,46 +21,46 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Lastname)
+            @Html.DisplayNameFor(tuple =>  tuple.Item1.Lastname)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Lastname)
+            @Html.DisplayFor(tuple => tuple.Item1.Lastname)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Firstname)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Firstname)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Firstname)
+            @Html.DisplayFor(tuple => tuple.Item1.Firstname)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Address)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
+            @Html.DisplayFor(tuple => tuple.Item1.Address)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Phone)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
+            @Html.DisplayFor(tuple => tuple.Item1.Phone)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Email)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(tuple => tuple.Item1.Email)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Mobile)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Mobile)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Mobile)
+            @Html.DisplayFor(tuple => tuple.Item1.Mobile)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(tuple => tuple.Item1.City)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City.Name)
+            @Html.DisplayFor(tuple => tuple.Item1.City.Name)
         </dd>
     </dl>
 </div>
@@ -69,18 +69,18 @@
     <thead>
         <tr>
             <th>
-                Date
+                @Html.DisplayNameFor(tuple => tuple.Item2.Date)
             </th>
             <th>
-                Description
+                @Html.DisplayNameFor(tuple => tuple.Item2.Description)
             </th>
             <th>
-                Amount
+                @Html.DisplayNameFor(tuple => tuple.Item2.Amount)
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var purchase in Model.Purchases)
+        @foreach (var purchase in Model.Item1.Purchases)
         {
             <tr>
                 <td> @purchase.Date</td>

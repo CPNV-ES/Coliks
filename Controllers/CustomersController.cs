@@ -84,7 +84,9 @@ namespace coliks.Controllers
                 return NotFound();
             }
 
-            return View(customers);
+            var tuple = new Tuple<Customers, Purchases>(customers, null);
+
+            return View(tuple);
         }
 
         // GET: Customers/Create
