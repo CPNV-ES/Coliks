@@ -88,12 +88,12 @@ namespace coliks.Controllers
             if (customers.Purchases != null)
             {
                 // get all customers phurchases
-                var purchases = customers.Purchases.OrderBy(c => c.Date).ToList();
+                List<Purchases> purchases = customers.Purchases.OrderBy(c => c.Date).ToList();
                 // check if exsist a discount of 500 CHF and get the index value
                 int index = purchases.FindIndex(a => a.Amount == 500);
                 if (index != -1)
                 {
-                    var indexs = purchases.Where(c => c.Amount == 500).Last();
+                    int index = purchases.LastIndexOf().Where(c => c.Amount == 500).Last();
                 }
             }
 
