@@ -10,16 +10,8 @@
         <h1>Details du client</h1>
     </div>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id">
-            <button type="submit" class="btn btn-danger">
-                <span class="fas fa-search" aria-hidden="true"></span> Modifier
-            </button>
-        </a>
-        <a asp-action="Index">
-            <button type="submit" class="btn btn-info">
-                <span class="fas fa-search" aria-hidden="true"></span> Liste clients
-            </button>
-        </a>
+        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Edit", "Customers", new { id = Model.Id })'">Modifier</button>
+        <button type="submit" class="btn btn-info" onclick="location.href='@Url.Action("Index", "Customers")'">Liste clients</button>
     </div>
 </div>
 
