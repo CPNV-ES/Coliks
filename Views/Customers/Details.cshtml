@@ -88,6 +88,18 @@
                 <td> @purchase.Amount CHF</td>
             </tr>
         }
+        @if (ViewBag.isReduction)
+        {
+            <tr>
+                <td>Disponible</td>
+                <td>*** Bon d-achat de 50.- ***</td>
+                <td>-500 CHF</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2">Total</td>
+            <td>@ViewBag.totalPurchase.ToString()</td>
+        </tr>
     </tbody>
 </table>
 
