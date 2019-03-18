@@ -84,6 +84,23 @@ namespace coliks.Controllers
                 return NotFound();
             }
 
+            
+            if (customers.Purchases != null)
+            {
+                // get all customers phurchases
+                var purchases = customers.Purchases.OrderBy(c => c.Date).ToList();
+                // check if exsist a discount of 500 CHF and get the index value
+                int index = purchases.FindIndex(a => a.Amount == 500);
+                if (index != -1)
+                {
+                    var indexs = purchases.Where(c => c.Amount == 500).Last();
+                }
+            }
+
+
+            ViewBag.totalPurchase = customers.Purchases.Sum(item => item.Amount);
+            ViewBag.isReduction = ViewBag.totalPurchase >= 500 ? true : false;
+
             var tuple = new Tuple<Customers, Purchases>(customers, null);
 
             return View(tuple);
