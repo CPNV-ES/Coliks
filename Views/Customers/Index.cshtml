@@ -14,16 +14,16 @@
             <div class="form-group has-search">
                 <form method="get" class="form-inline" id="customer-search-box">
                     <span class="form-control-container d-flex justify-content-center">
-                        <span id="delete-search" class="fa fa-eraser form-control-feedback"></span>
-                        <span id="search-values" class="fa fa-search form-control-feedback"></span>
+                        <span id="delete-search" class="fa fa-eraser form-control-feedback" data-toggle="popover" data-content="Effacer la recherche"  data-placement="bottom"></span>
+                        <span id="search-values" class="fa fa-search form-control-feedback" data-toggle="popover" data-content="Faire la recherche"  data-placement="bottom"></span>
                     </span>
-                    <input autofocus name="filter" class="form-control" placeholder="sercher" value="@Model.RouteValue["Filter"]" />
+                    <input autofocus name="filter" class="form-control" placeholder="sercher" value="@Model.RouteValue["Filter"]" data-toggle="popover" data-content="Champ pour la recherche"  data-placement="bottom" />
                 </form>
             </div>
 
             <div class="form-group">
                 <a asp-action="Create">
-                    <button id="client-new-btn" class="btn btn-success">Nouveau</button>
+                    <button id="client-new-btn" class="btn btn-success" data-toggle="popover" data-content="Ajouter un client"  data-placement="bottom">Nouveau</button>
                 </a>
             </div>
         </div>
@@ -90,9 +90,9 @@
                 @Html.DisplayFor(modelItem => item.City.Name)
             </td>
             <td id="customer-home-actions">
-                <a id="edit" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-user-edit"></i></a> |
+                <a id="edit" asp-action="Edit" asp-route-id="@item.Id" data-toggle="popover" data-content="Modifier les informations du client"  data-placement="bottom"><i class="fas fa-user-edit"></i></a> |
                 <a id="details" asp-action="Details" asp-route-id="@item.Id" class="d-none">Details</a> 
-                <a id="delete" asp-action="Delete" asp-route-id="@item.Id" class="fas fa-user-times"></a>
+                <a id="delete" asp-action="Delete" asp-route-id="@item.Id" class="fas fa-user-times" data-toggle="popover" data-content="Supprimer le client"  data-placement="bottom"></a>
             </td>
         </tr>
 }

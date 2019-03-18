@@ -32,21 +32,15 @@ var htmlPage = {
             $('#customer-search-box').submit();
         });
 
-        /* Popovers init */
-
-        $('#client-new-btn').popover({ content: "Créer a client", delay: { show: 1000, hide: 100 }, trigger: "hover", placement: "bottom" }); 
-        $('#search-values').popover({ content: "Rechercher a client", delay: { show: 1000, hide: 100 }, trigger: "hover", placement: "bottom" }); 
-        $('#delete-search').popover({ content: "Supprimer la recherche", delay: { show: 1000, hide: 100 }, trigger: "hover", placement: "bottom" }); 
-        $('#customer-home-actions #delete').popover({ content: "Supprimer le client", delay: { show: 1000, hide: 100 }, trigger: "hover", placement: "bottom" }); 
-        $('#customer-home-actions #edit').popover({ content: " Modifier le client", delay: { show: 1000, hide: 100 }, trigger: "hover", placement: "bottom" });
-        $('#search-new input').popover({ content: " Barre de recherche", delay: { show: 1000, hide: 100 }, trigger: "hover", placement: "bottom" }); 
-
+        /* restore old string into search bar */
         var v = $("#customer-search-box input").val();
         $("#customer-search-box input").val("").val(v);
 
+         /* Popovers enable */
+        $('[data-toggle="popover"]').popover({ delay: { show: 1000, hide: 100 }, trigger: "hover" });
+
     },
 }
-
 
 /**
  * Customers base functions
