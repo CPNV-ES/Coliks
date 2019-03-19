@@ -61,5 +61,24 @@ namespace coliks.shared
         {
             return purchases.Sum(item => item.Amount);
         }
+
+        /// <summary>
+        /// Calculate and return a new vaucher
+        /// </summary>
+        /// <param name="totalPurchase"></param>
+        /// <returns></returns>
+        public static double? calculateVacucher(double? totalPurchase)
+        {
+            // return null if totalPurchase has no value
+            if (totalPurchase == null)
+                return null;
+
+            // no vaucher available for less than 500 CHF
+            if (totalPurchase < 500)
+                return null;
+
+            // calculate and return vaucher 
+            return System.Math.Round((double)((totalPurchase / 100) * 10), 0);
+        }
     }
 }
