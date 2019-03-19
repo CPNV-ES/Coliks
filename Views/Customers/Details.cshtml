@@ -21,7 +21,7 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(tuple =>  tuple.Item1.Lastname)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Lastname)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(tuple => tuple.Item1.Lastname)
@@ -63,6 +63,13 @@
             @Html.DisplayFor(tuple => tuple.Item1.City.Name)
         </dd>
     </dl>
+    Le total depuis le derniesr bon est: @ViewBag.totalPurchase.ToString() CHF
+    @if (ViewBag.Vaucher != null)
+    {
+        <div>
+            <button type="button" class="btn btn-success">Rajouter a bon de @ViewBag.Vaucher CHF</button>
+        </div>
+    }
 </div>
 
 <table class="table table-striped">
@@ -88,14 +95,7 @@
                 <td> @purchase.Amount CHF</td>
             </tr>
         }
-        @if (ViewBag.isReduction)
-        {
-            <tr>
-                <td>Disponible</td>
-                <td>*** Bon d-achat de 50.- ***</td>
-                <td>-500 CHF</td>
-            </tr>
-        }
+      
         <tr>
             <td colspan="2">Total</td>
             <td>@ViewBag.totalPurchase.ToString()</td>
