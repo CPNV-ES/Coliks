@@ -31,19 +31,31 @@ addItemSlot = (tableBody) => {
     const rowItems = document.createElement('td')
     const rowItemNumber = document.createElement('td')
     const inputNumber = document.createElement('input')
+    inputNumber.setAttribute('list', 'itemnb')
     inputNumber.classList.add('form-control')
-    rowItemNumber.appendChild(inputNumber)
-    row.appendChild(rowItemNumber)
+    const datalistItemNb = document.createElement('datalist')
+    datalistItemNb.id = 'itemnb'
     const selectItems = document.createElement('input')
     selectItems.setAttribute('list', 'items')
     selectItems.classList.add('form-control')
     const datalistItems = document.createElement('datalist')
-    datalistItems.setAttribute('id', 'items')
+    datalistItems.id = 'items'
     const rowCategory = document.createElement('td')
     const inputCategory = document.createElement('input')
     inputCategory.classList.add('form-control')
     inputCategory.type = 'number'
     rowCategory.appendChild(inputCategory)
+
+    inputNumber.oninput = async (e) => {
+        while (datalistItemNb.hasChildNodes()) {
+            datalistItemNb.removeChild(datalistItems.lastChild)
+        }
+
+        if (e.target.value.length >= 2) {
+            const responseItems = await fetch(`https://localhost:5001/api/items?inputNumber=${e.target.value}`)
+            items = await responseItems.json()
+        }
+    }
 
     selectItems.oninput = async (e) => {
         while (datalistItems.hasChildNodes()) {
@@ -77,6 +89,9 @@ addItemSlot = (tableBody) => {
         }
     }
 
+    rowItemNumber.appendChild(inputNumber)
+    rowItemNumber.appendChild(datalistItemNb)
+    row.appendChild(rowItemNumber)
     rowItems.appendChild(selectItems)
     rowItems.appendChild(datalistItems)
     row.appendChild(rowItems)
