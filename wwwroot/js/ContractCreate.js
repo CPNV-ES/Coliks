@@ -46,7 +46,7 @@ addItemSlot = (tableBody) => {
             })
 
             if (inputFromDatalist.length > 0) {
-                console.log('found')
+                selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
             }
         }
 
