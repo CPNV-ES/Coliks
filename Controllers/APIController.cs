@@ -42,9 +42,23 @@ namespace coliks.Controllers
         }
 
         [HttpGet("/api/items")]
-        public async Task<ActionResult<List<Items>>> GetItems(String input)
+        public async Task<ActionResult<List<Items>>> GetItems(String input, String inputNumber)
         {
-            return await _context.Items.Where(i => i.Brand.Contains(input) || i.Model.Contains(input)).Include(i => i.Category).Take(50).ToListAsync();
+            if (input == null && inputNumber == null)
+            {
+                return NotFound();
+            }
+
+            if (input != null)
+            {
+                return await _context.Items.Where(i => i.Brand.Contains(input) || i.Model.Contains(input)).Include(i => i.Category).Take(50).ToListAsync();
+            } else if (inputNumber != null)
+            {
+                return await _context.Items.Where(i => i.Itemnb.Contains(inputNumber)).Include(i => i.Category).Take(50).ToListAsync();
+            } else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("/api/durations")]
