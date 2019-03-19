@@ -86,8 +86,8 @@ namespace coliks.Controllers
             }
 
             ViewBag.totalPurchase = customersFunctions.totalPurchases(customersFunctions.getLastPurchases(customers.Purchases));
-            ViewBag.isReduction = ViewBag.totalPurchase >= 500 ? true : false;
-
+            ViewBag.Vaucher = customersFunctions.calculateVacucher(ViewBag.totalPurchase); 
+            
             var tuple = new Tuple<Customers, Purchases>(customers, null);
 
             return View(tuple);
