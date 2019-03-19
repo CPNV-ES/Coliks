@@ -10,101 +10,134 @@
         <h1>Details du client</h1>
     </div>
     <div>
-        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Edit", "Customers", new { id = Model.Item1.Id })'">Modifier</button>
         <button type="submit" class="btn btn-info" onclick="location.href='@Url.Action("Index", "Customers")'">Liste clients</button>
     </div>
 </div>
 
-
-
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(tuple => tuple.Item1.Lastname)
-        </dt>
-        <dd class="col-sm-10">
+<div id="customer-details-content" class="block-container">
+    <div class="row">
+        <h2 class="col-sm-12" id="name">
             @Html.DisplayFor(tuple => tuple.Item1.Lastname)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(tuple => tuple.Item1.Firstname)
-        </dt>
-        <dd class="col-sm-10">
             @Html.DisplayFor(tuple => tuple.Item1.Firstname)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(tuple => tuple.Item1.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(tuple => tuple.Item1.Address)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(tuple => tuple.Item1.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(tuple => tuple.Item1.Phone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(tuple => tuple.Item1.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(tuple => tuple.Item1.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(tuple => tuple.Item1.Mobile)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(tuple => tuple.Item1.Mobile)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(tuple => tuple.Item1.City)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(tuple => tuple.Item1.City.Name)
-        </dd>
-    </dl>
-    Le total depuis le derniesr bon est: @ViewBag.totalPurchase.ToString() CHF
-    @if (ViewBag.Vaucher != null)
-    {
-        <div>
-            <button type="button" class="btn btn-success">Rajouter a bon de @ViewBag.Vaucher CHF</button>
+        </h2>
+        <div class="col-sm-10">
+            <div class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(tuple => tuple.Item1.Address)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(tuple => tuple.Item1.Address)
+                    @Html.DisplayFor(tuple => tuple.Item1.City.Name)
+
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(tuple => tuple.Item1.Phone)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(tuple => tuple.Item1.Phone)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(tuple => tuple.Item1.Email)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(tuple => tuple.Item1.Email)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(tuple => tuple.Item1.Mobile)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(tuple => tuple.Item1.Mobile)
+                </dd>
+            </div>
         </div>
-    }
+        <div id="" class="col-sm-2 d-flex justify-content-end align-items-end">
+            <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Edit", "Customers", new { id = Model.Item1.Id })'">Modifier</button>
+        </div>
+    </div>
 </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(tuple => tuple.Item2.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(tuple => tuple.Item2.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(tuple => tuple.Item2.Amount)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var purchase in Model.Item1.Purchases)
-        {
-            <tr>
-                <td> @purchase.Date</td>
-                <td> @purchase.Description</td>
-                <td> @purchase.Amount CHF</td>
-            </tr>
-        }
-      
-        <tr>
-            <td colspan="2">Total</td>
-            <td>@ViewBag.totalPurchase.ToString()</td>
-        </tr>
-    </tbody>
-</table>
+@if (ViewBag.Vaucher != null)
+{
+    <div id="customer-details-vaucher" class="block-container">
+        <div class="row">
+            <div class="d-flex align-items-center justify-content-between col-sm-12">
+                <div>
+                    Le total depuis le derniesr bon est: @ViewBag.totalPurchase.ToString() CHF
+                </div>
 
-<environment include="Development">
-    <script src="~/js/customers.js" asp-append-version="true"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/homeCustomers.css" />
-</environment>
+                <div>
+                    <button type="button" class="btn btn-success">Rajouter a bon de @ViewBag.Vaucher CHF</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+<section id="customer-purchase-details" class="block-container">
+
+    <div class="row">
+        <div class="d-flex align-items-center justify-content-between col-sm-12">
+            <div>
+                <h2>Achats</h2>
+            </div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add-purchase-customer" aria-expanded="false" aria-controls="collapseExample">
+                Ajouter un achat
+            </button>
+        </div>
+
+        <div class="collapse col-sm-12 mt-3" id="add-purchase-customer">
+            <div class="card card-body">
+                <form>
+                    <div class="form-group col-sm-2">
+                        <input name="Description" class="form-control" />
+                    </div>
+                    <div class="form-group col-sm-8">
+                        <input name="Amound" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(tuple => tuple.Item2.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(tuple => tuple.Item2.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(tuple => tuple.Item2.Amount)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var purchase in Model.Item1.Purchases)
+            {
+                <tr>
+                    <td> @purchase.Date</td>
+                    <td> @purchase.Description</td>
+                    <td> @purchase.Amount CHF</td>
+                </tr>
+            }
+
+            <tr id="customer-total-purchases">
+                <td colspan="2">Total</td>
+                <td>@ViewBag.totalPurchase.ToString() CHF</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <environment include="Development">
+        <script src="~/js/customers.js" asp-append-version="true"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <link rel="stylesheet" href="~/css/homeCustomers.css" />
+    </environment>
+

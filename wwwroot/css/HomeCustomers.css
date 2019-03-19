@@ -6,6 +6,13 @@ a{
     text-decoration:none;
 }
 
+.btn, input {
+    border-radius: 0px !important;
+}
+/*
+    home page customer
+*/
+
 #customer-header #content,
 #customer-header #table-top-header {
     display: flex;
@@ -54,9 +61,35 @@ a{
 
 
 /*
-// Clickable row
+    Details Page
 */
 
+.block-container {
+    position: relative;
+    border-radius: 0px;
+    padding: 10px;
+    margin-top:20px;
+}
+
+#customer-total-purchases {
+    background-color: sandybrown !important;
+}
+
+#customer-details-content {
+    background-color: rgba(149, 203, 239, 0.2);  
+}
+
+#customer-details-vaucher {
+    background-color: rgba(149, 203, 239, 0.2);
+}
+
+#customer-details-content #name {
+    margin-bottom: 30px;
+}
+
+/*
+// Clickable row in home page
+*/
 .customer-clickable-row {
     text-decoration: none;
     cursor: pointer;
@@ -144,4 +177,12 @@ a{
     transform: scale(1.4);
     transition: 0.3s;
     border: none;
+}
+
+#customer-purchase-details {
+    background-color: rgba(149, 203, 239, 0.2);
+}
+
+#customer-purchase-details table thead {
+    background-color: rgba(225, 207, 181,0.5);
 }
