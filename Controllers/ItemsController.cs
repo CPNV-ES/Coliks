@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using coliks.Models;
 using ReflectionIT.Mvc.Paging;
+using Microsoft.AspNetCore.Routing;
 
 namespace coliks.Controllers
 {
@@ -20,10 +21,27 @@ namespace coliks.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index(int page = 1, string sortExpression = "Itemnb")
+        public async Task<IActionResult> Index(string filter,int page = 1, string sortExpression = "Itemnb")
         {
-            var qry = _context.Items.Include(i => i.Category).AsNoTracking().OrderBy(p => p.Itemnb); // Add the pagination and an order by Itemnb who is the id of the item 
+            var qry = _context.Items.AsNoTracking().Include(i => i.Category).OrderBy(i => i.Itemnb).AsQueryable();  //  Add the pagination and an order by Itemnb who is the id of the item. Make it queryable for filtering
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                qry = qry.Where(p => 
+                p.Itemnb.Contains(filter) ||
+                p.Brand.Contains(filter) || 
+                p.Model.Contains(filter) || 
+                p.Stock.ToString().Contains(filter)
+               );
+            }
+
             var model = await PagingList.CreateAsync(qry, 100, page, sortExpression, "Itemnb"); // create the pagination with 100 items for a page, start at page 1 and add default sort by Itemnb
+
+            model.RouteValue = new RouteValueDictionary
+            {
+                {"filter", filter }
+            };
+
             return View(model); 
         }
 
