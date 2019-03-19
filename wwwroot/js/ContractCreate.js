@@ -45,6 +45,7 @@ addItemSlot = (tableBody) => {
     inputCategory.classList.add('form-control')
     inputCategory.type = 'number'
     rowCategory.appendChild(inputCategory)
+    const rowPrice = document.createElement('td')
 
     inputNumber.oninput = async (e) => {
         while (datalistItemNb.hasChildNodes()) {
@@ -60,6 +61,7 @@ addItemSlot = (tableBody) => {
                 inputCategory.value = inputFromDatalist[0].category.code
                 selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
                 inputNumber.value = inputFromDatalist[0].itemnb
+                rowPrice.innerText = inputFromDatalist[0].cost
             }
         }
 
@@ -90,6 +92,7 @@ addItemSlot = (tableBody) => {
                 inputCategory.value = inputFromDatalist[0].category.code
                 inputNumber.value = inputFromDatalist[0].itemnb
                 selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
+                rowPrice.innerText = inputFromDatalist[0].cost
             }
         }
 
@@ -103,8 +106,6 @@ addItemSlot = (tableBody) => {
                 option.text = `${item.brand} : ${item.model}`
                 datalistItems.appendChild(option)
             }
-
-            
         }
     }
 
@@ -128,6 +129,7 @@ addItemSlot = (tableBody) => {
 
     rowDuration.appendChild(selectDuration)
     row.appendChild(rowDuration)
+    row.appendChild(rowPrice)
     const rowDelete = document.createElement('td')
     const buttonDelete = document.createElement('button')
     buttonDelete.classList.add('btn', 'btn-danger', 'btn-sm')
