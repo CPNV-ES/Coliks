@@ -48,12 +48,19 @@ addItemSlot = (tableBody) => {
 
     inputNumber.oninput = async (e) => {
         while (datalistItemNb.hasChildNodes()) {
-            datalistItemNb.removeChild(datalistItems.lastChild)
+            datalistItemNb.removeChild(datalistItemNb.lastChild)
         }
 
         if (e.target.value.length >= 2) {
             const responseItems = await fetch(`https://localhost:5001/api/items?inputNumber=${e.target.value}`)
             items = await responseItems.json()
+
+            for (const item of items) {
+                const option = document.createElement('option')
+                option.value = item.id
+                option.text = item.itemnb
+                datalistItemNb.appendChild(option)
+            }
         }
     }
 
