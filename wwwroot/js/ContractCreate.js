@@ -29,11 +29,20 @@ addItemSlot = (tableBody) => {
     tableBody.appendChild(document.createElement('tr'))
     const row = tableBody.getElementsByTagName('tr')[tableBody.childElementCount - 1]
     const rowItems = document.createElement('td')
+    const rowItemNumber = document.createElement('td')
+    const inputNumber = document.createElement('input')
+    inputNumber.classList.add('form-control')
+    rowItemNumber.appendChild(inputNumber)
+    row.appendChild(rowItemNumber)
     const selectItems = document.createElement('input')
     selectItems.setAttribute('list', 'items')
     selectItems.classList.add('form-control')
     const datalistItems = document.createElement('datalist')
     datalistItems.setAttribute('id', 'items')
+    const rowCategory = document.createElement('td')
+    const inputCategory = document.createElement('input')
+    inputCategory.classList.add('form-control')
+    rowCategory.appendChild(inputCategory)
 
     selectItems.oninput = async (e) => {
         while (datalistItems.hasChildNodes()) {
@@ -46,6 +55,7 @@ addItemSlot = (tableBody) => {
             })
 
             if (inputFromDatalist.length > 0) {
+                inputNumber.value = inputFromDatalist[0].itemnb
                 selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
             }
         }
@@ -68,9 +78,7 @@ addItemSlot = (tableBody) => {
     rowItems.appendChild(selectItems)
     rowItems.appendChild(datalistItems)
     row.appendChild(rowItems)
-    const rowStock = document.createElement('td')
-    rowStock.innerText = 'hello'
-    row.appendChild(rowStock)
+    row.appendChild(rowCategory)
     const rowDuration = document.createElement('td')
     const selectDuration = document.createElement('select')
     selectDuration.classList.add('form-control')
