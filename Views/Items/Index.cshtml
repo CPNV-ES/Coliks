@@ -8,11 +8,15 @@
 
 <h1>Index</h1>
 
+<form method="get" class="form-inline" id="formSearch">
+    <input name="filter" class="form-control" placeholder="filter"
+           value="@Model.RouteValue["Filter"]" autocomplete="off" id="searchBar" onfocus="this.value = this.value;" autofocus />
+</form>
 
 <div class="container">
     <div class="row">
         <div class="col-sm">
-            <nav aria-label="Suppliers navigation example">
+            <nav aria-label="Items navigation example">
                 <partial name="PagerBootstrap4" model="@this.Model" />
             </nav>
         </div>
@@ -106,7 +110,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm">
-            <nav aria-label="Suppliers navigation example">
+            <nav aria-label="Items navigation example">
                 <partial name="PagerBootstrap4" model="@this.Model" />
             </nav>
         </div>
@@ -114,5 +118,6 @@
 </div>
 
 <environment include="Development">
-    <script src="~/js/item.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script> <!-- Besoin de lier le JQuery ici, autrement il n'est pas reconnu -->
+    <script src="~/js/item.js" language="javascript" type="text/javascript"></script>
 </environment>
