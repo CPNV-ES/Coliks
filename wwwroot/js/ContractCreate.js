@@ -51,6 +51,18 @@ addItemSlot = (tableBody) => {
             datalistItemNb.removeChild(datalistItemNb.lastChild)
         }
 
+        if (items.length > 0) {
+            const inputFromDatalist = items.filter(item => {
+                return e.target.value == parseInt(item.id)
+            })
+
+            if (inputFromDatalist.length > 0) {
+                inputCategory.value = inputFromDatalist[0].category.code
+                selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
+                inputNumber.value = inputFromDatalist[0].itemnb
+            }
+        }
+
         if (e.target.value.length >= 2) {
             const responseItems = await fetch(`https://localhost:5001/api/items?inputNumber=${e.target.value}`)
             items = await responseItems.json()
