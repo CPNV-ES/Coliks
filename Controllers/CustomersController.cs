@@ -84,21 +84,40 @@ namespace coliks.Controllers
                 return NotFound();
             }
 
-            
+            List<Purchases> elementsAfterLastDiscount = new List<Purchases>();
+
+            // Calculate total client's purchases
+            // There ara two way to calculate:
+            //  - If exists a vaucher -> then sum of all client's purchases from the last vaucher
+            //  - If a vaucher don't exists -> then sum of all client's purchases
+            // check if exsist a discoun and get the index value
+
             if (customers.Purchases != null)
             {
                 // get all customers phurchases
                 List<Purchases> purchases = customers.Purchases.OrderBy(c => c.Date).ToList();
-                // check if exsist a discount of 500 CHF and get the index value
-                int index = purchases.FindIndex(a => a.Amount == 500);
-                if (index != -1)
+
+                //get the index of the last vaucher
+                int index = purchases.FindIndex(a => a.Description == "*** Bon d-achat de 50.- ***");
+
+                if (index != -1) //calculate client's purchases total from the last vaucher
                 {
-                    int index = purchases.LastIndexOf().Where(c => c.Amount == 500).Last();
+                    // get the last vaucher
+                    int lastIndexDiscount = purchases.IndexOf(purchases.Where(c => c.Description == "*** Bon d-achat de 50.- ***").Last());
+
+                    // get last purchases from the last vaucher
+                    for (int i = lastIndexDiscount+1; i < purchases.Count(); i++)
+                    {
+                        elementsAfterLastDiscount.Add(purchases[i]);
+                    }
+                }
+                else // calculate the client's total purchases if any vaucher exists
+                {
+                    elementsAfterLastDiscount = purchases;
                 }
             }
 
-
-            ViewBag.totalPurchase = customers.Purchases.Sum(item => item.Amount);
+            ViewBag.totalPurchase = elementsAfterLastDiscount.Sum(item => item.Amount);
             ViewBag.isReduction = ViewBag.totalPurchase >= 500 ? true : false;
 
             var tuple = new Tuple<Customers, Purchases>(customers, null);
