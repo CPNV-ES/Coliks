@@ -42,6 +42,7 @@ addItemSlot = (tableBody) => {
     const rowCategory = document.createElement('td')
     const inputCategory = document.createElement('input')
     inputCategory.classList.add('form-control')
+    inputCategory.type = 'number'
     rowCategory.appendChild(inputCategory)
 
     selectItems.oninput = async (e) => {
@@ -55,6 +56,7 @@ addItemSlot = (tableBody) => {
             })
 
             if (inputFromDatalist.length > 0) {
+                inputCategory.value = inputFromDatalist[0].category.code
                 inputNumber.value = inputFromDatalist[0].itemnb
                 selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
             }
