@@ -65,9 +65,12 @@
                     Le total depuis le derniesr bon est: @ViewBag.totalPurchase.ToString() CHF
                 </div>
 
-                <div>
-                    <button type="button" class="btn btn-success">Rajouter a bon de @ViewBag.Vaucher CHF</button>
-                </div>
+                <form>
+                    <input id="customerId" name="customerId" value="@Model.Item1.Id" class="d-none" />
+                    <input id="amount" name="amount" value="@ViewBag.totalPurchase" class="d-none" />
+                    <input id="description" name="description" value="*** Bon d-achat de @ViewBag.Vaucher.- ***" class="d-none" />
+                    <button id="purchase-add-vaucher" type="button" class="btn btn-success">Rajouter a bon de @ViewBag.Vaucher CHF</button>
+                </form>
 
             </div>
         </div>
@@ -89,7 +92,7 @@
 
     <div class="row">
         <div class="collapse col-sm-12 mt-3" id="add-purchase-customer">
-            <div class="card card-body">
+            <div class="card card-body" id="purchase-new">
                 <form>
                     <div class="row">
                         <div class="form-group col-sm-2">
@@ -111,7 +114,7 @@
         </div>
     </div>
 
-    <table class="table mt-3">
+    <table id="customer-purchases-table" class="table mt-3">
         <thead>
             <tr>
                 <th>
