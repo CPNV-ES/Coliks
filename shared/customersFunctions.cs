@@ -30,12 +30,12 @@ namespace coliks.shared
             List<Purchases> _purchases = purchases.OrderBy(c => c.Date).ToList();
 
             //get the index for the last vaucher
-            int index = _purchases.FindIndex(a => a.Description == "*** Bon d-achat de 50.- ***");
+            int index = _purchases.FindIndex(a => a.Description.Contains("*** Bon d-achat de"));
 
             if (index != -1) // a vaucher exists
             {
                 // get the last vaucher
-                int lastIndexDiscount = _purchases.IndexOf(purchases.Where(c => c.Description == "*** Bon d-achat de 50.- ***").Last());
+                int lastIndexDiscount = _purchases.IndexOf(purchases.Where(c => c.Description.Contains("*** Bon d-achat de")).Last());
 
                 // get last purchases from the last vaucher
                 for (int i = lastIndexDiscount + 1; i < purchases.Count(); i++)
