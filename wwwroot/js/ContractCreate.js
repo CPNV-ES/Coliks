@@ -77,11 +77,18 @@ addItemSlot = (tableBody) => {
                 const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.item.category.id}&ItemType=${item.item.type}&DurationId=${item.durationId}`)
                 const itemPrice = await responsePrice.json()
 
+                document.getElementById('SubmitContract').disabled = false
+                inputNumber.classList.remove('is-invalid')
+                selectItems.classList.remove('is-invalid')
                 inputCategory.value = inputFromDatalist[0].category.code
                 inputNumber.value = inputFromDatalist[0].itemnb
                 selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
                 rowPrice.innerText = itemPrice.price
             }
+        } else {
+            document.getElementById('SubmitContract').disabled = true
+            inputNumber.classList.add('is-invalid')
+            selectItems.classList.add('is-invalid')
         }
 
         if (event.target.value.length >= 2) {
@@ -293,6 +300,7 @@ document.getElementById('FirstName').onchange = async () => {
 document.getElementById('NewContract').onclick = async (e) => {
     try {
         e.preventDefault()
+        document.getElementById('SubmitContract').disabled = true
         const responseDurations = await fetch('https://localhost:5001/api/durations')
         durations = await responseDurations.json()
 
@@ -304,6 +312,7 @@ document.getElementById('NewContract').onclick = async (e) => {
 }
 
 document.getElementById('AddItem').onclick = () => {
+    document.getElementById('SubmitContract').disabled = true
     addItemSlot(document.getElementById('ItemsContractsTable').getElementsByTagName('tbody')[0])
 }
 
