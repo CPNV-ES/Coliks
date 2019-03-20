@@ -6,6 +6,7 @@ let customers = []
 let contracts = []
 let durations = []
 let items = []
+let selectedItems = []
 
 getCustomerContracts = async (id) => {
     try {
@@ -47,66 +48,63 @@ addItemSlot = (tableBody) => {
     rowCategory.appendChild(inputCategory)
     const rowPrice = document.createElement('td')
 
-    inputNumber.oninput = async (e) => {
-        while (datalistItemNb.hasChildNodes()) {
-            datalistItemNb.removeChild(datalistItemNb.lastChild)
+    onInput = async (datalist, event, type) => {
+        while (datalist.hasChildNodes()) {
+            datalist.removeChild(datalist.lastChild)
         }
 
         if (items.length > 0) {
             const inputFromDatalist = items.filter(item => {
-                return e.target.value == parseInt(item.id)
+                return event.target.value == parseInt(item.id)
             })
 
             if (inputFromDatalist.length > 0) {
+                const itemIndex = selectedItems.findIndex(selectedItem => {
+                    return selectedItem.id == event.target.value
+                })
+
+                const item = {
+                    categoryId: inputFromDatalist[0].category.id,
+                    itemType: inputFromDatalist[0].type,
+                    itemId: inputFromDatalist[0].id,
+                    durationId: Number(selectDuration.value)
+                }
+    
+                if (itemIndex >= 0) {
+                    selectedItems[itemIndex] = item
+                } else {
+                    selectedItems.push(item)
+                }
+
+                const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.categoryId}&ItemType=${item.itemType}&DurationId=${item.durationId}`)
+                const itemPrice = await responsePrice.json()
+
                 inputCategory.value = inputFromDatalist[0].category.code
-                selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
                 inputNumber.value = inputFromDatalist[0].itemnb
-                rowPrice.innerText = inputFromDatalist[0].cost
+                selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
+                rowPrice.innerText = itemPrice.price
             }
         }
 
-        if (e.target.value.length >= 2) {
-            const responseItems = await fetch(`https://localhost:5001/api/items?inputNumber=${e.target.value}`)
+        if (event.target.value.length >= 2) {
+            const responseItems = await fetch(`https://localhost:5001/api/items?${type == 'itemNumber' ? 'inputNumber' : 'input'}=${event.target.value}`)
             items = await responseItems.json()
 
             for (const item of items) {
                 const option = document.createElement('option')
                 option.value = item.id
-                option.text = item.itemnb
-                datalistItemNb.appendChild(option)
+                option.text = type == 'itemNumber' ? item.itemnb : `${item.brand} : ${item.model}`
+                datalist.appendChild(option)
             }
         }
     }
 
+    inputNumber.oninput = async (e) => {
+        onInput(datalistItemNb, e, 'itemNumber')
+    }
+
     selectItems.oninput = async (e) => {
-        while (datalistItems.hasChildNodes()) {
-            datalistItems.removeChild(datalistItems.lastChild)
-        }
-
-        if (items.length > 0) {
-            const inputFromDatalist = items.filter(item => {
-                return e.target.value == parseInt(item.id)
-            })
-
-            if (inputFromDatalist.length > 0) {
-                inputCategory.value = inputFromDatalist[0].category.code
-                inputNumber.value = inputFromDatalist[0].itemnb
-                selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
-                rowPrice.innerText = inputFromDatalist[0].cost
-            }
-        }
-
-        if (e.target.value.length >= 2) {
-            const responseItems = await fetch(`https://localhost:5001/api/items?input=${e.target.value}`)
-            items = await responseItems.json()
-            
-            for (const item of items) {
-                const option = document.createElement('option')
-                option.value = item.id
-                option.text = `${item.brand} : ${item.model}`
-                datalistItems.appendChild(option)
-            }
-        }
+        onInput(datalistItems, e, 'itemName')
     }
 
     rowItemNumber.appendChild(inputNumber)
