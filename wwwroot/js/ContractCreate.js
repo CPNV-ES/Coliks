@@ -7,7 +7,6 @@ let contracts = []
 let durations = []
 let items = []
 let selectedItems = []
-let valid = false
 
 getCustomerContracts = async (id) => {
     try {
@@ -310,14 +309,22 @@ document.getElementById('AddItem').onclick = () => {
 
 validateForm = () => {
     if (document.getElementById('LastNames').value !== "") {
-        
+        if (selectedItems.length > 0) {
+            return true
+        } else {
+            showAlertMessage('Pas d\'objets sélectionnés')
+            return false
+        }
     } else {
         document.getElementById('LastNames').classList.add('is-invalid')
-        showAlertMessage('Pas de client sélectioné')
+        showAlertMessage('Pas de client sélectionné')
+        return false
     }
 }
 
 document.getElementById('SubmitContract').onclick = (e) => {
     e.preventDefault()
-    validateForm()
+    if (validateForm()) {
+        console.log('hello')
+    }
 }
