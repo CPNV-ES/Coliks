@@ -111,10 +111,15 @@ addItemSlot = (tableBody) => {
                 return item.item.itemnb === inputNumber.value
             })
 
-            if (currentItem.length > 0) {
+            const currentItemIndex = selectedItems.findIndex(item => {
+                return item.item.itemnb === inputNumber.value
+            })
+
+            if (currentItem.length > 0 && currentItemIndex >= 0) {
                 const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].item.type}&DurationId=${currentItem[0].durationId}&CategoryCode=${e.target.value}`)
                 const newItem = await response.json()
 
+                selectedItems[currentItemIndex].category = newItem.category
                 rowPrice.innerText = newItem.price
             }
         }
