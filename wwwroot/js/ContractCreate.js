@@ -32,15 +32,15 @@ addItemSlot = (tableBody) => {
     const rowItems = document.createElement('td')
     const rowItemNumber = document.createElement('td')
     const inputNumber = document.createElement('input')
-    inputNumber.setAttribute('list', 'itemnb')
+    inputNumber.setAttribute('list', `itemnb${tableBody.childElementCount - 1}`)
     inputNumber.classList.add('form-control')
     const datalistItemNb = document.createElement('datalist')
-    datalistItemNb.id = 'itemnb'
+    datalistItemNb.id = `itemnb${tableBody.childElementCount - 1}`
     const selectItems = document.createElement('input')
-    selectItems.setAttribute('list', 'items')
+    selectItems.setAttribute('list', `items${tableBody.childElementCount - 1}`)
     selectItems.classList.add('form-control')
     const datalistItems = document.createElement('datalist')
-    datalistItems.id = 'items'
+    datalistItems.id = `items${tableBody.childElementCount - 1}`
     const rowCategory = document.createElement('td')
     const inputCategory = document.createElement('input')
     inputCategory.classList.add('form-control')
