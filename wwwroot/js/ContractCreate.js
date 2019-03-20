@@ -64,9 +64,7 @@ addItemSlot = (tableBody) => {
                 })
 
                 const item = {
-                    categoryId: inputFromDatalist[0].category.id,
-                    itemType: inputFromDatalist[0].type,
-                    itemId: inputFromDatalist[0].id,
+                    item: inputFromDatalist[0],
                     durationId: Number(selectDuration.value)
                 }
     
@@ -76,7 +74,7 @@ addItemSlot = (tableBody) => {
                     selectedItems.push(item)
                 }
 
-                const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.categoryId}&ItemType=${item.itemType}&DurationId=${item.durationId}`)
+                const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.item.category.id}&ItemType=${item.item.type}&DurationId=${item.durationId}`)
                 const itemPrice = await responsePrice.json()
 
                 inputCategory.value = inputFromDatalist[0].category.code
@@ -105,6 +103,21 @@ addItemSlot = (tableBody) => {
 
     selectItems.oninput = async (e) => {
         onInput(datalistItems, e, 'itemName')
+    }
+
+    inputCategory.oninput = async (e) => {
+        if (e.target.value >= 0 && e.target.value <= 3 && e.target.value != "") {
+            const currentItem = selectedItems.filter(item => {
+                return item.item.itemnb === inputNumber.value
+            })
+
+            if (currentItem.length > 0) {
+                const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].item.type}&DurationId=${currentItem[0].durationId}&CategoryCode=${e.target.value}`)
+                const newItem = await response.json()
+
+                rowPrice.innerText = newItem.price
+            }
+        }
     }
 
     rowItemNumber.appendChild(inputNumber)
