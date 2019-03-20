@@ -241,6 +241,7 @@ setCustomerInfo = async (customer = customers[0]) => {
 document.getElementById('LastNames').onchange = async () => {
     try {
         removeItemsTable()
+        document.getElementById('LastNames').classList.remove('is-invalid')
         const response = await fetch(`https://localhost:5001/api/names-list/${document.getElementById('LastNames').value}`, { 
             headers: { "Content-Type": "application/json" }
           })
@@ -308,9 +309,10 @@ document.getElementById('AddItem').onclick = () => {
 }
 
 validateForm = () => {
-    if (document.getElementById('LastNames').value !== "" && document.getElementById('FirstName') !== "") {
+    if (document.getElementById('LastNames').value !== "") {
         
     } else {
+        document.getElementById('LastNames').classList.add('is-invalid')
         showAlertMessage('Pas de client sélectioné')
     }
 }
