@@ -1,0 +1,91 @@
+@model Tuple<coliks.Models.Customers, coliks.Models.Purchases>
+
+@if (ViewBag.Vaucher != null)
+{
+    <div id="customer-details-vaucher" class="block-container">
+        <div class="row">
+            <div class="d-flex align-items-center justify-content-between col-sm-12">
+                <div>
+                    Le total depuis le derniesr bon est: @ViewBag.totalPurchase.ToString() CHF
+                </div>
+
+                <form>
+                    <input id="customerId" name="customerId" value="@Model.Item1.Id" class="d-none" />
+                    <input id="amount" name="amount" value="@ViewBag.totalPurchase" class="d-none" />
+                    <input id="description" name="description" value="*** Bon d-achat de @ViewBag.Vaucher.- ***" class="d-none" />
+                    <button id="purchase-add-vaucher" type="button" class="btn btn-success">Rajouter a bon de @ViewBag.Vaucher CHF</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+}
+
+<section id="customer-purchase-details" class="block-container">
+
+    <div class="row">
+        <div class="d-flex align-items-center justify-content-between col-sm-12">
+            <div>
+                <h2>Achats</h2>
+            </div>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#add-purchase-customer" aria-expanded="false" aria-controls="collapseExample">
+                Ajouter un achat
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="collapse col-sm-12 mt-3" id="add-purchase-customer">
+            <div class="card card-body" id="purchase-new">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-sm-2">
+                            <label for="amount">Prix CHF</label>
+                            <input type="number" id="amount" name="amount" value="" class="form-control" />
+                        </div>
+                        <div class="form-group col-sm-10">
+                            <label for="description">Descritpion</label>
+                            <input type="text" id="description" name="amount" value="" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 d-flex justify-content-end align-items-end m-0">
+                            <input type="submit" value="Rajouter" class="btn btn-alert" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <table id="customer-purchases-table" class="table mt-3">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(tuple => tuple.Item2.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(tuple => tuple.Item2.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(tuple => tuple.Item2.Amount)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var purchase in Model.Item1.Purchases)
+            {
+                <tr>
+                    <td> @purchase.Date</td>
+                    <td> @purchase.Description</td>
+                    <td> @purchase.Amount CHF</td>
+                </tr>
+            }
+
+            <tr id="customer-total-purchases">
+                <td colspan="2">Total</td>
+                <td>@ViewBag.totalPurchase.ToString() CHF</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
