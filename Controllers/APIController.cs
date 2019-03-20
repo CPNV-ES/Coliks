@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using coliks.Models;
+using Newtonsoft.Json.Linq;
 
 namespace coliks.Controllers
 {
@@ -65,6 +66,17 @@ namespace coliks.Controllers
         public async Task<ActionResult<List<Durations>>> GetDurations()
         {
             return await _context.Durations.ToListAsync();
+        }
+
+        [HttpGet("/api/get-price")]
+        public async Task<ActionResult<Rentprices>> GetPriceItem(int? CategoryId, String ItemType, int DurationId, String CategoryCode)
+        {
+            var gearType = await _context.Geartypes.FirstOrDefaultAsync(gt => gt.Name == ItemType);
+            if (CategoryId == null) {
+                var category = await _context.Categories.Where(c => c.Code == CategoryCode).FirstOrDefaultAsync();
+                CategoryId = category.Id;
+            }
+            return await _context.Rentprices.Where(rt => rt.CategoryId == CategoryId && rt.DurationId == DurationId && rt.GeartypeId == gearType.Id).FirstOrDefaultAsync();
         }
     }
 }

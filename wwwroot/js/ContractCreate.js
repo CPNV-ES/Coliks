@@ -6,6 +6,7 @@ let customers = []
 let contracts = []
 let durations = []
 let items = []
+let selectedItems = []
 
 getCustomerContracts = async (id) => {
     try {
@@ -31,15 +32,15 @@ addItemSlot = (tableBody) => {
     const rowItems = document.createElement('td')
     const rowItemNumber = document.createElement('td')
     const inputNumber = document.createElement('input')
-    inputNumber.setAttribute('list', 'itemnb')
+    inputNumber.setAttribute('list', `itemnb${tableBody.childElementCount - 1}`)
     inputNumber.classList.add('form-control')
     const datalistItemNb = document.createElement('datalist')
-    datalistItemNb.id = 'itemnb'
+    datalistItemNb.id = `itemnb${tableBody.childElementCount - 1}`
     const selectItems = document.createElement('input')
-    selectItems.setAttribute('list', 'items')
+    selectItems.setAttribute('list', `items${tableBody.childElementCount - 1}`)
     selectItems.classList.add('form-control')
     const datalistItems = document.createElement('datalist')
-    datalistItems.id = 'items'
+    datalistItems.id = `items${tableBody.childElementCount - 1}`
     const rowCategory = document.createElement('td')
     const inputCategory = document.createElement('input')
     inputCategory.classList.add('form-control')
@@ -47,64 +48,78 @@ addItemSlot = (tableBody) => {
     rowCategory.appendChild(inputCategory)
     const rowPrice = document.createElement('td')
 
-    inputNumber.oninput = async (e) => {
-        while (datalistItemNb.hasChildNodes()) {
-            datalistItemNb.removeChild(datalistItemNb.lastChild)
+    onInput = async (datalist, event, type) => {
+        while (datalist.hasChildNodes()) {
+            datalist.removeChild(datalist.lastChild)
         }
 
         if (items.length > 0) {
             const inputFromDatalist = items.filter(item => {
-                return e.target.value == parseInt(item.id)
+                return event.target.value == parseInt(item.id)
             })
 
             if (inputFromDatalist.length > 0) {
+                const itemIndex = selectedItems.findIndex(selectedItem => {
+                    return selectedItem.id == event.target.value
+                })
+
+                const item = {
+                    item: inputFromDatalist[0],
+                    durationId: Number(selectDuration.value)
+                }
+    
+                if (itemIndex >= 0) {
+                    selectedItems[itemIndex] = item
+                } else {
+                    selectedItems.push(item)
+                }
+
+                const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.item.category.id}&ItemType=${item.item.type}&DurationId=${item.durationId}`)
+                const itemPrice = await responsePrice.json()
+
                 inputCategory.value = inputFromDatalist[0].category.code
-                selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
                 inputNumber.value = inputFromDatalist[0].itemnb
-                rowPrice.innerText = inputFromDatalist[0].cost
+                selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
+                rowPrice.innerText = itemPrice.price
             }
         }
 
-        if (e.target.value.length >= 2) {
-            const responseItems = await fetch(`https://localhost:5001/api/items?inputNumber=${e.target.value}`)
+        if (event.target.value.length >= 2) {
+            const responseItems = await fetch(`https://localhost:5001/api/items?${type == 'itemNumber' ? 'inputNumber' : 'input'}=${event.target.value}`)
             items = await responseItems.json()
 
             for (const item of items) {
                 const option = document.createElement('option')
                 option.value = item.id
-                option.text = item.itemnb
-                datalistItemNb.appendChild(option)
+                option.text = type == 'itemNumber' ? item.itemnb : `${item.brand} : ${item.model}`
+                datalist.appendChild(option)
             }
         }
     }
 
-    selectItems.oninput = async (e) => {
-        while (datalistItems.hasChildNodes()) {
-            datalistItems.removeChild(datalistItems.lastChild)
-        }
+    inputNumber.oninput = async (e) => {
+        onInput(datalistItemNb, e, 'itemNumber')
+    }
 
-        if (items.length > 0) {
-            const inputFromDatalist = items.filter(item => {
-                return e.target.value == parseInt(item.id)
+    selectItems.oninput = async (e) => {
+        onInput(datalistItems, e, 'itemName')
+    }
+
+    inputCategory.oninput = async (e) => {
+        if (e.target.value >= 0 && e.target.value <= 3 && e.target.value != "") {
+            const currentItem = selectedItems.filter(item => {
+                return item.item.itemnb === inputNumber.value
+            })
+            const currentItemIndex = selectedItems.findIndex(item => {
+                return item.item.itemnb === inputNumber.value
             })
 
-            if (inputFromDatalist.length > 0) {
-                inputCategory.value = inputFromDatalist[0].category.code
-                inputNumber.value = inputFromDatalist[0].itemnb
-                selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
-                rowPrice.innerText = inputFromDatalist[0].cost
-            }
-        }
+            if (currentItem.length > 0 && currentItemIndex >= 0) {
+                const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].item.type}&DurationId=${currentItem[0].durationId}&CategoryCode=${e.target.value}`)
+                const newPrice = await response.json()
 
-        if (e.target.value.length >= 2) {
-            const responseItems = await fetch(`https://localhost:5001/api/items?input=${e.target.value}`)
-            items = await responseItems.json()
-            
-            for (const item of items) {
-                const option = document.createElement('option')
-                option.value = item.id
-                option.text = `${item.brand} : ${item.model}`
-                datalistItems.appendChild(option)
+                selectedItems[currentItemIndex].category = newPrice.category
+                rowPrice.innerText = newPrice.price
             }
         }
     }
@@ -127,6 +142,23 @@ addItemSlot = (tableBody) => {
         selectDuration.add(option)
     }
 
+    selectDuration.onchange = async (e) => {
+        const currentItem = selectedItems.filter(item => {
+            return item.item.itemnb === inputNumber.value
+        })
+        const currentItemIndex = selectedItems.findIndex(item => {
+            return item.item.itemnb === inputNumber.value
+        })
+
+        if (currentItem.length > 0 && currentItemIndex >= 0) {
+            const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].item.type}&DurationId=${e.target.value}&CategoryId=${currentItem[0].item.category.id}`)
+            const newPrice = await response.json()
+
+            selectedItems[currentItemIndex].durationId = e.target.value
+            rowPrice.innerText = newPrice.price
+        }
+    }
+
     rowDuration.appendChild(selectDuration)
     row.appendChild(rowDuration)
     row.appendChild(rowPrice)
@@ -136,6 +168,10 @@ addItemSlot = (tableBody) => {
     buttonDelete.innerText = 'Supprimer'
 
     buttonDelete.onclick = () => {
+        const deletedItemIndex = selectedItems.findIndex(item => {
+            return item.item.itemnb === inputNumber.value
+        })
+        selectedItems.splice(deletedItemIndex, 1)
         tableBody.removeChild(row)
     }
     
