@@ -113,6 +113,10 @@ addItemSlot = (tableBody) => {
     }
 
     inputCategory.oninput = async (e) => {
+        if (e.target.value == "") {
+            inputCategory.classList.add('is-invalid')
+            document.getElementById('SubmitContract').disabled = true
+        }
         if (e.target.value >= 0 && e.target.value <= 3 && e.target.value != "") {
             const currentItem = selectedItems.filter(item => {
                 return item.item.itemnb === inputNumber.value
@@ -125,6 +129,8 @@ addItemSlot = (tableBody) => {
                 const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].item.type}&DurationId=${currentItem[0].durationId}&CategoryCode=${e.target.value}`)
                 const newPrice = await response.json()
 
+                document.getElementById('SubmitContract').disabled = false
+                inputCategory.classList.remove('is-invalid')
                 selectedItems[currentItemIndex].category = newPrice.category
                 rowPrice.innerText = newPrice.price
             }
