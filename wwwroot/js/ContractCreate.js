@@ -77,11 +77,18 @@ addItemSlot = (tableBody) => {
                 const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.item.category.id}&ItemType=${item.item.type}&DurationId=${item.durationId}`)
                 const itemPrice = await responsePrice.json()
 
+                document.getElementById('SubmitContract').disabled = false
+                inputNumber.classList.remove('is-invalid')
+                selectItems.classList.remove('is-invalid')
                 inputCategory.value = inputFromDatalist[0].category.code
                 inputNumber.value = inputFromDatalist[0].itemnb
                 selectItems.value = `${inputFromDatalist[0].brand} : ${inputFromDatalist[0].model}`
                 rowPrice.innerText = itemPrice.price
             }
+        } else {
+            document.getElementById('SubmitContract').disabled = true
+            inputNumber.classList.add('is-invalid')
+            selectItems.classList.add('is-invalid')
         }
 
         if (event.target.value.length >= 2) {
@@ -106,6 +113,10 @@ addItemSlot = (tableBody) => {
     }
 
     inputCategory.oninput = async (e) => {
+        if (e.target.value == "") {
+            inputCategory.classList.add('is-invalid')
+            document.getElementById('SubmitContract').disabled = true
+        }
         if (e.target.value >= 0 && e.target.value <= 3 && e.target.value != "") {
             const currentItem = selectedItems.filter(item => {
                 return item.item.itemnb === inputNumber.value
@@ -118,6 +129,8 @@ addItemSlot = (tableBody) => {
                 const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].item.type}&DurationId=${currentItem[0].durationId}&CategoryCode=${e.target.value}`)
                 const newPrice = await response.json()
 
+                document.getElementById('SubmitContract').disabled = false
+                inputCategory.classList.remove('is-invalid')
                 selectedItems[currentItemIndex].category = newPrice.category
                 rowPrice.innerText = newPrice.price
             }
@@ -240,6 +253,7 @@ setCustomerInfo = async (customer = customers[0]) => {
 document.getElementById('LastNames').onchange = async () => {
     try {
         removeItemsTable()
+        document.getElementById('LastNames').classList.remove('is-invalid')
         const response = await fetch(`https://localhost:5001/api/names-list/${document.getElementById('LastNames').value}`, { 
             headers: { "Content-Type": "application/json" }
           })
@@ -292,6 +306,7 @@ document.getElementById('FirstName').onchange = async () => {
 document.getElementById('NewContract').onclick = async (e) => {
     try {
         e.preventDefault()
+        document.getElementById('SubmitContract').disabled = true
         const responseDurations = await fetch('https://localhost:5001/api/durations')
         durations = await responseDurations.json()
 
@@ -303,5 +318,28 @@ document.getElementById('NewContract').onclick = async (e) => {
 }
 
 document.getElementById('AddItem').onclick = () => {
+    document.getElementById('SubmitContract').disabled = true
     addItemSlot(document.getElementById('ItemsContractsTable').getElementsByTagName('tbody')[0])
+}
+
+validateForm = () => {
+    if (document.getElementById('LastNames').value !== "") {
+        if (selectedItems.length > 0) {
+            return true
+        } else {
+            showAlertMessage('Pas d\'objets sélectionnés')
+            return false
+        }
+    } else {
+        document.getElementById('LastNames').classList.add('is-invalid')
+        showAlertMessage('Pas de client sélectionné')
+        return false
+    }
+}
+
+document.getElementById('SubmitContract').onclick = (e) => {
+    e.preventDefault()
+    if (validateForm()) {
+        console.log('hello')
+    }
 }
