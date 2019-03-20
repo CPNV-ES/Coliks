@@ -69,9 +69,13 @@ namespace coliks.Controllers
         }
 
         [HttpGet("/api/get-price")]
-        public async Task<ActionResult<Rentprices>> GetPriceItem(int CategoryId, String ItemType, int DurationId)
+        public async Task<ActionResult<Rentprices>> GetPriceItem(int? CategoryId, String ItemType, int DurationId, String CategoryCode)
         {
             var gearType = await _context.Geartypes.FirstOrDefaultAsync(gt => gt.Name == ItemType);
+            if (CategoryId == null) {
+                var category = await _context.Categories.Where(c => c.Code == CategoryCode).FirstOrDefaultAsync();
+                CategoryId = category.Id;
+            }
             return await _context.Rentprices.Where(rt => rt.CategoryId == CategoryId && rt.DurationId == DurationId && rt.GeartypeId == gearType.Id).FirstOrDefaultAsync();
         }
     }
