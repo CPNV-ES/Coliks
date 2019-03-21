@@ -47,8 +47,20 @@ var htmlPage = {
             var amount = - $("#amount").val();
             var description = $("#description").val();
             //send data to api to store new vaucher
-            purchase.add(customerId, amount, description);
+            purchase.add(customerId, amount, description, false);
         });
+
+        /* Add new Purchase to a customer */
+
+        $("#add-purchase-customer-button").on("click", function () {
+            //get input data
+            var customerId = $("#add-purchase-customer #customerId").val();
+            var amount = $("#add-purchase-customer #amount").val();
+            var description = $("#add-purchase-customer #description").val();
+            //send data to api to store new vaucher
+            purchase.add(customerId, amount, description, true);
+        });
+
     },
 }
 
@@ -69,7 +81,7 @@ var customer = {
  * */
 
 var purchase = {
-    add: function (customerId, amount, description) {
+    add: function (customerId, amount, description, noMsg) {
         let current_datetime = new Date()
         let formatted_date = current_datetime.getFullYear() + "/" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds()
 
@@ -81,11 +93,11 @@ var purchase = {
             data: JSON.stringify({CustomerId: customerId, Date: formatted_date, Description: description, Amount: amount}),
         })
             .done(function () {
-                alert("Le bon d'achat à été rajouter");
+                if (!noMsg) { alert("Le bon d'achat à été rajouter"); }
                 purchase.update(customerId);
             })
             .fail(function () {
-                alert("Le bon d'achat n'a été pas crée");
+                if (!noMsg) alert("Le bon d'achat n'a été pas crée");
             });
     },
     update: function (customerId) {

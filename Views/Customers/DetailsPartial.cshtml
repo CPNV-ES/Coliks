@@ -38,6 +38,7 @@
         <div class="collapse col-sm-12 mt-3" id="add-purchase-customer">
             <div class="card card-body" id="purchase-new">
                 <form>
+                    <input id="customerId" name="customerId" value="@Model.Item1.Id" class="d-none" />
                     <div class="row">
                         <div class="form-group col-sm-2">
                             <label for="amount">Prix CHF</label>
@@ -45,12 +46,12 @@
                         </div>
                         <div class="form-group col-sm-10">
                             <label for="description">Descritpion</label>
-                            <input type="text" id="description" name="amount" value="" class="form-control" />
+                            <input type="text" id="description" name="description" value="" class="form-control" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 d-flex justify-content-end align-items-end m-0">
-                            <input type="submit" value="Rajouter" class="btn btn-alert" />
+                            <input id="add-purchase-customer-button" type="button" value="Rajouter" class="btn btn-alert" />
                         </div>
                     </div>
                 </form>
