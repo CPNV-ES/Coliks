@@ -8,6 +8,10 @@ let durations = []
 let items = []
 let selectedItems = []
 
+document.getElementById('HelpStaffId').onchange = () => {
+    document.getElementById('TuneStaffId').value = document.getElementById('HelpStaffId').value
+}
+
 getCustomerContracts = async (id) => {
     try {
     const response = await fetch(`https://localhost:5001/api/customer-contracts/${id}`)
