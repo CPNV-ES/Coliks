@@ -9,7 +9,7 @@
                     Le total depuis le derniesr bon est: @ViewBag.totalPurchase.ToString() CHF
                 </div>
 
-                <form>
+                <form id="add-vaucher-customer">
                     <input id="customerId" name="customerId" value="@Model.Item1.Id" class="d-none" />
                     <input id="amount" name="amount" value="@ViewBag.totalPurchase" class="d-none" />
                     <input id="description" name="description" value="*** Bon d-achat de @ViewBag.Vaucher.- ***" class="d-none" />
@@ -37,7 +37,7 @@
     <div class="row">
         <div class="collapse col-sm-12 mt-3" id="add-purchase-customer">
             <div class="card card-body" id="purchase-new">
-                <form>
+                <form id="customer-purchase-add">
                     <input id="customerId" name="customerId" value="@Model.Item1.Id" class="d-none" />
                     <div class="row">
                         <div class="form-group col-sm-2">
@@ -90,3 +90,9 @@
         </tbody>
     </table>
 </section>
+
+<environment include="Development">
+    <script src="~/js/customersDetails.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/homeCustomers.css" />
+</environment>
