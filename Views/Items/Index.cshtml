@@ -5,107 +5,162 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="container" style="margin-left:30px">
+    <div class="row">
+        <h1>Index</h1>
+    </div>
 
-<h1>Index</h1>
-
-<form method="get" class="form-inline" id="formSearch">
-    <input name="filter" class="form-control" placeholder="filter"
-           value="@Model.RouteValue["Filter"]" autocomplete="off" id="searchBar" onfocus="this.value = this.value;" autofocus />
-</form>
-
-<div class="container">
     <div class="row">
         <div class="col-sm">
             <nav aria-label="Items navigation example">
                 <partial name="PagerBootstrap4" model="@this.Model" />
             </nav>
         </div>
+        <div class="col-sm">
+            <form method="get" class="form-inline" id="formSearch">
+                <input name="filter" class="form-control" placeholder="filter" 
+                       value="@Model.RouteValue["Filter"]" autocomplete="off" id="searchBar" autofocus />
+            </form>
+        </div>
+        @*<div class="col-sm">
+                <form method="get" class="form-inline" id="formFilterBy">
+                    <label for="filterBy">Trier par : </label>
+                    <select id="filterBy">
+                        <option value="">--Choisir une option--</option>
+                        <option value="Marque" label="Marque"></option>
+                        <option value="Modele" label="Modèle"></option>
+                        <option value="Taille" label="Taille"></option>
+                        <option value="Stock" label="Stock"></option>
+                        <option value="Categorie" label="Catégorie"></option>
+                    </select>
+                </form>
+            </div>*@
         <div class="col-auto">
-            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Items")'">New Item </button>   
+            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Items")'">New Item </button>
         </div>
     </div>
+    <div class="row">
+        <form method="get" class="form-inline" id="formSearch">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Itemnb, this.Model)
+                        </th>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Brand, this.Model)
+                        </th>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Model, this.Model)
+                        </th>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Size, this.Model)
+                        </th>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Cost, this.Model)
+                        </th>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Returned, this.Model)
+                        </th>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Type, this.Model)
+                        </th>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Stock, this.Model)
+                        </th>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Serialnumber, this.Model)
+                        </th>
+                        <th>
+                            @Html.SortableHeaderFor(model => model.Category, this.Model)
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <input type="number" name="itemnbFilter" class="form-control" placeholder="filter"
+                                   value="@Model.RouteValue["itemnbFilter"]" autocomplete="off" id="itemnbFilter" />
+                        </th>
+                        <th>
+                            <input name="brandFilter" class="form-control" placeholder="filter"
+                                   value="@Model.RouteValue["brandFilter"]" autocomplete="off" id="brandFilter" />
+                        </th>
+                        <th>
+                            <input name="modelFilter" class="form-control" placeholder="filter"
+                                   value="@Model.RouteValue["modelFilter"]" autocomplete="off" id="modelFilter" />
+                        </th>
+                        <th>
+                            <input type="number" name="sizeFilter" class="form-control" placeholder="filter"
+                                   value="@Model.RouteValue["sizeFilter"]" autocomplete="off" id="sizeFilter" />
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                            <input type="number" name="stockFilter" class="form-control" placeholder="filter"
+                                   value="@Model.RouteValue["stockFilter"]" autocomplete="off" id="stockFilter" />
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                            <input name="categoryFilter" class="form-control" placeholder="filter"
+                                   value="@Model.RouteValue["categoryFilter"]" autocomplete="off" id="categoryFilter" />
+                            <input name="filter" class="form-control" placeholder="filter"
+                                   value="@Model.RouteValue["Filter"]" autocomplete="off" id="searchBar" type="hidden" />
+                        </th>
+                        <th><button type="submit">Filter</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Itemnb)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Brand)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Model)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Size)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cost)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Returned)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Stock)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Serialnumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category.Description)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
 </div>
-
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Html.SortableHeaderFor(model => model.Itemnb, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Brand, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Model, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Size, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Cost, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Returned, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Type, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Stock, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Serialnumber, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Category, this.Model)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Itemnb)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Brand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Model)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Size)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Returned)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Stock)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Serialnumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.Description)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
 <div class="container">
     <div class="row">

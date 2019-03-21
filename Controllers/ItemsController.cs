@@ -9,6 +9,7 @@ using coliks.Models;
 using ReflectionIT.Mvc.Paging;
 using Microsoft.AspNetCore.Routing;
 
+
 namespace coliks.Controllers
 {
     public class ItemsController : Controller
@@ -21,10 +22,9 @@ namespace coliks.Controllers
         }
 
         // GET: Items
-        public async Task<IActionResult> Index(string filter,int page = 1, string sortExpression = "Itemnb")
+        public async Task<IActionResult> Index(string itemnbFilter, string brandFilter, string modelFilter, string sizeFilter, string stockFilter, string categoryFilter, string filter,int page = 1, string sortExpression = "Itemnb")
         {
             var qry = _context.Items.AsNoTracking().Include(i => i.Category).OrderBy(i => i.Itemnb).AsQueryable();  //  Add the pagination and an order by Itemnb who is the id of the item. Make it queryable for filtering
-
             if (!string.IsNullOrWhiteSpace(filter))
             {
                 qry = qry.Where(p => 
@@ -35,11 +35,49 @@ namespace coliks.Controllers
                );
             }
 
+            if (!string.IsNullOrWhiteSpace(itemnbFilter))
+            {
+                qry = qry.Where(p => p.Itemnb.ToString().Contains(itemnbFilter));
+            }
+
+            if (!string.IsNullOrWhiteSpace(brandFilter))
+            {
+                qry = qry.Where(p => p.Brand.Contains(brandFilter));
+            }
+
+            if (!string.IsNullOrWhiteSpace(modelFilter))
+            {
+                qry = qry.Where(p => p.Model.Contains(modelFilter));
+            }
+
+            if (!string.IsNullOrWhiteSpace(sizeFilter))
+            {
+                qry = qry.Where(p => p.Size.ToString().Contains(sizeFilter));
+            }
+
+            if (!string.IsNullOrWhiteSpace(stockFilter))
+            {
+                qry = qry.Where(p => p.Stock.ToString().Contains(stockFilter));
+            }
+
+            if (!string.IsNullOrWhiteSpace(categoryFilter))
+            {
+                qry = qry.Where(p => p.Category.Description.Contains(categoryFilter));
+            }
+
+
+
             var model = await PagingList.CreateAsync(qry, 100, page, sortExpression, "Itemnb"); // create the pagination with 100 items for a page, start at page 1 and add default sort by Itemnb
 
             model.RouteValue = new RouteValueDictionary
             {
-                {"filter", filter }
+                {"filter", filter },
+                {"itemnbFilter", itemnbFilter },
+                {"brandFilter", brandFilter },
+                {"modelFilter", modelFilter },
+                {"sizeFilter", sizeFilter },
+                {"stockFilter", stockFilter },
+                {"categoryFilter", categoryFilter },
             };
 
             return View(model); 
