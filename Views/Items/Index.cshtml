@@ -17,26 +17,34 @@
             </nav>
         </div>
         <div class="col-sm">
-            <form method="get" class="form-inline" id="formSearch">
-                <input name="filter" class="form-control" placeholder="filter" 
-                       value="@Model.RouteValue["Filter"]" autocomplete="off" id="searchBar" autofocus />
-            </form>
+            <input name="tmpFilter" class="form-control" placeholder="filter"
+                   value="@Model.RouteValue["filter"]" autocomplete="off" id="tmpSearchBar" autofocus />
+        </div>
+        <div class="col-sm">
+            <input type="button" id="btnSearch" class="btn btn-primary" value="Rechercher" />
+        </div>
+
+        <div class="col-sm">
+
+            <a href="/Items" class="btn btn-primary">
+                Reset
+            </a>
         </div>
         @*<div class="col-sm">
-                <form method="get" class="form-inline" id="formFilterBy">
-                    <label for="filterBy">Trier par : </label>
-                    <select id="filterBy">
-                        <option value="">--Choisir une option--</option>
-                        <option value="Marque" label="Marque"></option>
-                        <option value="Modele" label="Modèle"></option>
-                        <option value="Taille" label="Taille"></option>
-                        <option value="Stock" label="Stock"></option>
-                        <option value="Categorie" label="Catégorie"></option>
-                    </select>
-                </form>
-            </div>*@
+            <form method="get" class="form-inline" id="formFilterBy">
+                <label for="filterBy">Trier par : </label>
+                <select id="filterBy">
+                    <option value="">--Choisir une option--</option>
+                    <option value="Marque" label="Marque"></option>
+                    <option value="Modele" label="Modèle"></option>
+                    <option value="Taille" label="Taille"></option>
+                    <option value="Stock" label="Stock"></option>
+                    <option value="Categorie" label="Catégorie"></option>
+                </select>
+            </form>
+        </div>*@
         <div class="col-auto">
-            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Items")'">New Item </button>
+            <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("Create", "Items")'">New Item </button>
         </div>
     </div>
     <div class="row">
