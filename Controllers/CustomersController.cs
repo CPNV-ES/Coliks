@@ -93,6 +93,32 @@ namespace coliks.Controllers
             return View(tuple);
         }
 
+        // GET: Customers/DetailsPartial/5
+        [HttpGet]
+        public async Task<IActionResult> DetailsPartial(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customers = await _context.Customers
+                .Include(c => c.City)
+                .Include(c => c.Purchases)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (customers == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.totalPurchase = customersFunctions.totalPurchases(customersFunctions.getLastPurchases(customers.Purchases));
+            ViewBag.Vaucher = customersFunctions.calculateVacucher(ViewBag.totalPurchase);
+
+            var tuple = new Tuple<Customers, Purchases>(customers, null);
+
+            return PartialView(tuple);
+        }
+
         // GET: Customers/Create
         public IActionResult Create()
         {
