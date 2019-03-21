@@ -82,17 +82,13 @@ var purchase = {
         })
             .done(function () {
                 alert("Le bon d'achat à été rajouter");
-                purchase.hideVaucherButton();
-                purchase.addNewRowinTable();
+                purchase.update(customerId);
             })
             .fail(function () {
                 alert("Le bon d'achat n'a été pas crée");
             });
     },
-    hideVaucherButton: function () {
-        $("#customer-details-vaucher").addClass("d-none");
-    },
-    addNewRowinTable: function () {
-
+    update: function (customerId) {
+        $("#partialView").load("/Customers/DetailsPartial/"+customerId);
     }
 }
