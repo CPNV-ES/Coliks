@@ -51,8 +51,8 @@ namespace coliks.Controllers
         {
 
             ViewData["CustomersLastName"] = _context.Customers.OrderBy(c => c.Lastname).Select(c => c.Lastname).Distinct().ToList();
-            ViewData["HelpStaffId"] = new SelectList(_context.Staffs, "Id", "Id");
-            ViewData["TuneStaffId"] = new SelectList(_context.Staffs, "Id", "Id");
+            ViewData["HelpStaffId"] = new SelectList(_context.Staffs, "Id", "Nom");
+            ViewData["TuneStaffId"] = new SelectList(_context.Staffs, "Id", "Nom");
             return View();
         }
 
