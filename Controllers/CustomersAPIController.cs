@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using coliks.Models;
 
-namespace coliks
+namespace coliks.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
