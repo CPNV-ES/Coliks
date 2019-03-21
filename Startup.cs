@@ -37,7 +37,11 @@ namespace coliks
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ColiksContext>();
-            services.AddPaging();
+            services.AddPaging(options => {
+                options.ViewName = "Bootstrap4";
+                options.HtmlIndicatorDown = " <span>&darr;</span>";
+                options.HtmlIndicatorUp = " <span>&uarr;</span>";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
