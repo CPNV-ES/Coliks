@@ -73,8 +73,14 @@
                     </div>
                 </div>
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-2 offset-10">
+                    <div class="row">
+                        <div class="col-3">
+                            @Html.DropDownList("HelpStaffId", ViewBag.HelpStaffId, "Staff aidant", new { @class = "form-control" })
+                        </div>
+                        <div class="col-3">
+                            @Html.DropDownList("TuneStaffId", ViewBag.TuneStaffId, "Staff tunant", new { @class = "form-control" })
+                        </div>
+                        <div class="col-2 offset-4">
                             <button id="NewContract" disabled class="btn btn-primary">Nouveau contrat</button>
                         </div>
                     </div>
@@ -127,6 +133,48 @@
         </div>
     </div>
     <div class="row mt-5">
+        <div class="col-2">
+            <div class="form-group">
+                <input class="form-check-input" type="checkbox" id="PaidOn">
+                <label class="form-check-label" for="PaidOn">
+                    Pas payé
+                </label>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="form-group">
+                <input class="form-check-input" type="checkbox" id="PaidOn">
+                <label class="form-check-label" for="PaidOn">
+                    Pas pris
+                </label>
+            </div>  
+        </div>
+        <div class="col-2">
+            <div class="form-group">
+                <input class="form-check-input" type="checkbox" id="PaidOn">
+                <label class="form-check-label" for="PaidOn">
+                    Assurance
+                </label>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="form-group">
+                <input class="form-check-input" type="checkbox" id="PaidOn">
+                <label class="form-check-label" for="PaidOn">
+                    Prendre à domicile
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-6 offset-3">
+            <div class="form-group">
+                <label for="Notes">Notes</label>
+                <textarea class="form-control" id="Notes" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-2 offset-10">
             <button id="SubmitContract" class="btn btn-primary">Créer contrat</button>
         </div>
