@@ -6,7 +6,21 @@ let customers = []
 let contracts = []
 let durations = []
 let items = []
-let selectedItems = []
+let contract = {
+    creationDate: null,
+    effectiveReturn: null,
+    plannedReturn: null,
+    customerId: null,
+    notes: "",
+    total: null,
+    takenon: false,
+    paidon: false,
+    insurance: false,
+    goget: false,
+    helpStaffId: document.getElementById('HelpStaffId').value,
+    tuneStaffId: document.getElementById('TuneStaffId').value,
+    rentedItems: []
+}
 
 document.getElementById('HelpStaffId').onchange = () => {
     document.getElementById('TuneStaffId').value = document.getElementById('HelpStaffId').value
@@ -63,7 +77,7 @@ addItemSlot = (tableBody) => {
             })
 
             if (inputFromDatalist.length > 0) {
-                const itemIndex = selectedItems.findIndex(selectedItem => {
+                const itemIndex = contract.rentedItems.findIndex(selectedItem => {
                     return selectedItem.id == event.target.value
                 })
 
@@ -73,9 +87,9 @@ addItemSlot = (tableBody) => {
                 }
     
                 if (itemIndex >= 0) {
-                    selectedItems[itemIndex] = item
+                    contract.rentedItems[itemIndex] = item
                 } else {
-                    selectedItems.push(item)
+                    contract.rentedItems.push(item)
                 }
 
                 const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.item.category.id}&ItemType=${item.item.type}&DurationId=${item.durationId}`)
@@ -122,10 +136,10 @@ addItemSlot = (tableBody) => {
             document.getElementById('SubmitContract').disabled = true
         }
         if (e.target.value >= 0 && e.target.value <= 3 && e.target.value != "") {
-            const currentItem = selectedItems.filter(item => {
+            const currentItem = contract.rentedItems.filter(item => {
                 return item.item.itemnb === inputNumber.value
             })
-            const currentItemIndex = selectedItems.findIndex(item => {
+            const currentItemIndex = contract.rentedItems.findIndex(item => {
                 return item.item.itemnb === inputNumber.value
             })
 
@@ -135,7 +149,7 @@ addItemSlot = (tableBody) => {
 
                 document.getElementById('SubmitContract').disabled = false
                 inputCategory.classList.remove('is-invalid')
-                selectedItems[currentItemIndex].category = newPrice.category
+                contract.rentedItems[currentItemIndex].category = newPrice.category
                 rowPrice.innerText = newPrice.price
             }
         }
@@ -160,10 +174,10 @@ addItemSlot = (tableBody) => {
     }
 
     selectDuration.onchange = async (e) => {
-        const currentItem = selectedItems.filter(item => {
+        const currentItem = contract.rentedItems.filter(item => {
             return item.item.itemnb === inputNumber.value
         })
-        const currentItemIndex = selectedItems.findIndex(item => {
+        const currentItemIndex = contract.rentedItems.findIndex(item => {
             return item.item.itemnb === inputNumber.value
         })
 
@@ -171,7 +185,7 @@ addItemSlot = (tableBody) => {
             const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].item.type}&DurationId=${e.target.value}&CategoryId=${currentItem[0].item.category.id}`)
             const newPrice = await response.json()
 
-            selectedItems[currentItemIndex].durationId = e.target.value
+            contract.rentedItems[currentItemIndex].durationId = e.target.value
             rowPrice.innerText = newPrice.price
         }
     }
@@ -185,10 +199,10 @@ addItemSlot = (tableBody) => {
     buttonDelete.innerText = 'Supprimer'
 
     buttonDelete.onclick = () => {
-        const deletedItemIndex = selectedItems.findIndex(item => {
+        const deletedItemIndex = contract.rentedItems.findIndex(item => {
             return item.item.itemnb === inputNumber.value
         })
-        selectedItems.splice(deletedItemIndex, 1)
+        contract.rentedItems.splice(deletedItemIndex, 1)
         tableBody.removeChild(row)
     }
     
@@ -328,7 +342,7 @@ document.getElementById('AddItem').onclick = () => {
 
 validateForm = () => {
     if (document.getElementById('LastNames').value !== "") {
-        if (selectedItems.length > 0) {
+        if (contract.rentedItems.length > 0) {
             return true
         } else {
             showAlertMessage('Pas d\'objets sélectionnés')
