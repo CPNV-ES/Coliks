@@ -7,6 +7,10 @@
 /**
  * Entry point
  */
+
+// to check the purchase form status
+var formStatus = {};
+
 $(document).ready(function () {
     customerDetailsPage.init();
 });
@@ -45,6 +49,17 @@ var customerDetailsPage = {
             purchase.add(customerId, amount, description, true);
         });
 
+        // add events in form purchase
+        purchase.getInputFieldsList().forEach(function (field) {
+            // set false the state of each field (not valide)
+            formStatus[field] = false;
+            $('#customer-purchase-add ').on("change paste keyup click", field, function () {
+                // change the state of field
+                formStatus[field] = purchase.validateFormFields(field);
+                // check if button is available
+                purchase.enableButtonSubmit();
+            });
+        });
     },
 }
 
@@ -78,5 +93,112 @@ var purchase = {
     update: function (customerId) {
         // return the partial view
         $("#partialView").load("/Customers/DetailsPartial/"+customerId);
+    },
+    // validate form fields values
+    validateFormFields(fieldId) {
+        // return if the current field is valide or not
+        switch (fieldId) 
+        {
+            case '#amount':                       
+                return purchase.validateAmount(fieldId);
+                break;
+            case '#description':                   
+                return purchase.validateDescription(fieldId);
+                break;
+        }
+        return false;
+    },
+    validateAmount: function (fieldId) {
+        value = $(fieldId).val().replace(/\s/g, '');
+
+        if (value.length == 0)                        // Names must be at least 2 chars long
+        {
+            errorMessage.show("Pas de montant", fieldId);
+            return false;
+        }
+        if (value == 0)                        // Names must be at least 2 chars long
+        {
+            errorMessage.show("Montant trop petit", fieldId);
+            return false;
+        }
+        if (value > 1000000)                  // Names must be at least 2 chars long
+        {
+            errorMessage.show("Montant trop grand", fieldId);
+            return false
+        }
+        if (value < 0)                  // Names must be at least 2 chars long
+        {
+            errorMessage.show("Montant negatif", fieldId);
+            return false
+        }
+
+        errorMessage.hide(fieldId);
+        return true;
+    },
+    validateDescription: function (fieldId) {
+        value = $(fieldId).val().replace(/\s/g, '');
+
+        if (value.length == 0)                        // Names must be at least 2 chars long
+        { 
+            errorMessage.show("Pas de description", fieldId);
+            return false;
+        }
+        if (value.length > 50)                  // Names must be at least 2 chars long
+        {
+            errorMessage.show("La description doit contenir au maximum 50 caracters", fieldId);
+            return false
+        }
+
+        errorMessage.hide(fieldId);
+        return true;
+    },
+    enableButtonSubmit() {
+        // read each field status and check if button can be enabled
+        var res = true;
+        for (var key in formStatus) {                  // check
+            res =  res && formStatus[key];
+        }
+
+        // enable button if forms is valide
+        if (res) {
+            // enable
+            $("#add-purchase-customer-button").removeClass("disabled");
+            $("#add-purchase-customer-button").removeAttr("disabled");
+        } else {
+            // disable
+            $("#add-purchase-customer-button").addClass("disabled");
+            $("#add-purchase-customer-button").attr("disabled","disabled");
+        }
+    },
+    // array of all field in form
+    getInputFieldsList() {
+        return ["#amount", "#description"];
+    }
+}
+
+// module message
+// hide show a message using bootstrap classes
+// par: 
+//  msg: the message to show
+//  node: the node in html dom
+
+var errorMessage = {
+    show: function (msg, node) {
+        // change style into input field with a red border color
+        $(node).removeClass("is-valid");
+        $(node).addClass("is-invalid");
+
+        // show the message
+        $("#error-" + node.substring(1)).removeClass("d-none");
+        $("#error-" + node.substring(1)).html(msg);
+    },
+    hide: function (node) {
+        // change style into input field into green border color
+        $(node).removeClass("is-invalid");
+        $(node).addClass("is-valid");
+
+        // hide the message
+        $("#error-" + node.substring(1)).addClass("d-none");
+
     }
 }
