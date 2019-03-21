@@ -1,0 +1,143 @@
+@model coliks.Models.GridPagination
+@{
+    int count = ((Model.CurrentPage - 1) * Model.TakeCount) + 1; // This is the serial number Calculation
+    int TotalCounter = 0;
+    bool showFooter = true;
+
+    // We will show only 5 buttons on footer to paginate
+    // Because if the data is more then it will look worst with multiple buttons in footer
+    int StartButton = 1;
+    // Checking if total page is greate then 5 else we will take upto
+    // whatever the total page is
+    double EndButton = 5 > Model.TotalPage ? Model.TotalPage : 5;
+}
+
+<table class="table table-bordered">
+    <thead>
+        @*Setting the filter values in text boxes*@
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Itemnb) <input type="text" id="item_nb" class="form-control filter-text" value="@Model.filters.itemnb" /></th>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Brand) <input type="text" id="item_brand" class="form-control filter-text" value="@Model.filters.brand" /></th>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Model) <input type="text" id="item_model" class="form-control filter-text" value="@Model.filters.model" /></th>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Size) <input type="number" id="item_size" class="form-control filter-text" value="@Model.filters.size" /></th>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Cost)</th>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Returned)</th>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Type)</th>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Stock) <input type="number" id="item_stock" class="form-control filter-text" value="@Model.filters.stock" /></th>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Serialnumber)</th>
+            <th>@Html.DisplayNameFor(model => model.Data[0].Category) <input type="text" id="item_gender" class="form-control filter-text" value="@Model.filters.category" /></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Data != null && Model.Data.Count > 0)
+        {
+            foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Itemnb)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Brand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Model)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Size)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Returned)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Stock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Serialnumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="11" style="text-align: center;">No item found</td>
+            </tr>
+            showFooter = false;
+        }
+    </tbody>
+</table>
+
+@*This is the calculation done for showing the buttons like next, prev, jump forward, jump backward etc*@
+@*Jump previous will shift from current page to 2 page backward*@
+@*e.g. if you are on the 5th page, then clicking on jump backward will shift to the 2nd page*@
+@*Similarly jump forward will shift 2 page forward*@
+@if (showFooter)
+{
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col col-xs-4">
+                Page @Model.CurrentPage of @Model.TotalPage |
+                Total @Model.TotalData Records
+            </div>
+            <div class="col col-xs-8">
+                <ul class="pagination hidden-xs pull-right">
+                    @*if current page is 1 then there is no need of showing previous and jump backward buttons*@
+                    @if (Model.CurrentPage != 1)
+                    {
+                        //Prevoius button
+                        <li><a href="javascript:void(0);" data-page="@(Model.CurrentPage - 1)" class="@(Model.CurrentPage == 1 ? "" : "filter-page")">Prev</a></li>
+
+
+                        //Start button and jump backward button's calculation
+                        StartButton = Model.CurrentPage - 2 <= 0 ? 1 : Model.CurrentPage - 2;
+                        EndButton = Model.CurrentPage + 2 > Model.TotalPage ? Model.TotalPage : Model.CurrentPage + 2;
+                        if (Model.CurrentPage == Model.TotalPage)
+                        {
+                            StartButton = StartButton - 2 <= 0 ? 1 : StartButton - 2;
+                        }
+
+                        //Jump backward button
+                        if (Model.CurrentPage >= 4)
+                        {
+                            <li><a href="javascript:void(0);" class="filter-page" data-page="@(StartButton - 1 <= 0 ? 1 : StartButton - 1)"><span><<</span></a></li>
+                        }
+                    }
+
+                    @*Five buttons*@
+                    @for (int i = StartButton; i <= EndButton; i++)
+                    {
+                        <li><a href="javascript:void(0);" class="@(Model.CurrentPage == i ? "active page" : "filter-page")" data-page="@i">@i</a></li>
+                    }
+
+                    @* Jump forward button calculation *@
+                    @if (EndButton != Model.TotalPage)
+                    {
+                        <li><a href="javascript:void(0);" class="filter-page" data-page="@(EndButton+1>Model.TotalPage?Model.TotalPage:EndButton+1)"><span>>></span></a></li>
+                    }
+
+                    @* next button *@
+                    @if (Model.CurrentPage != Model.TotalPage && Model.TotalPage > 1)
+                    {
+                        <li><a href="javascript:void(0);" data-page="@(Model.CurrentPage + 1)" class="@(Model.CurrentPage == TotalCounter ? "" : "filter-page")">Next</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}  
