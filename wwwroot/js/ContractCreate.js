@@ -42,6 +42,10 @@ document.getElementById('GoGet').onchange = () => {
     contract.goget = document.getElementById('GoGet').checked
 }
 
+document.getElementById('Notes').oninput = (e) => {
+    contract.notes = e.target.value
+}
+
 getCustomerContracts = async (id) => {
     try {
     const response = await fetch(`https://localhost:5001/api/customer-contracts/${id}`)
