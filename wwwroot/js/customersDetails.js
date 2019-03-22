@@ -111,22 +111,22 @@ var purchase = {
     validateAmount: function (fieldId) {
         value = $(fieldId).val().replace(/\s/g, '');
 
-        if (value.length == 0)                        // Names must be at least 2 chars long
+        if (value.length == 0)                 // Amount must be at at least 1 chars long
         {
             errorMessage.show("Pas de montant", fieldId);
             return false;
         }
-        if (value == 0)                        // Names must be at least 2 chars long
+        if (value == 0)                        // Amount must be different to 0
         {
             errorMessage.show("Montant trop petit", fieldId);
             return false;
         }
-        if (value > 1000000)                  // Names must be at least 2 chars long
+        if (value > 1000000)                   // Amount must be < 1000000
         {
             errorMessage.show("Montant trop grand", fieldId);
             return false
         }
-        if (value < 0)                  // Names must be at least 2 chars long
+        if (value < 0)                          // Amount must be > 0
         {
             errorMessage.show("Montant negatif", fieldId);
             return false
@@ -138,12 +138,12 @@ var purchase = {
     validateDescription: function (fieldId) {
         value = $(fieldId).val().replace(/\s/g, '');
 
-        if (value.length == 0)                        // Names must be at least 2 chars long
+        if (value.length == 0)                        // Description must be at least 1 chars long
         { 
             errorMessage.show("Pas de description", fieldId);
             return false;
         }
-        if (value.length > 50)                  // Names must be at least 2 chars long
+        if (value.length > 50)                       // Description must be < 50 chars
         {
             errorMessage.show("La description doit contenir au maximum 50 caracters", fieldId);
             return false
