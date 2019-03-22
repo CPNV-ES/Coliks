@@ -108,18 +108,19 @@ addItemSlot = (tableBody) => {
                 })
 
                 const item = {
-                    item: inputFromDatalist[0],
+                    categoryId: inputFromDatalist[0].category.id,
+                    itemId: inputFromDatalist[0].id,
                     durationId: Number(selectDuration.value)
                 }
+                const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.categoryId}&ItemType=${inputFromDatalist[0].type}&DurationId=${item.durationId}`)
+                const itemPrice = await responsePrice.json()
+                item['price'] = itemPrice.price
     
                 if (itemIndex >= 0) {
                     contract.rentedItems[itemIndex] = item
                 } else {
                     contract.rentedItems.push(item)
                 }
-
-                const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.item.category.id}&ItemType=${item.item.type}&DurationId=${item.durationId}`)
-                const itemPrice = await responsePrice.json()
 
                 document.getElementById('SubmitContract').disabled = false
                 inputNumber.classList.remove('is-invalid')
