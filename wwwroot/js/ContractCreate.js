@@ -387,6 +387,12 @@ validateForm = () => {
 document.getElementById('SubmitContract').onclick = (e) => {
     e.preventDefault()
     if (validateForm()) {
-        console.log(contract)
+        let total = 0
+        for (const item of contract.rentedItems) {
+            total += item.price
+            delete item.itemnb
+            delete item.type
+        }
+        contract.total = total
     }
 }
