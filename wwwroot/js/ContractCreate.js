@@ -7,9 +7,6 @@ let contracts = []
 let durations = []
 let items = []
 let contract = {
-    creationDate: null,
-    effectiveReturn: null,
-    plannedReturn: null,
     customerId: null,
     notes: "",
     total: null,
@@ -23,13 +20,13 @@ let contract = {
 }
 
 document.getElementById('HelpStaffId').onchange = () => {
-    contract.helpStaffId = document.getElementById('HelpStaffId').value
-    contract.tuneStaffId = document.getElementById('HelpStaffId').value
+    contract.helpStaffId = Number(document.getElementById('HelpStaffId').value)
+    contract.tuneStaffId = Number(document.getElementById('HelpStaffId').value)
     document.getElementById('TuneStaffId').value = document.getElementById('HelpStaffId').value
 }
 
 document.getElementById('TuneStaffId').onchange = () => {
-    contract.tuneStaffId = document.getElementById('TuneStaffId').value
+    contract.tuneStaffId = Number(document.getElementById('TuneStaffId').value)
 }
 
 document.getElementById('PaidOn').onchange = () => {
@@ -110,7 +107,9 @@ addItemSlot = (tableBody) => {
                 const item = {
                     categoryId: inputFromDatalist[0].category.id,
                     itemId: inputFromDatalist[0].id,
-                    durationId: Number(selectDuration.value)
+                    durationId: Number(selectDuration.value),
+                    itemnb: inputFromDatalist[0].itemnb,
+                    type: inputFromDatalist[0].type
                 }
                 const responsePrice = await fetch(`https://localhost:5001/api/get-price?CategoryId=${item.categoryId}&ItemType=${inputFromDatalist[0].type}&DurationId=${item.durationId}`)
                 const itemPrice = await responsePrice.json()
@@ -164,14 +163,14 @@ addItemSlot = (tableBody) => {
         }
         if (e.target.value >= 0 && e.target.value <= 3 && e.target.value != "") {
             const currentItem = contract.rentedItems.filter(item => {
-                return item.item.itemnb === inputNumber.value
+                return item.itemnb === inputNumber.value
             })
             const currentItemIndex = contract.rentedItems.findIndex(item => {
-                return item.item.itemnb === inputNumber.value
+                return item.itemnb === inputNumber.value
             })
 
             if (currentItem.length > 0 && currentItemIndex >= 0) {
-                const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].item.type}&DurationId=${currentItem[0].durationId}&CategoryCode=${e.target.value}`)
+                const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].type}&DurationId=${currentItem[0].durationId}&CategoryCode=${e.target.value}`)
                 const newPrice = await response.json()
 
                 document.getElementById('SubmitContract').disabled = false
@@ -203,14 +202,14 @@ addItemSlot = (tableBody) => {
 
     selectDuration.onchange = async (e) => {
         const currentItem = contract.rentedItems.filter(item => {
-            return item.item.itemnb === inputNumber.value
+            return item.itemnb === inputNumber.value
         })
         const currentItemIndex = contract.rentedItems.findIndex(item => {
-            return item.item.itemnb === inputNumber.value
+            return item.itemnb === inputNumber.value
         })
 
         if (currentItem.length > 0 && currentItemIndex >= 0) {
-            const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].item.type}&DurationId=${e.target.value}&CategoryId=${currentItem[0].item.category.id}`)
+            const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].type}&DurationId=${e.target.value}&CategoryId=${currentItem[0].categoryId}`)
             const newPrice = await response.json()
 
             contract.rentedItems[currentItemIndex].durationId = e.target.value
@@ -229,7 +228,7 @@ addItemSlot = (tableBody) => {
 
     buttonDelete.onclick = () => {
         const deletedItemIndex = contract.rentedItems.findIndex(item => {
-            return item.item.itemnb === inputNumber.value
+            return item.itemnb === inputNumber.value
         })
         contract.rentedItems.splice(deletedItemIndex, 1)
         tableBody.removeChild(row)
@@ -283,6 +282,7 @@ fillContractsTable = () => {
 
 setCustomerInfo = async (customer = customers[0]) => {
     try {
+        contract.customerId = customer.id
         document.getElementById('Email').value = customer.email !== null ? customer.email : 'Non défini'
         document.getElementById('Mobile').value = customer.mobile !== null ? customer.mobile : 'Non défini'
         document.getElementById('Locality').value = customer.city !== null ? customer.city.name : 'Non définie'
@@ -387,6 +387,6 @@ validateForm = () => {
 document.getElementById('SubmitContract').onclick = (e) => {
     e.preventDefault()
     if (validateForm()) {
-        console.log('hello')
+        console.log(contract)
     }
 }
