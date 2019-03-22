@@ -26,6 +26,22 @@ document.getElementById('HelpStaffId').onchange = () => {
     document.getElementById('TuneStaffId').value = document.getElementById('HelpStaffId').value
 }
 
+document.getElementById('PaidOn').onchange = () => {
+    contract.paidon = document.getElementById('PaidOn').checked
+}
+
+document.getElementById('TakenOn').onchange = () => {
+    contract.takenon = document.getElementById('TakenOn').checked
+}
+
+document.getElementById('Insurance').onchange = () => {
+    contract.insurance = document.getElementById('Insurance').checked
+}
+
+document.getElementById('GoGet').onchange = () => {
+    contract.goget = document.getElementById('GoGet').checked
+}
+
 getCustomerContracts = async (id) => {
     try {
     const response = await fetch(`https://localhost:5001/api/customer-contracts/${id}`)
