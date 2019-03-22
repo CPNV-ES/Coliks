@@ -1,5 +1,6 @@
 using coliks.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace coliks.Controllers
                 using (ColiksContext db = new ColiksContext())
                 {
                     // Getting all the Data from Database  
-                    var empData = db.Items.ToList();
+                    var empData = db.Items.Include(i => i.Category).ToList();
                     // Checking if the Page number is passed and is greater than 0 else considered as 1  
                     gridData.CurrentPage = PageNumber.HasValue ? PageNumber.Value <= 0 ? 1 : PageNumber.Value : 1;
                     // Assigning the list of data to the Model's property  
@@ -35,7 +36,7 @@ namespace coliks.Controllers
                     //Getting the List with the matching brand  
                     if (!string.IsNullOrEmpty(filters.brand))
                     {
-                        gridData.Data = gridData.Data.Where(x => x.Brand != null && x.Brand.ToLower().Contains(filters.brand.ToString())).ToList();
+                        gridData.Data = gridData.Data.Where(x => x.Brand != null && x.Brand.ToLower().Contains(filters.brand.ToLower())).ToList();
                     }
                     
                     //Getting the List with the matching model  
