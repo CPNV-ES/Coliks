@@ -39,15 +39,6 @@
     $(document).ready(function () {
         // initial events binding
         paginate.init();
-
-        function focusToEnd(item) {
-            item.fn.focusToEnd = function () {
-                return this.each(function () {
-                    var v = $(this).val();
-                    $(this).focus().val("").val(v);
-                });
-            };
-        };  
     })
 </script>
 @*
