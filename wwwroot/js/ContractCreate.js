@@ -23,7 +23,13 @@ let contract = {
 }
 
 document.getElementById('HelpStaffId').onchange = () => {
+    contract.helpStaffId = document.getElementById('HelpStaffId').value
+    contract.tuneStaffId = document.getElementById('HelpStaffId').value
     document.getElementById('TuneStaffId').value = document.getElementById('HelpStaffId').value
+}
+
+document.getElementById('TuneStaffId').onchange = () => {
+    contract.tuneStaffId = document.getElementById('TuneStaffId').value
 }
 
 document.getElementById('PaidOn').onchange = () => {
