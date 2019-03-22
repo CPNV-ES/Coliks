@@ -176,7 +176,8 @@ addItemSlot = (tableBody) => {
 
                 document.getElementById('SubmitContract').disabled = false
                 inputCategory.classList.remove('is-invalid')
-                contract.rentedItems[currentItemIndex].category = newPrice.category
+                contract.rentedItems[currentItemIndex].categoryId = newPrice.category.id
+                contract.rentedItems[currentItemIndex].price = newPrice.price
                 rowPrice.innerText = newPrice.price
             }
         }
@@ -213,6 +214,7 @@ addItemSlot = (tableBody) => {
             const newPrice = await response.json()
 
             contract.rentedItems[currentItemIndex].durationId = e.target.value
+            contract.rentedItems[currentItemIndex].price = newPrice.price
             rowPrice.innerText = newPrice.price
         }
     }
