@@ -10,57 +10,6 @@ a{
     border-radius: 0px !important;
 }
 /*
-    home page customer
-*/
-
-#customer-header #content,
-#customer-header #table-top-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
-}
-
-#customer-header #search-new {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-direction: row;
-}
-
-#customer-header div:first-child {
-    margin-right: 10px;
-}
-
-#customer-header #pagination-header{
-    margin-top:50px;
-}
-
-#customer-footer #pagination-footer {
-    display: flex;
-    justify-content: center;
-}
-
-
-#customer-header #content {
-    display: flex;
-    justify-content: space-between;
-}
-
-#customer-header #title {
-    display: flex;
-    justify-content: flex-start;
-    align-items: baseline;
-    flex-direction: row;
-}
-
-
-#customer-header #title :first-child{
-    margin-right:10px;
-}
-
-
-/*
     Details Page
 */
 
