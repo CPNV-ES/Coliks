@@ -44,13 +44,15 @@
             dataType: "html", //here we set datatype as html becausing we are returning partial view  
             success: function (d) {
                 // d will contain the html of partial view  
-                $('#tbItems').html(d);
+                var result = $.parseHTML(d) // Parse string return into html
 
-                // setting the focus to the textbox  
-                if (TextBox != '' && TextBox != null) {
-                    focusToEnd($('#' + TextBox))
-                    //$('#' + TextBox).focusToEnd();
-                }
+                $('#tableBody').replaceWith(result[1].childNodes[3]) // Get the tbody from result and display it
+                
+                //// setting the focus to the textbox  
+                //if (TextBox != '' && TextBox != null) {
+                //    focusToEnd($('#' + TextBox))
+                //    //$('#' + TextBox).focusToEnd();
+                //}
             },
             error: function (xhr, textStatus, errorThrown) {
 
