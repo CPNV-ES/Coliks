@@ -12,101 +12,112 @@
 
 <section id="customer-header">
 
-    <div id="content" class="d-flex justify-content-between align-items-center flex-row">
-        <div><h1>Clients</h1></div>
-        <div id="search-new" class="d-flex justify-content-end align-items-center">
-            <div class="has-search">
-                <form method="get" class="form-inline mr-1" id="customer-search-box">
-                    <span class="form-control-container d-flex justify-content-center">
-                        <span id="delete-search" class="fa fa-eraser form-control-feedback" data-toggle="popover" data-content="Effacer la recherche"  data-placement="bottom"></span>
-                        <span id="search-values" class="fa fa-search form-control-feedback" data-toggle="popover" data-content="Faire la recherche"  data-placement="bottom"></span>
-                    </span>
-                    <input autofocus name="filter" class="form-control" placeholder="sercher" value="@Model.RouteValue["Filter"]" data-toggle="popover" data-content="Champ pour la recherche"  data-placement="bottom" />
-                </form>
-            </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="content" class="d-flex justify-content-between align-items-center flex-row">
+                <div><h1>Clients</h1></div>
+                <div id="search-new" class="d-flex justify-content-end align-items-center">
+                    <div class="has-search">
+                        <form method="get" class="form-inline mr-1" id="customer-search-box">
+                            <span class="form-control-container d-flex justify-content-center">
+                                <span id="delete-search" class="fa fa-eraser form-control-feedback" data-toggle="popover" data-content="Effacer la recherche" data-placement="bottom"></span>
+                                <span id="search-values" class="fa fa-search form-control-feedback" data-toggle="popover" data-content="Faire la recherche" data-placement="bottom"></span>
+                            </span>
+                            <input autofocus name="filter" class="form-control" placeholder="sercher" value="@Model.RouteValue["Filter"]" data-toggle="popover" data-content="Champ pour la recherche" data-placement="bottom" />
+                        </form>
+                    </div>
 
-            <form>
-                <button asp-action="Create" id="client-new-btn" class="btn btn-success" data-toggle="popover" data-content="Ajouter un client"  data-placement="bottom">Nouveau</button>
-            </form>
+                    <form>
+                        <button asp-action="Create" id="client-new-btn" class="btn btn-success" data-toggle="popover" data-content="Ajouter un client" data-placement="bottom">Nouveau</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="pagination-header" class="d-flex align-items-center mt-5">
-        <nav aria-label="Suppliers navigation example">
-            <partial name="PagerBootstrap4" model="@this.Model" />
-            @*<pager model="Model" />*@
-        </nav>
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            <div class="d-flex align-items-center flex-row" >
+                <nav>
+                    <partial name="PagerBootstrap4" model="@this.Model" class="col-12" />
+                </nav>
+            </div>
+        </div>
     </div>
 
 </section>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.SortableHeaderFor(model => model.Lastname, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Firstname, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Address, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Phone, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Email, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.Mobile, this.Model)
-            </th>
-            <th>
-                @Html.SortableHeaderFor(model => model.City, this.Model)
-            </th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr class="customer-clickable-row">
-            <td class="clickable">
-                @Html.DisplayFor(modelItem => item.Lastname)
-            </td>
-            <td class="clickable">
-                @Html.DisplayFor(modelItem => item.Firstname)
-            </td>
-            <td class="clickable">
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td class="clickable">
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td class="clickable">
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td class="clickable">
-                @Html.DisplayFor(modelItem => item.Mobile)
-            </td>
-            <td class="clickable">
-                @Html.DisplayFor(modelItem => item.City.Name)
-            </td>
-            <td id="customer-home-actions">
-                <a id="edit" asp-action="Edit" asp-route-id="@item.Id" data-toggle="popover" data-content="Modifier les informations du client"  data-placement="bottom"><i class="fas fa-user-edit"></i></a> |
-                <a id="details" asp-action="Details" asp-route-id="@item.Id" class="d-none">Details</a> 
-                <a id="delete" asp-action="Delete" asp-route-id="@item.Id" class="fas fa-user-times" data-toggle="popover" data-content="Supprimer le client"  data-placement="bottom"></a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<section id="customers-list">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.SortableHeaderFor(model => model.Lastname, this.Model)
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.Firstname, this.Model)
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.Address, this.Model)
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.Phone, this.Model)
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.Email, this.Model)
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.Mobile, this.Model)
+                </th>
+                <th>
+                    @Html.SortableHeaderFor(model => model.City, this.Model)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="customer-clickable-row">
+                    <td class="clickable">
+                        @Html.DisplayFor(modelItem => item.Lastname)
+                    </td>
+                    <td class="clickable">
+                        @Html.DisplayFor(modelItem => item.Firstname)
+                    </td>
+                    <td class="clickable">
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td class="clickable">
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td class="clickable">
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td class="clickable">
+                        @Html.DisplayFor(modelItem => item.Mobile)
+                    </td>
+                    <td class="clickable">
+                        @Html.DisplayFor(modelItem => item.City.Name)
+                    </td>
+                    <td id="customer-home-actions">
+                        <a id="edit" asp-action="Edit" asp-route-id="@item.Id" data-toggle="popover" data-content="Modifier les informations du client" data-placement="bottom"><i class="fas fa-user-edit"></i></a> |
+                        <a id="details" asp-action="Details" asp-route-id="@item.Id" class="d-none">Details</a>
+                        <a id="delete" asp-action="Delete" asp-route-id="@item.Id" class="fas fa-user-times" data-toggle="popover" data-content="Supprimer le client" data-placement="bottom"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
 
-<div id="customer-footer">
-    <div id="pagination-footer">
-        <nav aria-label="Suppliers navigation example">
-            <partial name="PagerBootstrap4" model="@this.Model" />
-            @*<pager model="Model" />*@
-        </nav>
+<div class="row mt-5">
+    <div class="col-sm-12">
+        <div class="d-flex align-items-center justify-content-center flex-row">
+            <nav>
+                <partial name="PagerBootstrap4" model="@this.Model" class="col-12" />
+            </nav>
+        </div>
     </div>
 </div>
 
