@@ -6,7 +6,7 @@ a{
     text-decoration:none;
 }
 
-.btn, input, .card {
+.btn, input, .card, .page-link{
     border-radius: 0px !important;
 }
 /*
