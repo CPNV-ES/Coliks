@@ -384,7 +384,7 @@ validateForm = () => {
     }
 }
 
-document.getElementById('SubmitContract').onclick = (e) => {
+document.getElementById('SubmitContract').onclick = async (e) => {
     e.preventDefault()
     if (validateForm()) {
         let total = 0
@@ -394,5 +394,19 @@ document.getElementById('SubmitContract').onclick = (e) => {
             delete item.type
         }
         contract.total = total
+
+        contract.takenon === true ? contract.takenon = null : contract.takenon = new Date()
+        contract.paidon === true ? contract.paidon = null : contract.paidon = new Date()
+        contract.goget === true ? contract.goget = 1 : contract.goget = 0
+        contract.insurance === true ? contract.insurance = 1 : contract.insurance = 0
+
+        const response = await fetch('https://localhost:5001/api/contracts/create', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(contract)
+        })
+        const newContract = await response.json()
     }
 }
