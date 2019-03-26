@@ -11,9 +11,16 @@
     // whatever the total page is
     double EndButton = 5 > Model.TotalPage ? Model.TotalPage : 5;
 }
-
-<input type="text" id="search" class="form-control filter-text" value="@Model.filters.search" autocomplete="off" />
-
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <div class="row">
+            <div class="col-4"> <p>Rechercher : </p></div>
+            <div class="col-8"> <input type="text" id="search" class="form-control filter-text" value="@Model.filters.search" autocomplete="off" /></div>
+        </div>
+    </div>
+    <div class="col-3"></div>
+</div>
 <table class="table table-bordered">
     <thead>
         @*Setting the filter values in text boxes*@
@@ -27,7 +34,16 @@
             <th>@Html.DisplayNameFor(model => model.Data[0].Type)</th>
             <th>@Html.DisplayNameFor(model => model.Data[0].Stock) <input type="number" id="item_stock" class="form-control filter-text" value="@Model.filters.stock" autocomplete="off" /></th>
             <th>@Html.DisplayNameFor(model => model.Data[0].Serialnumber)</th>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Category.Description) <input type="text" id="item_gender" class="form-control filter-text" value="@Model.filters.category" autocomplete="off" /></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data[0].Category)  
+                <select id="item_gender" class="form-control filter-text">
+                            <option value="">Tous</option>
+                            @foreach (var cat in ViewBag.categories)
+                            {
+                                <option value="@cat.Description" label="@cat.Description"></option>
+                            }
+                </select>
+                    </th>
             <th></th>
         </tr>
     </thead>
