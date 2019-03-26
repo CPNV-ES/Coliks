@@ -21,6 +21,17 @@ namespace coliks.Controllers
             _context = context;
         }
 
+        [HttpGet("/api/contracts/{id}")]
+        public async Task<ActionResult<Contracts>> GetContract(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            return await _context.Contracts.FindAsync(id);
+        }
+
         [HttpGet("/api/names-list/{lastName}")]
         public async Task<ActionResult<List<Customers>>> GetNamesList(String lastName)
         {
@@ -77,6 +88,15 @@ namespace coliks.Controllers
                 CategoryId = category.Id;
             }
             return await _context.Rentprices.Where(rt => rt.CategoryId == CategoryId && rt.DurationId == DurationId && rt.GeartypeId == gearType.Id).FirstOrDefaultAsync();
+        }
+
+        [HttpPost("/api/contracts/create")]
+        public async Task<ActionResult<Contracts>> PostContract(Contracts Contract)
+        {
+            _context.Contracts.Add(Contract);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetContract), new { id = Contract.Id }, Contract);
         }
     }
 }
