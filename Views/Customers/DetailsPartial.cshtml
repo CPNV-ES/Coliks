@@ -9,11 +9,12 @@
                     Le total depuis le derniesr bon est: @ViewBag.totalPurchase.ToString() CHF
                 </div>
 
-                <form id="add-vaucher-customer">
+                <form id="vaucher-customer-add">
                     <input id="customerId" name="customerId" value="@Model.Item1.Id" class="d-none" />
                     <input id="amount" name="amount" value="@ViewBag.totalPurchase" class="d-none" />
                     <input id="description" name="description" value="*** Bon d-achat de @ViewBag.Vaucher.- ***" class="d-none" />
-                    <button id="purchase-add-vaucher" type="button" class="btn btn-success">Rajouter a bon de @ViewBag.Vaucher CHF</button>
+                    <input id="vaucher" name="description" value="@ViewBag.Vaucher" class="d-none" />
+                    <button id="vaucher-customer-add-button" type="button" class="btn btn-success">Rajouter a bon de @ViewBag.Vaucher CHF</button>
                 </form>
 
             </div>
@@ -37,7 +38,7 @@
     <div class="row">
         <div class="collapse col-sm-12 mt-3" id="add-purchase-customer">
             <div class="card card-body" id="purchase-new">
-                <form id="customer-purchase-add">
+                <form id="purchase-customer-add">
                     <input id="customerId" name="customerId" value="@Model.Item1.Id" class="d-none" />
                     <div class="row">
                         <div class="form-group col-sm-2">
@@ -54,7 +55,7 @@
                 </form>
                 <div class="row">
                     <div class="form-group col-sm-12 d-flex justify-content-end align-items-end m-0">
-                        <button id="add-purchase-customer-button" class="btn btn-warning disabled" type="button" disabled>Rajouter</button>
+                        <button id="purchase-customer-add-button" class="btn btn-warning disabled" type="button" disabled>Rajouter</button>
                     </div>
                 </div>
             </div>
