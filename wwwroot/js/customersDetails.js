@@ -26,8 +26,8 @@ var customerDetailsPage = {
 
         // print vaucher
         $(".modal").on("click", "#vaucher-printable-button", function (e) {
-            e.preventDefault(e);
-            e.stopPropagation(e);
+            e.stopPropagation();
+            e.preventDefault();
             vaucher.print();
         });
 
@@ -35,16 +35,16 @@ var customerDetailsPage = {
         $('[data-toggle="popover"]').popover({ delay: { show: 1000, hide: 100 }, trigger: "hover" });
 
         /* Vaucher button */
-        $("#vaucher-customer-add-button").on("click", function (e) {
-            e.preventDefault(e);
-            e.stopPropagation(e);
+        $("#vaucher-customer-add-button").on("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             purchase.addVaucher();
         });
 
         /* Add new Purchase to a customer */
-        $("#purchase-customer-add-button").on("click", function (e) {
-            e.preventDefault(e);
-            e.stopPropagation(e);
+        $("#purchase-customer-add-button").on("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             purchase.addPurchase();
         });
 
@@ -236,7 +236,9 @@ var errorMessage = {
 // show vaucher details and print content
 var vaucher = {
     show: function () {
-        $('#vaucherModal').modal('show');
+        $("#vaucherModal").modal({
+            fadeDuration: 100
+        });
     },
     print: function () {
         $("#vaucher-printable").print({
@@ -253,5 +255,6 @@ var vaucher = {
             title: null,
             doctype: '<!doctype html>'
         });
+
     }
 }
