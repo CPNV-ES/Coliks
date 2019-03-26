@@ -27,12 +27,14 @@ namespace coliks.Controllers
         [HttpPost]
         public ActionResult PaginateData(int pageNo, FilterItems filter)
         {
+            ViewBag.categories = _context.Categories;
             // This will call the FilterData function with PageNo and filter textboxes value which we passed in our Ajax request  
             return PartialView("_ItemList", filterDataController.FilterData(pageNo, filter));
         }
 
         public ActionResult Index()
         {
+            ViewBag.categories = _context.Categories;
             // Calling FilterData function with Page number as 1 on initial load and no filter  
             return View(filterDataController.FilterData(1, new FilterItems()));
         }
@@ -40,7 +42,7 @@ namespace coliks.Controllers
         //public async Task<IActionResult> Index(string itemnbFilter, string brandFilter, string modelFilter, string sizeFilter, string stockFilter, string categoryFilter, string filter,int page = 1, string sortExpression = "Itemnb")
         //{
         //    var qry = _context.Items.AsNoTracking().Include(i => i.Category).OrderBy(i => i.Itemnb).AsQueryable();  //  Add the pagination and an order by Itemnb who is the id of the item. Make it queryable for filtering
-            
+
         //    if (!string.IsNullOrWhiteSpace(filter))
         //    {
         //        qry = qry.Where(p => 
