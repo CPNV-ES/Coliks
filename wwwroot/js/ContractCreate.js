@@ -170,8 +170,15 @@ addItemSlot = (tableBody) => {
             })
 
             if (currentItem.length > 0 && currentItemIndex >= 0) {
-                const response = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].type}&DurationId=${currentItem[0].durationId}&CategoryCode=${e.target.value}`)
-                const newPrice = await response.json()
+                await fetch(`https://localhost:5001/api/change-item-category/${currentItem[0].itemId}`, {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ code: Number(e.target.value) })
+                })
+                const responsePrice = await fetch(`https://localhost:5001/api/get-price?ItemType=${currentItem[0].type}&DurationId=${currentItem[0].durationId}&CategoryCode=${e.target.value}`)
+                const newPrice = await responsePrice.json()
 
                 document.getElementById('SubmitContract').disabled = false
                 inputCategory.classList.remove('is-invalid')
