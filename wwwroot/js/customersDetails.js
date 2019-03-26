@@ -23,20 +23,28 @@ var customerDetailsPage = {
         customerDetailsPage.loadEvents();
     },
     loadEvents: function () {
+
+        // print vaucher
+        $(".modal").on("click", "#vaucher-printable-button", function (e) {
+            e.preventDefault(e);
+            e.stopPropagation(e);
+            vaucher.print();
+        });
+
          /* Popovers enable */
         $('[data-toggle="popover"]').popover({ delay: { show: 1000, hide: 100 }, trigger: "hover" });
 
         /* Vaucher button */
         $("#vaucher-customer-add-button").on("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(e);
+            e.stopPropagation(e);
             purchase.addVaucher();
         });
 
         /* Add new Purchase to a customer */
         $("#purchase-customer-add-button").on("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
+            e.preventDefault(e);
+            e.stopPropagation(e);
             purchase.addPurchase();
         });
 
@@ -50,7 +58,7 @@ var customerDetailsPage = {
                 // check if button is available
                 purchase.enableButtonSubmit();
             });
-        });
+        });        
     },
 }
 
@@ -231,6 +239,19 @@ var vaucher = {
         $('#vaucherModal').modal('show');
     },
     print: function () {
-
+        $("#vaucher-printable").print({
+            globalStyles: true,
+            mediaPrint: false,
+            stylesheet: null,
+            noPrintSelector: ".no-print",
+            iframe: true,
+            append: null,
+            prepend: null,
+            manuallyCopyFormValues: true,
+            deferred: $.Deferred(),
+            timeout: 750,
+            title: null,
+            doctype: '<!doctype html>'
+        });
     }
 }
