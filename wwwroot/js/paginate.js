@@ -18,7 +18,7 @@
         // every filter text box has the common class as filter-text  
         // on keyup of the text box we will call the ajax function  
         $(document).on('keyup change', '.filter-text', function () {
-
+            
             //setting the page no to 1 thus on any filter change matching data will be shown from page 1  
             PageNo = 1;
             //setting the text box id on which we will set the focusend  
@@ -46,10 +46,9 @@
             success: function (d) {
                 // d will contain the html of partial view  
                 var result = $.parseHTML(d) // Parse string return into html
-                console.log(result[5])
 
-                $('#tableBody').replaceWith(result[3].childNodes[3]) // Get the tbody from result and display it
-                $('.panel-footer').replaceWith(result[5])
+                $('#tableBody').replaceWith(result[2].childNodes[3]) // Get the tbody from result and display it
+                $('.panel-footer').replaceWith(result[4])
                 //// setting the focus to the textbox  
                 //if (TextBox != '' && TextBox != null) {
                 //    focusToEnd($('#' + TextBox))
