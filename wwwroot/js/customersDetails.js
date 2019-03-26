@@ -82,7 +82,7 @@ var purchase = {
             data: JSON.stringify({CustomerId: customerId, Date: formatted_date, Description: description, Amount: amount}),
         })
             .done(function () {
-                if (!noMsg) { alert("Le bon d'achat à été rajouter"); }
+                if (!noMsg) { vaucher.show(); }
                 purchase.update(customerId);
             })
             .fail(function () {
@@ -178,7 +178,7 @@ var purchase = {
 
 // module message
 // hide show a message using bootstrap classes
-// par: 
+// paramters: 
 //  msg: the message to show
 //  node: the node in html dom
 
@@ -199,6 +199,18 @@ var errorMessage = {
 
         // hide the message
         $("#error-" + node.substring(1)).addClass("d-none");
+
+    }
+}
+
+
+// module vaucher
+// show vaucher details and print content
+var vaucher = {
+    show: function () {
+        $('#vaucherModal').modal('show');
+    },
+    print: function () {
 
     }
 }
