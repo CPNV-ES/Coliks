@@ -27,33 +27,24 @@ var customerDetailsPage = {
         $('[data-toggle="popover"]').popover({ delay: { show: 1000, hide: 100 }, trigger: "hover" });
 
         /* Vaucher button */
-        $("#purchase-add-vaucher").on("click", function (e) {
+        $("#vaucher-customer-add-button").on("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
-            //get input data
-            var customerId = $("#add-vaucher-customer #customerId").val();
-            var amount = - $("#add-vaucher-customer #amount").val();
-            var description = $("#add-vaucher-customer #description").val();
-            //send data to api to store new vaucher
-            purchase.add(customerId, amount, description, false);
+            purchase.addVaucher();
         });
 
         /* Add new Purchase to a customer */
-        $("#add-purchase-customer-button").on("click", function (e) {
+        $("#purchase-customer-add-button").on("click", function (e) {
             e.preventDefault();
-            //get input data
-            var customerId = $("#customer-purchase-add #customerId").val();
-            var amount = $("#customer-purchase-add #amount").val();
-            var description = $("#customer-purchase-add #description").val();
-            //send data to api to store new vaucher
-            purchase.add(customerId, amount, description, true);
+            e.stopPropagation();
+            purchase.addPurchase();
         });
 
         // add events in form purchase
         purchase.getInputFieldsList().forEach(function (field) {
             // set false the state of each field (not valide)
             formStatus[field] = false;
-            $('#customer-purchase-add ').on("change paste keyup click", field, function () {
+            $('#purchase-customer-add').on("change paste keyup click", field, function () {
                 // change the state of field
                 formStatus[field] = purchase.validateFormFields(field);
                 // check if button is available
@@ -67,26 +58,55 @@ var customerDetailsPage = {
  * Purchases functions
  * */
 
+
 var purchase = {
     // add  a new purchase into table
-    add: function (customerId, amount, description, noMsg) {
-        let current_datetime = new Date()
-        let formatted_date = current_datetime.getFullYear() + "/" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds()
-
+    addPurchase: function () {
+        var fieldsData = purchase.getFieldsData("purchase");
+        purchase.postData(fieldsData['date'], fieldsData['customerId'], fieldsData['amount'], fieldsData['description'], function (output) {
+            if (output) {
+                purchase.update(fieldsData['customerId']);
+            }
+        });
+    },
+    // add  a new vaucher into table
+    addVaucher: function() {
+        var fieldsData = purchase.getFieldsData("vaucher");
+        purchase.postData(fieldsData['date'], fieldsData['customerId'], -fieldsData['amount'], fieldsData['description'], function (output) {
+            if (output) {
+                purchase.update(fieldsData['customerId']);
+                $("#vaucher-modal-value").html(fieldsData['vaucher'] + " CHF.-");
+                vaucher.show();
+            }
+        });
+    },
+    // get fields data from purchase or vaucher
+    getFieldsData: function (node) {
+        var fieldsData = {}
+        // generate a new data
+        var current_datetime = new Date()
+        fieldsData['customerId'] = $("#" + node + "-customer-add #customerId").val();
+        fieldsData['amount'] = $("#" + node + "-customer-add #amount").val();
+        fieldsData['description'] = $("#" + node + "-customer-add #description").val();
+        fieldsData['vaucher'] = $("#" + node + "-customer-add #vaucher").val();
+        fieldsData['date'] = current_datetime.getFullYear() + "/" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
+        return fieldsData;
+    },
+    // ajax request to store a new purchase into database using API
+    postData: function (date, customerId, amount, description, handleData) {
         // use tha api to store a new purchase for the current customer and return a partial view without reload the page
         $.ajax({
             accepts: "application/json",
             contentType: "application/json",
             type: "POST",
             url: '/api/PurchasesApi',
-            data: JSON.stringify({CustomerId: customerId, Date: formatted_date, Description: description, Amount: amount}),
+            data: JSON.stringify({ CustomerId: customerId, Date: date, Description: description, Amount: amount }),
         })
             .done(function () {
-                if (!noMsg) { vaucher.show(); }
-                purchase.update(customerId);
+                handleData(true);
             })
             .fail(function () {
-                if (!noMsg) alert("Le bon d'achat n'a été pas crée");
+                handleData(false);
             });
     },
     // update the purchases details in view
@@ -162,12 +182,12 @@ var purchase = {
         // enable button if forms is valide
         if (res) {
             // enable
-            $("#add-purchase-customer-button").removeClass("disabled");
-            $("#add-purchase-customer-button").removeAttr("disabled");
+            $("#purchase-customer-add-button").removeClass("disabled");
+            $("#purchase-customer-add-button").removeAttr("disabled");
         } else {
             // disable
-            $("#add-purchase-customer-button").addClass("disabled");
-            $("#add-purchase-customer-button").attr("disabled","disabled");
+            $("#purchase-customer-add-button").addClass("disabled");
+            $("#purchase-customer-add-button").attr("disabled","disabled");
         }
     },
     // array of all field in form
