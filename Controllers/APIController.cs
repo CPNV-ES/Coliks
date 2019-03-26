@@ -93,6 +93,13 @@ namespace coliks.Controllers
         [HttpPost("/api/contracts/create")]
         public async Task<ActionResult<Contracts>> PostContract(Contracts Contract)
         {
+            Contract.Creationdate = DateTime.Now;
+            if (DateTime.Now.Month < 4)
+            {
+                Contract.Plannedreturn = new DateTime(DateTime.Now.Year, 4, 1);
+            } else {
+                Contract.Plannedreturn = new DateTime(DateTime.Now.Year + 1, 4, 1);
+            }
             _context.Contracts.Add(Contract);
             await _context.SaveChangesAsync();
 
