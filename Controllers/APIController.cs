@@ -105,5 +105,18 @@ namespace coliks.Controllers
 
             return CreatedAtAction(nameof(GetContract), new { id = Contract.Id }, Contract);
         }
+
+        [HttpPut("/api/change-item-category/{id}")]
+        public async Task<ActionResult<Items>> PutItem(int? id, Categories category)
+        {
+            if (id == null && category == null) {
+                return NotFound();
+            }
+            var categoryDB = await _context.Categories.Where(c => c.Code == category.Code).FirstOrDefaultAsync();
+            var itemDB = await _context.Items.FindAsync(id);
+            itemDB.CategoryId = categoryDB.Id;
+            await _context.SaveChangesAsync();
+            return itemDB;
+        }
     }
 }
