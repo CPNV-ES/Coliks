@@ -36,6 +36,7 @@
         item.size = $('#item_size').val();
         item.stock = $('#item_stock').val();
         item.category = $('#item_gender').val();
+        item.search = $('#search').val();
         $.ajax({
             type: "POST",
             url: "/Items/PaginateData",
@@ -45,8 +46,10 @@
             success: function (d) {
                 // d will contain the html of partial view  
                 var result = $.parseHTML(d) // Parse string return into html
-                $('#tableBody').replaceWith(result[1].childNodes[3]) // Get the tbody from result and display it
-                $('.panel-footer').replaceWith(result[3])
+                console.log(result[5])
+
+                $('#tableBody').replaceWith(result[3].childNodes[3]) // Get the tbody from result and display it
+                $('.panel-footer').replaceWith(result[5])
                 //// setting the focus to the textbox  
                 //if (TextBox != '' && TextBox != null) {
                 //    focusToEnd($('#' + TextBox))

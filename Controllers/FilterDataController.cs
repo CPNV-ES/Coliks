@@ -27,6 +27,25 @@ namespace coliks.Controllers
                     // Assigning filters   
                     gridData.filters = filters;
 
+                    //Getting the List with the matching search  
+                    if (!string.IsNullOrEmpty(filters.search))
+                    {
+
+                        //        qry = qry.Where(p => 
+                        //        p.Itemnb.Contains(filter) ||
+                        //        p.Brand.Contains(filter) || 
+                        //        p.Model.Contains(filter) || 
+                        //        p.Stock.ToString().Contains(filter)
+                        gridData.Data = gridData.Data.Where(x => 
+                        x.Itemnb.ToLower().Contains(filters.search.ToLower()) ||
+                        (!string.IsNullOrEmpty(x.Brand) && x.Brand.ToLower().Contains(filters.search.ToLower())) ||
+                        (!string.IsNullOrEmpty(x.Model) && x.Model.ToLower().Contains(filters.search.ToLower())) ||
+                        x.Size.ToString().Contains(filters.search.ToLower()) ||
+                        x.Stock.ToString().Contains(filters.search.ToLower()) ||
+                        x.Category.Description.ToString().ToLower().Contains(filters.search.ToLower())
+                        ).ToList();
+                    }
+
                     //Getting the List with the matching itemnb  
                     if (!string.IsNullOrEmpty(filters.itemnb))
                     {
