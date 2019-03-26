@@ -29,7 +29,7 @@
                     @Html.DisplayNameFor(tuple => tuple.Item1.Address)
                 </dt>
                 <dd class="col-sm-10">
-                    @Html.DisplayFor(tuple => tuple.Item1.Address)<br/>
+                    @Html.DisplayFor(tuple => tuple.Item1.Address)<br />
                     @Html.DisplayFor(tuple => tuple.Item1.City.Name)
 
                 </dd>
@@ -61,6 +61,49 @@
 
 <div id="partialView">
     @{Html.RenderPartial("DetailsPartial", Model);}
+</div>
+
+<!-- Modal for vaucher -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vaucherModal">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="vaucherModal" tabindex="-1" role="dialog" aria-labelledby="vaucherModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vaucherModalLabel">Bon d'achat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <img src="~/img/logo.jpg" class="img-thumbnail" />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12 d-flex justify-content-center"><h2>BON D'ACHAT DU VALEUR</h2></div>
+                        <div class="col-md-12 d-flex justify-content-center"><h2>500 CHF.-</h2></div>
+                    </div>
+                    <div class="row mt-4 mb-5">
+                        <div class="col-md-12 d-flex justify-content-between">
+                            <p>Signature</p>
+                            <p>Date</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Imprimer</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <environment include="Development">
