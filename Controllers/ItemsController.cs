@@ -167,35 +167,80 @@ namespace coliks.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Itemnb,Brand,Model,Size,CategoryId,Cost,Returned,Type,Stock,Serialnumber")] Items items)
+        public async Task<IActionResult> Edit()
         {
-            if (id != items.Id)
+            var ids = Request.Form["isSelected"];
+            var category = Request.Form["multiple_category"];
+            var stockForm = Request.Form["multiple_stock"].First();
+            int? stock = null;
+            if(!string.IsNullOrEmpty(stockForm))
             {
-                return NotFound();
+                stock = Convert.ToInt32(stockForm);
             }
 
-            if (ModelState.IsValid)
+            if (ids.Count > 0)
             {
-                try
+                foreach (var i in ids)
                 {
-                    _context.Update(items);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ItemsExists(items.Id))
+                    try
                     {
-                        return NotFound();
+                        Items item = _context.Items.Find(Convert.ToInt32(i));
+
+                        if (category.Count > 0)
+                        {
+                            item.Category.Description = category;
+                        }
+
+                        if (stock != null)
+                        {
+                            item.Stock = stock;
+                        }
+                        _context.Update(item);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        //if (!ItemsExists(item.Id))
+                        //{
+                        //    return NotFound();
+                        //}
+                        //else
+                        //{
+                        //    throw;
+                        //}
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Code", items.CategoryId);
-            return View(items);
+            return View();
+
+            //if (id != items.Id)
+            //{
+            //    return NotFound();
+            //}
+
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(items);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!ItemsExists(items.Id))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Code", items.CategoryId);
+            //return View(items);
         }
 
         // GET: Items/Delete/5
