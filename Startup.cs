@@ -32,6 +32,7 @@ namespace coliks
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Allow all from any origin
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -43,6 +44,7 @@ namespace coliks
 
 
             services.AddMvc()
+                // Add ignore JSON reference loop handling because it 
                 .AddJsonOptions( options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ColiksContext>();
