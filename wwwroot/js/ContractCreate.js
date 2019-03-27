@@ -5,6 +5,14 @@ let customers = []
 let contracts = []
 let durations = []
 let items = []
+let editedCustomer = {
+    id: null,
+    address: null,
+    phone: null,
+    email: null,
+    mobile: null,
+    cityId: null
+}
 let contract = {
     customerId: null,
     notes: "",
@@ -390,6 +398,15 @@ fillContractsTable = () => {
 setCustomerInfo = async (customer = customers[0]) => {
     try {
         contract.customerId = customer.id
+        editedCustomer = {
+            ...editedCustomer,
+            email: customer.email,
+            mobile: customer.mobile,
+            cityId: customer.city.id,
+            phone: customer.phone,
+            address: customer.address,
+            id: customer.id
+        }
         document.getElementById('Email').value = customer.email !== null ? customer.email : 'Non défini'
         document.getElementById('Mobile').value = customer.mobile !== null ? customer.mobile : 'Non défini'
         document.getElementById('Locality').value = customer.city !== null ? customer.city.name : 'Non définie'
