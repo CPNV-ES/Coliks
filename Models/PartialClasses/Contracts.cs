@@ -5,6 +5,7 @@ using System.ComponentModel;
 
 namespace coliks.Models
 {
+    [ModelMetadataType(typeof(ContractsMetadata))]
     public partial class Contracts
     {
         
