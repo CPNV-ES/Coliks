@@ -50,6 +50,20 @@ document.getElementById('phone-unlock').onclick = () => {
     document.getElementById('phone-lock').style.display = 'block'
 }
 
+// Add event listener on click to enable email
+document.getElementById('email-lock').onclick = () => {
+    document.getElementById('Email').disabled = false
+    document.getElementById('email-lock').style.display = 'none'
+    document.getElementById('email-unlock').style.display = 'block'
+}
+
+// Add event listener on click to disable email
+document.getElementById('email-unlock').onclick = () => {
+    document.getElementById('Email').disabled = true
+    document.getElementById('email-unlock').style.display = 'none'
+    document.getElementById('email-lock').style.display = 'block'
+}
+
 // Event listener on Help staff dropdown, add the value to the contract object and changes the Tune staff value
 document.getElementById('HelpStaffId').onchange = () => {
     contract.helpStaffId = Number(document.getElementById('HelpStaffId').value)
