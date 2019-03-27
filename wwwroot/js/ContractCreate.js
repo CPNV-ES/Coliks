@@ -18,6 +18,22 @@ let contract = {
     rentedItems: []
 }
 
+// Add event listener on click to enable address and locality
+document.getElementById('address-lock').onclick = () => {
+    document.getElementById('Address').disabled = false
+    document.getElementById('Locality').disabled = false
+    document.getElementById('address-lock').style.display = 'none'
+    document.getElementById('address-unlock').style.display = 'block'
+}
+
+// Add event listener on click to disable address and locality
+document.getElementById('address-unlock').onclick = () => {
+    document.getElementById('Address').disabled = true
+    document.getElementById('Locality').disabled = true
+    document.getElementById('address-unlock').style.display = 'none'
+    document.getElementById('address-lock').style.display = 'block'
+}
+
 // Event listener on Help staff dropdown, add the value to the contract object and changes the Tune staff value
 document.getElementById('HelpStaffId').onchange = () => {
     contract.helpStaffId = Number(document.getElementById('HelpStaffId').value)
