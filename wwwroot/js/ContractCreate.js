@@ -34,6 +34,22 @@ document.getElementById('address-unlock').onclick = () => {
     document.getElementById('address-lock').style.display = 'block'
 }
 
+// Add event listener on click to enable phone and mobile
+document.getElementById('phone-lock').onclick = () => {
+    document.getElementById('Phone').disabled = false
+    document.getElementById('Mobile').disabled = false
+    document.getElementById('phone-lock').style.display = 'none'
+    document.getElementById('phone-unlock').style.display = 'block'
+}
+
+// Add event listener on click to disable phone and mobile
+document.getElementById('phone-unlock').onclick = () => {
+    document.getElementById('Phone').disabled = true
+    document.getElementById('Mobile').disabled = true
+    document.getElementById('phone-unlock').style.display = 'none'
+    document.getElementById('phone-lock').style.display = 'block'
+}
+
 // Event listener on Help staff dropdown, add the value to the contract object and changes the Tune staff value
 document.getElementById('HelpStaffId').onchange = () => {
     contract.helpStaffId = Number(document.getElementById('HelpStaffId').value)
