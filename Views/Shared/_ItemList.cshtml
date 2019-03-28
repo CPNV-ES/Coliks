@@ -54,7 +54,7 @@
             {
                 foreach (var item in Model.Data)
                 {
-                    <tr>
+                    <tr onclick="location.href = 'Items/Details/@item.Id'">
                         <td>
                             @Html.DisplayFor(modelItem => item.Itemnb)
                         </td>
@@ -85,7 +85,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Category.Description)
                         </td>
-                        <td>
+                        <td onclick="cancelIt(event);">
                             @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
                             <input type="checkbox" value="@item.Id" id="isSelected" name="isSelected" />
                         </td>
