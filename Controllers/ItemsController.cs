@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using coliks.Models;
-using ReflectionIT.Mvc.Paging;
-using Microsoft.AspNetCore.Routing;
-using coliks.Controllers;
 
 
 namespace coliks.Controllers
@@ -38,69 +34,6 @@ namespace coliks.Controllers
             // Calling FilterData function with Page number as 1 on initial load and no filter  
             return View(filterDataController.FilterData(1, new FilterItems(), _context));
         }
-        // GET: Items
-        //public async Task<IActionResult> Index(string itemnbFilter, string brandFilter, string modelFilter, string sizeFilter, string stockFilter, string categoryFilter, string filter,int page = 1, string sortExpression = "Itemnb")
-        //{
-        //    var qry = _context.Items.AsNoTracking().Include(i => i.Category).OrderBy(i => i.Itemnb).AsQueryable();  //  Add the pagination and an order by Itemnb who is the id of the item. Make it queryable for filtering
-
-        //    if (!string.IsNullOrWhiteSpace(filter))
-        //    {
-        //        qry = qry.Where(p => 
-        //        p.Itemnb.Contains(filter) ||
-        //        p.Brand.Contains(filter) || 
-        //        p.Model.Contains(filter) || 
-        //        p.Stock.ToString().Contains(filter)
-        //       );
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(itemnbFilter))
-        //    {
-        //        qry = qry.Where(p => p.Itemnb.ToString().Contains(itemnbFilter));
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(brandFilter))
-        //    {
-        //        qry = qry.Where(p => p.Brand.Contains(brandFilter));
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(modelFilter))
-        //    {
-        //        qry = qry.Where(p => p.Model.Contains(modelFilter));
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(sizeFilter))
-        //    {
-        //        qry = qry.Where(p => p.Size.ToString().Contains(sizeFilter));
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(stockFilter))
-        //    {
-        //        qry = qry.Where(p => p.Stock.ToString().Contains(stockFilter));
-        //    }
-
-        //    if (!string.IsNullOrWhiteSpace(categoryFilter))
-        //    {
-        //        qry = qry.Where(p => p.Category.Description.Contains(categoryFilter));
-        //    }
-
-        //    var model = await PagingList.CreateAsync(qry, 100, page, sortExpression, "Itemnb"); // create the pagination with 100 items for a page, start at page 1 and add default sort by Itemnb
-
-        //    model.RouteValue = new RouteValueDictionary
-        //    {
-        //        {"filter", filter },
-        //        {"itemnbFilter", itemnbFilter },
-        //        {"brandFilter", brandFilter },
-        //        {"modelFilter", modelFilter },
-        //        {"sizeFilter", sizeFilter },
-        //        {"stockFilter", stockFilter },
-        //        {"categoryFilter", categoryFilter },
-        //    };
-
-        //    ViewData["Categories"] = new SelectList(_context.Categories, "Id", "Description");
-
-
-        //    return View(model); 
-        //}
 
         // GET: Items/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -198,47 +131,18 @@ namespace coliks.Controllers
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        //if (!ItemsExists(item.Id))
-                        //{
-                        //    return NotFound();
-                        //}
-                        //else
-                        //{
-                        //    throw;
-                        //}
+                        if (!ItemsExists(_context.Items.Find(i).Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                 }
             }
             return RedirectToAction(nameof(Index));
-
-
-            //if (id != items.Id)
-            //{
-            //    return NotFound();
-            //}
-
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        _context.Update(items);
-            //        await _context.SaveChangesAsync();
-            //    }
-            //    catch (DbUpdateConcurrencyException)
-            //    {
-            //        if (!ItemsExists(items.Id))
-            //        {
-            //            return NotFound();
-            //        }
-            //        else
-            //        {
-            //            throw;
-            //        }
-            //    }
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Code", items.CategoryId);
-            //return View(items);
         }
 
         // GET: Items/Delete/5
