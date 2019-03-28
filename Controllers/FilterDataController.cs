@@ -9,8 +9,9 @@ namespace coliks.Controllers
 {
     public class FilterDataController : Controller
     {
+
         //This is the common function used for paging and searching  
-        public GridPagination FilterData(int? PageNumber, FilterItems filters)
+        public GridPagination FilterData(int? PageNumber, FilterItems filters, ColiksContext context)
         {
             GridPagination gridData = new GridPagination();
             double count = 0;
@@ -30,56 +31,41 @@ namespace coliks.Controllers
                     //Getting the List with the matching search  
                     if (!string.IsNullOrEmpty(filters.search))
                     {
+                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Brand)).ToList(); // Have to check if the brand is null or empty, to avoid a nullErrorExeptions on .ToLower()
+                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Model)).ToList(); // Have to check if the model is null or empty, to avoid a nullErrorExeptions on .ToLower()
 
-                        //        qry = qry.Where(p => 
-                        //        p.Itemnb.Contains(filter) ||
-                        //        p.Brand.Contains(filter) || 
-                        //        p.Model.Contains(filter) || 
-                        //        p.Stock.ToString().Contains(filter)
-                        gridData.Data = gridData.Data.Where(x => 
-                        x.Itemnb.ToLower().Contains(filters.search.ToLower()) ||
-                        (!string.IsNullOrEmpty(x.Brand) && x.Brand.ToLower().Contains(filters.search.ToLower())) ||
-                        (!string.IsNullOrEmpty(x.Model) && x.Model.ToLower().Contains(filters.search.ToLower())) ||
-                        x.Size.ToString().Contains(filters.search.ToLower()) ||
-                        x.Stock.ToString().Contains(filters.search.ToLower()) ||
-                        x.Category.Description.ToString().ToLower().Contains(filters.search.ToLower())
+                        gridData.Data = gridData.Data.Where(x =>
+                        x.Itemnb.ToLower().Contains(filters.search.ToLower())  ||
+                        x.Brand.ToLower().Contains(filters.search.ToLower())   ||
+                        x.Model.ToLower().Contains(filters.search.ToLower())   ||
+                        x.Stock.ToString().Contains(filters.search.ToLower())
                         ).ToList();
                     }
 
                     //Getting the List with the matching itemnb  
                     if (!string.IsNullOrEmpty(filters.itemnb))
                     {
-                        gridData.Data = gridData.Data.Where(x => x.Itemnb.ToLower().Contains(filters.itemnb.ToString())).ToList();
+                        gridData.Data = gridData.Data.Where(x => x.Itemnb.ToLower().Contains(filters.itemnb.ToLower())).ToList();
                     }
 
-                    //Getting the List with the matching brand  
+                    //Getting the List with the matching brand 
                     if (!string.IsNullOrEmpty(filters.brand))
                     {
-                        gridData.Data = gridData.Data.Where(x => x.Brand != null && x.Brand.ToLower().Contains(filters.brand.ToLower())).ToList();
+                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Brand)).ToList(); // Have to check if the brand is null or empty, to avoid a nullErrorExeptions on .ToLower()
+                        gridData.Data = gridData.Data.Where(x => x.Brand.ToLower().Contains(filters.brand.ToLower())).ToList();
                     }
                     
                     //Getting the List with the matching model  
                     if (!string.IsNullOrEmpty(filters.model))
                     {
-                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Model) && x.Model.Contains(filters.model)).ToList();
-
-                        //var tmpGrid = new List<Items>();
-                        //foreach(var e in gridData.Data)
-                        //{
-                        //    if (!string.IsNullOrEmpty(e.Model))
-                        //    {
-                        //        if (e.Model.Contains(filters.model))
-                        //        {
-                        //            tmpGrid.Add(e);
-                        //        }
-                        //    }
-                        //}
-                        //gridData.Data = tmpGrid;
+                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Model)).ToList(); // Have to check if the model is null or empty, to avoid a nullErrorExeptions on .ToLower()
+                        gridData.Data = gridData.Data.Where(x => x.Model.ToLower().Contains(filters.model.ToLower())).ToList();
                     }
 
-                    //Getting the List with the matching size  
+                    //Getting the List with the matching size
                     if (!string.IsNullOrEmpty(filters.size.ToString()))
                     {
+                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Size.ToString())).ToList(); // Have to check if the size is null or empty, to avoid a nullErrorExeptions on .Contains()
                         gridData.Data = gridData.Data.Where(x => x.Size.ToString().Contains(filters.size.ToString())).ToList();
                     }
 
@@ -90,9 +76,10 @@ namespace coliks.Controllers
                     }
 
                     //Getting the List with the matching category  
-                    if (!string.IsNullOrEmpty(filters.category))
+                    if (filters.category != null)
                     {
-                        gridData.Data = gridData.Data.Where(x => x.Category.Description.ToString().ToLower().Contains(filters.category.ToLower())).ToList();
+                        var category = context.Categories.Find(filters.category);
+                        gridData.Data = gridData.Data.Where(x => x.Category.Description.ToLower().Contains(category.Description.ToLower())).ToList();
                     }
 
                     // If there are multiple filter key passed then the above condition will work as an operator condition  
