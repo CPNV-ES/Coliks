@@ -5,6 +5,7 @@ let customers = []
 let contracts = []
 let durations = []
 let items = []
+let cities = []
 let editedCustomer = {
     id: null,
     address: null,
@@ -39,6 +40,20 @@ document.getElementById('address-lock').onclick = () => {
     document.getElementById('SubmitContract').disabled = true
     document.getElementById('address-lock').style.display = 'none'
     document.getElementById('address-unlock').style.display = 'block'
+}
+
+document.getElementById('Locality').oninput = async (e) => {
+    if (e.target.value.length >= 2) {
+        const response = await fetch(`https://localhost:5001/api/cities?input=${e.target.value}`)
+        const citiesResponse = await response.json()
+        for (const city of citiesResponse) {
+            cities.push(city)
+            const option = document.createElement('option')
+            option.value = city.id
+            option.text = city.name
+            document.getElementById('cities-list').appendChild(option)
+        }
+    }
 }
 
 // Add event listener on click to disable address and locality
