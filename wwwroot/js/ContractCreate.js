@@ -42,6 +42,11 @@ document.getElementById('address-lock').onclick = () => {
     document.getElementById('address-unlock').style.display = 'block'
 }
 
+// Update customer address
+document.getElementById('Address').oninput = (e) => {
+    editedCustomer.address = e.target.value
+}
+
 // Display datalist with options from API on input of locality
 document.getElementById('Locality').oninput = (e) => {
     // Remove all the children of the datalist
@@ -108,6 +113,16 @@ document.getElementById('phone-lock').onclick = () => {
     document.getElementById('phone-unlock').style.display = 'block'
 }
 
+// Update customer object phone number
+document.getElementById('Phone').oninput = (e) => {
+    editedCustomer.phone = e.target.value
+}
+
+// Update customer object mobile number
+document.getElementById('Mobile').oninput = (e) => {
+    editedCustomer.mobile = e.target.value
+}
+
 // Add event listener on click to disable phone and mobile
 document.getElementById('phone-unlock').onclick = () => {
     document.getElementById('Phone').disabled = true
@@ -122,6 +137,11 @@ document.getElementById('email-lock').onclick = () => {
     document.getElementById('SubmitContract').disabled = true
     document.getElementById('email-lock').style.display = 'none'
     document.getElementById('email-unlock').style.display = 'block'
+}
+
+// Update customer object email
+document.getElementById('Email').oninput = (e) => {
+    editedCustomer.email = e.target.value
 }
 
 // Add event listener on click to disable email
