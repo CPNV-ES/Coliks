@@ -29,14 +29,14 @@ namespace coliks.Controllers
         {
             ViewBag.categories = _context.Categories;
             // This will call the FilterData function with PageNo and filter textboxes value which we passed in our Ajax request  
-            return PartialView("_ItemList", filterDataController.FilterData(pageNo, filter));
+            return PartialView("_ItemList", filterDataController.FilterData(pageNo, filter, _context));
         }
 
         public ActionResult Index()
         {
             ViewBag.categories = _context.Categories;
             // Calling FilterData function with Page number as 1 on initial load and no filter  
-            return View(filterDataController.FilterData(1, new FilterItems()));
+            return View(filterDataController.FilterData(1, new FilterItems(), _context));
         }
         // GET: Items
         //public async Task<IActionResult> Index(string itemnbFilter, string brandFilter, string modelFilter, string sizeFilter, string stockFilter, string categoryFilter, string filter,int page = 1, string sortExpression = "Itemnb")
@@ -162,21 +162,15 @@ namespace coliks.Controllers
             return View(items);
         }
 
-        // POST: Items/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Items/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit()
         {
-            var ids = Request.Form["isSelected"];
+            var ids = Request.Form["isSelected"]; // All selected items
             var category = Request.Form["multiple_category"];
-            var stockForm = Request.Form["multiple_stock"].First();
-            int? stock = null;
-            if(!string.IsNullOrEmpty(stockForm))
-            {
-                stock = Convert.ToInt32(stockForm);
-            }
+            var stock = Request.Form["multiple_stock"];
+            
 
             if (ids.Count > 0)
             {
@@ -186,15 +180,19 @@ namespace coliks.Controllers
                     {
                         Items item = _context.Items.Find(Convert.ToInt32(i));
 
-                        if (category.Count > 0)
+                        if (!string.IsNullOrEmpty(category))
                         {
-                            item.Category.Description = category;
+                            Categories cat = _context.Categories.Find(Convert.ToInt32(category)); 
+                            item.Category = new Categories(); // Item always have a null category, so we have to create a new category object
+                            item.Category = cat; // And asign the category
+                           
                         }
 
-                        if (stock != null)
+                        if (!string.IsNullOrEmpty(stock))
                         {
-                            item.Stock = stock;
+                            item.Stock = Convert.ToInt32(stock);
                         }
+
                         _context.Update(item);
                         await _context.SaveChangesAsync();
                     }
@@ -209,10 +207,10 @@ namespace coliks.Controllers
                         //    throw;
                         //}
                     }
-                    return RedirectToAction(nameof(Index));
                 }
             }
-            return View();
+            return RedirectToAction(nameof(Index));
+
 
             //if (id != items.Id)
             //{
