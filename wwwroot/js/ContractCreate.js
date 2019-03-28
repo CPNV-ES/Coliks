@@ -48,7 +48,7 @@ document.getElementById('Address').oninput = (e) => {
 }
 
 // Display datalist with options from API on input of locality
-document.getElementById('Locality').oninput = (e) => {
+document.getElementById('Locality').oninput = async (e) => {
     // Remove all the children of the datalist
     while (document.getElementById('cities-list').hasChildNodes()) {
         document.getElementById('cities-list').removeChild(document.getElementById('cities-list').lastChild)
@@ -82,7 +82,7 @@ document.getElementById('Locality').oninput = (e) => {
 }
 
 // Function to update the customer in the backend
-updateCustomerinAPI = () => {
+updateCustomerinAPI = async () => {
     // Get editedCustomer without id
     const { id, ...customer } = editedCustomer
     // Edit customer in DB
@@ -100,6 +100,7 @@ document.getElementById('address-unlock').onclick = async () => {
     updateCustomerinAPI()
     document.getElementById('Address').disabled = true
     document.getElementById('Locality').disabled = true
+    document.getElementById('SubmitContract').disabled = false
     document.getElementById('address-unlock').style.display = 'none'
     document.getElementById('address-lock').style.display = 'block'
 }
@@ -127,6 +128,7 @@ document.getElementById('Mobile').oninput = (e) => {
 document.getElementById('phone-unlock').onclick = () => {
     document.getElementById('Phone').disabled = true
     document.getElementById('Mobile').disabled = true
+    document.getElementById('SubmitContract').disabled = false
     document.getElementById('phone-unlock').style.display = 'none'
     document.getElementById('phone-lock').style.display = 'block'
 }
@@ -147,6 +149,7 @@ document.getElementById('Email').oninput = (e) => {
 // Add event listener on click to disable email
 document.getElementById('email-unlock').onclick = () => {
     document.getElementById('Email').disabled = true
+    document.getElementById('SubmitContract').disabled = false
     document.getElementById('email-unlock').style.display = 'none'
     document.getElementById('email-lock').style.display = 'block'
 }
