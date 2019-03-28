@@ -133,6 +133,23 @@ namespace coliks.Controllers
             return CreatedAtAction(nameof(GetContract), new { id = Contract.Id }, Contract);
         }
 
+        [HttpPut("/api/customers/{id}")]
+        public async Task<ActionResult<Customers>> PutCustomer(int? id, Customers customer)
+        {
+            if (id == null || customer == null)
+            {
+                return NotFound();
+            }
+            var customerDB = await _context.Customers.FindAsync(id);
+            customerDB.Address = customer.Address;
+            customerDB.CityId = customer.CityId;
+            customerDB.Phone = customer.Phone;
+            customerDB.Mobile = customer.Mobile;
+            customerDB.Email = customer.Email;
+            await _context.SaveChangesAsync();
+            return customerDB;
+        }
+
         // Change the category of an item
         [HttpPut("/api/change-item-category/{id}")]
         public async Task<ActionResult<Items>> PutItem(int? id, Categories category)
