@@ -6,7 +6,7 @@
 
 <h1>Details</h1>
 
-<div>
+<div class="row">
     <h4>Items</h4>
     <hr />
     <dl class="row">
@@ -68,11 +68,42 @@
             @Html.DisplayNameFor(model => model.Category)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.Code)
+            @Html.DisplayFor(model => model.Category.Description)
         </dd>
     </dl>
 </div>
+<div class="row">
+    @if (Model.Renteditems.Count == 0)
+    {
+        <p class="text-body">Aucun contrats</p>
+    }
+    else
+    {
+        <h3>Contrats : </h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(Model => Model.Renteditems.First().Contract.Id)</th>
+                    <th>@Html.DisplayNameFor(Model => Model.Renteditems.First().Contract.Total)</th>
+                    <th>@Html.DisplayNameFor(Model => Model.Renteditems.First().Contract.Customer.Firstname)</th>
+                    <th>@Html.DisplayNameFor(Model => Model.Renteditems.First().Contract.Customer.Lastname)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rentedItems in Model.Renteditems)
+                {
+                    <tr>
+                        <td><a href="/Contracts/Details/@rentedItems.Contract.Id">@rentedItems.Contract.Id</a></td>
+                        <td>@rentedItems.Contract.Total</td>
+                        <td><a href="/Customers/Details/@rentedItems.Contract.Customer.Id">@rentedItems.Contract.Customer.Firstname</td>
+                        <td><a href="/Customers/Details/@rentedItems.Contract.Customer.Id">@rentedItems.Contract.Customer.Lastname</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Modifier</a> |
+    <a asp-action="Index" class="btn btn-primary">Retourner &agrave; la liste</a>
 </div>
