@@ -36,6 +36,7 @@ document.getElementById('address-lock').onclick = () => {
 
     document.getElementById('Address').disabled = false
     document.getElementById('Locality').disabled = false
+    document.getElementById('SubmitContract').disabled = true
     document.getElementById('address-lock').style.display = 'none'
     document.getElementById('address-unlock').style.display = 'block'
 }
@@ -52,6 +53,7 @@ document.getElementById('address-unlock').onclick = () => {
 document.getElementById('phone-lock').onclick = () => {
     document.getElementById('Phone').disabled = false
     document.getElementById('Mobile').disabled = false
+    document.getElementById('SubmitContract').disabled = true
     document.getElementById('phone-lock').style.display = 'none'
     document.getElementById('phone-unlock').style.display = 'block'
 }
@@ -67,6 +69,7 @@ document.getElementById('phone-unlock').onclick = () => {
 // Add event listener on click to enable email
 document.getElementById('email-lock').onclick = () => {
     document.getElementById('Email').disabled = false
+    document.getElementById('SubmitContract').disabled = true
     document.getElementById('email-lock').style.display = 'none'
     document.getElementById('email-unlock').style.display = 'block'
 }
