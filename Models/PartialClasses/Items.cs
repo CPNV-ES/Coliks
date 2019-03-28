@@ -10,6 +10,7 @@ namespace coliks.Models
 
     public class ItemsMetaData
     {
+        [Display(Name = "No. article")]
         public string Itemnb { get; set; }
 
         [Display(Name = "Marque")]
