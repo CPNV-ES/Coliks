@@ -145,8 +145,16 @@ a{
         margin: 1.6cm;
     }
 
+    p, h1, h2, h3 {
+        font-size: 42px;
+    }
+
     header, footer{
         display:none;
+    }
+
+    img{
+        margin-bottom: 2cm;
     }
     
     @page {
