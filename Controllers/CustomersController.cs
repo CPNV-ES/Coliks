@@ -55,12 +55,19 @@ namespace coliks.Controllers
         }
 
         [AcceptVerbs("Get", "Post")]
-        public IActionResult VerifyName(string firstName, string lastName)
+        public IActionResult VerifyName(string firstName, string lastName, int? id)
         {
+            if (id != null)
+            {
+                var customer = _context.Customers.Where(m => m.Id == id).FirstOrDefault();
+                if (firstName == customer.Firstname && lastName == customer.Lastname)
+                    return Json(data: true);
+            }
+
             var coliksContext = _context.Customers.AsQueryable();
             coliksContext = coliksContext.Where(p => p.Lastname.Equals(lastName) && p.Firstname.Equals(firstName));
 
-            if (coliksContext.Count() != 0)
+            if (coliksContext. Count() != 0)
             {
                 return Json(data: false);
             }
@@ -131,7 +138,7 @@ namespace coliks.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,createLastname,createFirstname,Address,CityId,Phone,Email,Mobile")] Customers customers)
+        public async Task<IActionResult> Create([Bind("Id,Lastname,Firstname,Address,CityId,Phone,Email,Mobile")] Customers customers)
         {
             if (ModelState.IsValid)
             {
