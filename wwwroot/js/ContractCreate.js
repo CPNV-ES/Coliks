@@ -43,7 +43,7 @@ document.getElementById('address-lock').onclick = () => {
 }
 
 // Display datalist with options from API on input of locality
-document.getElementById('Locality').oninput = async (e) => {
+document.getElementById('Locality').oninput = (e) => {
     // Remove all the children of the datalist
     while (document.getElementById('cities-list').hasChildNodes()) {
         document.getElementById('cities-list').removeChild(document.getElementById('cities-list').lastChild)
@@ -76,8 +76,23 @@ document.getElementById('Locality').oninput = async (e) => {
     }
 }
 
+// Function to update the customer in the backend
+updateCustomerinAPI = () => {
+    // Get editedCustomer without id
+    const { id, ...customer } = editedCustomer
+    // Edit customer in DB
+    await fetch(`https://localhost:5001/api/customers/${id}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(customer)
+    })
+}
+
 // Add event listener on click to disable address and locality
-document.getElementById('address-unlock').onclick = () => {
+document.getElementById('address-unlock').onclick = async () => {
+    updateCustomerinAPI()
     document.getElementById('Address').disabled = true
     document.getElementById('Locality').disabled = true
     document.getElementById('address-unlock').style.display = 'none'
