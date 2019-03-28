@@ -1,9 +1,5 @@
-﻿$(document).ready(function () {
-    $('#tmpSearchBar').keyup(function (e) {
-        $('#searchBar').val($('#tmpSearchBar').val())
-    })
-
-    $('#btnSearch').click(function () {
-        $('#formSearch').submit()
-    })
-})
+﻿
+function cancelIt(evt) {
+    var e = (typeof evt != 'undefined') ? evt : event;
+    e.cancelBubble = true;
+}
