@@ -10,6 +10,7 @@
 
 // to check the purchase form status
 var formStatus = {};
+var isPrinted = false;
 
 $(document).ready(function () {
     customerDetailsPage.init();
@@ -58,7 +59,15 @@ var customerDetailsPage = {
                 // check if button is available
                 purchase.enableButtonSubmit();
             });
-        });        
+        });      
+
+        // Stop propagation
+        // All event in the click button inside the modal are executed three times. PreventDefault or stopPropagation don't work in modal popup
+        // It means that the print button inside the modal popup send three request to print the document
+        // To resolve the problem we can use a manual stop propagation using the isPrinted variable
+        $('#vaucher-printable-button').on('shown.bs.modal',  function () {
+            isPrinted = false;
+        });
     },
 }
 
@@ -241,20 +250,22 @@ var vaucher = {
         });
     },
     print: function () {
-        $("#vaucher-printable").print({
-            globalStyles: true,
-            mediaPrint: false,
-            stylesheet: null,
-            noPrintSelector: ".no-print",
-            iframe: true,
-            append: null,
-            prepend: null,
-            manuallyCopyFormValues: true,
-            deferred: $.Deferred(),
-            timeout: 750,
-            title: null,
-            doctype: '<!doctype html>'
-        });
-
+        if (!isPrinted) {
+             isPrinted = true;
+            $("#vaucher-printable").print({
+                globalStyles: true,
+                mediaPrint: false,
+                stylesheet: null,
+                noPrintSelector: ".no-print",
+                iframe: true,
+                append: null,
+                prepend: null,
+                manuallyCopyFormValues: true,
+                deferred: $.Deferred(),
+                timeout: 750,
+                title: null,
+                doctype: '<!doctype html>'
+            });
+        }
     }
 }
