@@ -45,15 +45,15 @@
             </div>
         </nav>
     </header>
-    
-    @RenderBody() @*Remove the container to manage content inside views*@
-    
-    @*<div class="container" style="margin-left:30px">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
 
-        </main>
-    </div>*@
+    @*Remove the container to manage content inside views*@
+
+    <div class="container">
+            <partial name="_CookieConsentPartial" />
+            <main role="main" class="pb-3">
+            @RenderBody()
+            </main>
+        </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
