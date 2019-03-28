@@ -2,7 +2,6 @@ using coliks.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace coliks.Controllers
@@ -31,8 +30,9 @@ namespace coliks.Controllers
                     //Getting the List with the matching search  
                     if (!string.IsNullOrEmpty(filters.search))
                     {
-                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Brand)).ToList(); // Have to check if the brand is null or empty, to avoid a nullErrorExeptions on .ToLower()
-                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Model)).ToList(); // Have to check if the model is null or empty, to avoid a nullErrorExeptions on .ToLower()
+                        // Have to check if the brand or model is null or empty, to avoid a nullErrorExeptions on .ToLower()
+                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Brand)).ToList(); 
+                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Model)).ToList(); 
 
                         gridData.Data = gridData.Data.Where(x =>
                         x.Itemnb.ToLower().Contains(filters.search.ToLower())  ||
