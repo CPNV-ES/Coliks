@@ -42,12 +42,32 @@ document.getElementById('address-lock').onclick = () => {
     document.getElementById('address-unlock').style.display = 'block'
 }
 
+// Display datalist with options from API on input of locality
 document.getElementById('Locality').oninput = async (e) => {
+    // Remove all the children of the datalist
+    while (document.getElementById('cities-list').hasChildNodes()) {
+        document.getElementById('cities-list').removeChild(document.getElementById('cities-list').lastChild)
+    }
+
+    // Check if the cities array was populated
+    if (cities.length > 0) {
+        // Check if user picked from list
+        const inputFromDatalist = cities.filter(city => {
+            return e.target.value == parseInt(city.id)
+        })
+
+        // If it's the case, change the city id of the customer
+        if (inputFromDatalist.length > 0) {
+            editedCustomer.cityId = inputFromDatalist[0].id
+            document.getElementById('Locality').value = inputFromDatalist[0].name
+        }
+    }
+    // Only fetch if user inputs at least 2 characters
     if (e.target.value.length >= 2) {
         const response = await fetch(`https://localhost:5001/api/cities?input=${e.target.value}`)
         const citiesResponse = await response.json()
+        cities = citiesResponse
         for (const city of citiesResponse) {
-            cities.push(city)
             const option = document.createElement('option')
             option.value = city.id
             option.text = city.name
