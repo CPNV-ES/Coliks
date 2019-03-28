@@ -12,7 +12,7 @@ namespace coliks.Models
         public string model { get; set; }
         public Nullable<int> size { get; set; } = null;
         public Nullable<int> stock { get; set; } = null;
-        public string category { get; set; }
+        public int? category { get; set; }
         public string search { get; set; }
         //public string filter { get; set; }
         //public string sortExpression { get; set; } = "Itemnb";
