@@ -12,14 +12,14 @@
     double EndButton = 5 > Model.TotalPage ? Model.TotalPage : 5;
 }
 <div class="row">
-    <div class="col-3"></div>
-    <div class="col-6">
+    <div class="col-2"></div>
+    <div class="col-8">
         <div class="row">
-            <div class="col-4"> <p>Rechercher : </p></div>
-            <div class="col-8"> <input type="text" id="search" class="form-control filter-text" value="@Model.filters.search" autocomplete="off" /></div>
+            <div class="col"> <p>Rechercher par No. article, marque, mod&egrave;le ou stock  : </p></div>
+            <div class="col"> <input type="text" id="search" class="form-control filter-text" value="@Model.filters.search" autocomplete="off" /></div>
         </div>
     </div>
-    <div class="col-3"></div>
+    <div class="col-2"></div>
 </div>
 
 <form asp-action="Edit">
@@ -54,7 +54,7 @@
             {
                 foreach (var item in Model.Data)
                 {
-                    <tr onclick="location.href = 'Items/Details/@item.Id'">
+                    <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Itemnb)
                         </td>
