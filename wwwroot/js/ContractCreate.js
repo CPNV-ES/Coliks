@@ -28,6 +28,12 @@ let contract = {
 
 // Add event listener on click to enable address and locality
 document.getElementById('address-lock').onclick = () => {
+    // Create datalist that will hold cities
+    const datalistCities = document.createElement('datalist')
+    datalistCities.id = 'cities-list'
+    document.getElementById('Locality').setAttribute('list', 'cities-list')
+    document.getElementById('Locality').parentElement.appendChild(datalistCities)
+
     document.getElementById('Address').disabled = false
     document.getElementById('Locality').disabled = false
     document.getElementById('address-lock').style.display = 'none'
