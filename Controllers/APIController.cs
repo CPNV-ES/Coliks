@@ -91,6 +91,14 @@ namespace coliks.Controllers
             return await _context.Durations.ToListAsync();
         }
 
+        // Get all the cities with the name that contains the input sent as query string
+        [HttpGet("/api/cities")]
+        public async Task<ActionResult<List<Cities>>> GetCities(String input)
+        {
+            if (input == null) { return NotFound(); }
+            return await _context.Cities.Where(c => c.Name.Contains(input)).Take(50).ToListAsync();
+        }
+
         // Get the price of an item depending on the category and the duration
         [HttpGet("/api/get-price")]
         public async Task<ActionResult<Rentprices>> GetPriceItem(int? CategoryId, String ItemType, int DurationId, String CategoryCode)
