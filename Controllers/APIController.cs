@@ -91,6 +91,14 @@ namespace coliks.Controllers
             return await _context.Durations.ToListAsync();
         }
 
+        // Get all the cities with the name that contains the input sent as query string
+        [HttpGet("/api/cities")]
+        public async Task<ActionResult<List<Cities>>> GetCities(String input)
+        {
+            if (input == null) { return NotFound(); }
+            return await _context.Cities.Where(c => c.Name.Contains(input)).Take(50).ToListAsync();
+        }
+
         // Get the price of an item depending on the category and the duration
         [HttpGet("/api/get-price")]
         public async Task<ActionResult<Rentprices>> GetPriceItem(int? CategoryId, String ItemType, int DurationId, String CategoryCode)
@@ -123,6 +131,23 @@ namespace coliks.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetContract), new { id = Contract.Id }, Contract);
+        }
+
+        [HttpPut("/api/customers/{id}")]
+        public async Task<ActionResult<Customers>> PutCustomer(int? id, Customers customer)
+        {
+            if (id == null || customer == null)
+            {
+                return NotFound();
+            }
+            var customerDB = await _context.Customers.FindAsync(id);
+            customerDB.Address = customer.Address;
+            customerDB.CityId = customer.CityId;
+            customerDB.Phone = customer.Phone;
+            customerDB.Mobile = customer.Mobile;
+            customerDB.Email = customer.Email;
+            await _context.SaveChangesAsync();
+            return customerDB;
         }
 
         // Change the category of an item

@@ -5,6 +5,15 @@ let customers = []
 let contracts = []
 let durations = []
 let items = []
+let cities = []
+let editedCustomer = {
+    id: null,
+    address: null,
+    phone: null,
+    email: null,
+    mobile: null,
+    cityId: null
+}
 let contract = {
     customerId: null,
     notes: "",
@@ -16,6 +25,135 @@ let contract = {
     helpStaffId: document.getElementById('HelpStaffId').value,
     tuneStaffId: document.getElementById('TuneStaffId').value,
     rentedItems: []
+}
+
+// Add event listener on click to enable address and locality
+document.getElementById('address-lock').onclick = () => {
+    // Create datalist that will hold cities
+    const datalistCities = document.createElement('datalist')
+    datalistCities.id = 'cities-list'
+    document.getElementById('Locality').setAttribute('list', 'cities-list')
+    document.getElementById('Locality').parentElement.appendChild(datalistCities)
+
+    document.getElementById('Address').disabled = false
+    document.getElementById('Locality').disabled = false
+    document.getElementById('SubmitContract').disabled = true
+    document.getElementById('address-lock').style.display = 'none'
+    document.getElementById('address-unlock').style.display = 'block'
+}
+
+// Update customer address
+document.getElementById('Address').oninput = (e) => {
+    editedCustomer.address = e.target.value
+}
+
+// Display datalist with options from API on input of locality
+document.getElementById('Locality').oninput = async (e) => {
+    // Remove all the children of the datalist
+    while (document.getElementById('cities-list').hasChildNodes()) {
+        document.getElementById('cities-list').removeChild(document.getElementById('cities-list').lastChild)
+    }
+
+    // Check if the cities array was populated
+    if (cities.length > 0) {
+        // Check if user picked from list
+        const inputFromDatalist = cities.filter(city => {
+            return e.target.value == parseInt(city.id)
+        })
+
+        // If it's the case, change the city id of the customer
+        if (inputFromDatalist.length > 0) {
+            editedCustomer.cityId = inputFromDatalist[0].id
+            document.getElementById('Locality').value = inputFromDatalist[0].name
+        }
+    }
+    // Only fetch if user inputs at least 2 characters
+    if (e.target.value.length >= 2) {
+        const response = await fetch(`https://localhost:5001/api/cities?input=${e.target.value}`)
+        const citiesResponse = await response.json()
+        cities = citiesResponse
+        for (const city of citiesResponse) {
+            const option = document.createElement('option')
+            option.value = city.id
+            option.text = city.name
+            document.getElementById('cities-list').appendChild(option)
+        }
+    }
+}
+
+// Function to update the customer in the backend
+updateCustomerinAPI = async () => {
+    // Get editedCustomer without id
+    const { id, ...customer } = editedCustomer
+    // Edit customer in DB
+    await fetch(`https://localhost:5001/api/customers/${id}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(customer)
+    })
+}
+
+// Add event listener on click to disable address and locality
+document.getElementById('address-unlock').onclick = async () => {
+    updateCustomerinAPI()
+    document.getElementById('Address').disabled = true
+    document.getElementById('Locality').disabled = true
+    document.getElementById('SubmitContract').disabled = false
+    document.getElementById('address-unlock').style.display = 'none'
+    document.getElementById('address-lock').style.display = 'block'
+}
+
+// Add event listener on click to enable phone and mobile
+document.getElementById('phone-lock').onclick = () => {
+    document.getElementById('Phone').disabled = false
+    document.getElementById('Mobile').disabled = false
+    document.getElementById('SubmitContract').disabled = true
+    document.getElementById('phone-lock').style.display = 'none'
+    document.getElementById('phone-unlock').style.display = 'block'
+}
+
+// Update customer object phone number
+document.getElementById('Phone').oninput = (e) => {
+    editedCustomer.phone = e.target.value
+}
+
+// Update customer object mobile number
+document.getElementById('Mobile').oninput = (e) => {
+    editedCustomer.mobile = e.target.value
+}
+
+// Add event listener on click to disable phone and mobile
+document.getElementById('phone-unlock').onclick = () => {
+    updateCustomerinAPI()
+    document.getElementById('Phone').disabled = true
+    document.getElementById('Mobile').disabled = true
+    document.getElementById('SubmitContract').disabled = false
+    document.getElementById('phone-unlock').style.display = 'none'
+    document.getElementById('phone-lock').style.display = 'block'
+}
+
+// Add event listener on click to enable email
+document.getElementById('email-lock').onclick = () => {
+    document.getElementById('Email').disabled = false
+    document.getElementById('SubmitContract').disabled = true
+    document.getElementById('email-lock').style.display = 'none'
+    document.getElementById('email-unlock').style.display = 'block'
+}
+
+// Update customer object email
+document.getElementById('Email').oninput = (e) => {
+    editedCustomer.email = e.target.value
+}
+
+// Add event listener on click to disable email
+document.getElementById('email-unlock').onclick = () => {
+    updateCustomerinAPI()
+    document.getElementById('Email').disabled = true
+    document.getElementById('SubmitContract').disabled = false
+    document.getElementById('email-unlock').style.display = 'none'
+    document.getElementById('email-lock').style.display = 'block'
 }
 
 // Event listener on Help staff dropdown, add the value to the contract object and changes the Tune staff value
@@ -344,6 +482,15 @@ fillContractsTable = () => {
 setCustomerInfo = async (customer = customers[0]) => {
     try {
         contract.customerId = customer.id
+        editedCustomer = {
+            ...editedCustomer,
+            email: customer.email,
+            mobile: customer.mobile,
+            cityId: customer.city.id,
+            phone: customer.phone,
+            address: customer.address,
+            id: customer.id
+        }
         document.getElementById('Email').value = customer.email !== null ? customer.email : 'Non défini'
         document.getElementById('Mobile').value = customer.mobile !== null ? customer.mobile : 'Non défini'
         document.getElementById('Locality').value = customer.city !== null ? customer.city.name : 'Non définie'
