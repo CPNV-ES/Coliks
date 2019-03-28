@@ -126,6 +126,7 @@ document.getElementById('Mobile').oninput = (e) => {
 
 // Add event listener on click to disable phone and mobile
 document.getElementById('phone-unlock').onclick = () => {
+    updateCustomerinAPI()
     document.getElementById('Phone').disabled = true
     document.getElementById('Mobile').disabled = true
     document.getElementById('SubmitContract').disabled = false
@@ -148,6 +149,7 @@ document.getElementById('Email').oninput = (e) => {
 
 // Add event listener on click to disable email
 document.getElementById('email-unlock').onclick = () => {
+    updateCustomerinAPI()
     document.getElementById('Email').disabled = true
     document.getElementById('SubmitContract').disabled = false
     document.getElementById('email-unlock').style.display = 'none'
