@@ -21,85 +21,112 @@
     </div>
     <div class="col-3"></div>
 </div>
-<table class="table table-bordered">
-    <thead>
-        @*Setting the filter values in text boxes*@
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Itemnb) <input type="text" id="item_nb" class="form-control filter-text" value="@Model.filters.itemnb" autocomplete="off" /></th>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Brand) <input type="text" id="item_brand" class="form-control filter-text" value="@Model.filters.brand" autocomplete="off" /></th>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Model) <input type="text" id="item_model" class="form-control filter-text" value="@Model.filters.model" autocomplete="off" /></th>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Size) <input type="number" id="item_size" class="form-control filter-text" value="@Model.filters.size" autocomplete="off" /></th>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Cost)</th>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Returned)</th>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Type)</th>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Stock) <input type="number" id="item_stock" class="form-control filter-text" value="@Model.filters.stock" autocomplete="off" /></th>
-            <th>@Html.DisplayNameFor(model => model.Data[0].Serialnumber)</th>
-            <th>
-                @Html.DisplayNameFor(model => model.Data[0].Category)  
-                <select id="item_gender" class="form-control filter-text">
-                            <option value="">Tous</option>
+
+<form asp-action="Edit">
+    <table class="table table-bordered">
+        <thead>
+            @*Setting the filter values in text boxes*@
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Data[0].Itemnb) <input type="text" id="item_nb" class="form-control filter-text" value="@Model.filters.itemnb" autocomplete="off" /></th>
+                <th>@Html.DisplayNameFor(model => model.Data[0].Brand) <input type="text" id="item_brand" class="form-control filter-text" value="@Model.filters.brand" autocomplete="off" /></th>
+                <th>@Html.DisplayNameFor(model => model.Data[0].Model) <input type="text" id="item_model" class="form-control filter-text" value="@Model.filters.model" autocomplete="off" /></th>
+                <th>@Html.DisplayNameFor(model => model.Data[0].Size) <input type="number" id="item_size" class="form-control filter-text" value="@Model.filters.size" autocomplete="off" /></th>
+                <th>@Html.DisplayNameFor(model => model.Data[0].Cost)</th>
+                <th>@Html.DisplayNameFor(model => model.Data[0].Returned)</th>
+                <th>@Html.DisplayNameFor(model => model.Data[0].Type)</th>
+                <th>@Html.DisplayNameFor(model => model.Data[0].Stock) <input type="number" id="item_stock" class="form-control filter-text" value="@Model.filters.stock" autocomplete="off" /></th>
+                <th>@Html.DisplayNameFor(model => model.Data[0].Serialnumber)</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data[0].Category)
+                    <select id="item_gender" class="form-control filter-text">
+                        <option value="">Tous</option>
+                        @foreach (var cat in ViewBag.categories)
+                        {
+                            <option value="@cat.Id" label="@cat.Description"></option>
+                        }
+                    </select>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            @if (Model != null && Model.Data != null && Model.Data.Count > 0)
+            {
+                foreach (var item in Model.Data)
+                {
+                    <tr onclick="location.href = 'Items/Details/@item.Id'">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Itemnb)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Brand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Size)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Returned)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Stock)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Serialnumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category.Description)
+                        </td>
+                        <td>
+                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                            <input type="checkbox" value="@item.Id" id="isSelected" name="isSelected" />
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <input type="number" id="multiple_stock" name="multiple_stock" class="form-control" />
+                    </td>
+                    <td></td>
+                    <td>
+                        <select id="multiple_category" class="form-control" name="multiple_category">
+                            <option value=""></option>
                             @foreach (var cat in ViewBag.categories)
                             {
-                                <option value="@cat.Description" label="@cat.Description"></option>
+                                <option value="@cat.Id" label="@cat.Description"></option>
                             }
-                </select>
-                    </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="tableBody">
-        @if (Model != null && Model.Data != null && Model.Data.Count > 0)
-        {
-            foreach (var item in Model.Data)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Itemnb)
+                        </select>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Brand)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Model)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Size)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cost)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Returned)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Stock)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Serialnumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category.Description)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <input type="submit" />
                     </td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="11" style="text-align: center;">No item found</td>
-            </tr>
-            showFooter = false;
-        }
-    </tbody>
-</table>
+            else
+            {
+                <tr>
+                    <td colspan="11" style="text-align: center;">No item found</td>
+                </tr>
+                showFooter = false;
+            }
+        </tbody>
+    </table>
+</form>
 
 
 @if (showFooter)
