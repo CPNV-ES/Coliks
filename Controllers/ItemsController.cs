@@ -46,6 +46,9 @@ namespace coliks.Controllers
             var items = await _context.Items
                 .Include(i => i.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            await _context.Items.Where(i => i.Id == id).Include(r => r.Renteditems).ThenInclude(c => c.Contract).ThenInclude(c => c.Customer).ToListAsync();
+
             if (items == null)
             {
                 return NotFound();
