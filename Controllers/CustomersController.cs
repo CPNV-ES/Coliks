@@ -54,25 +54,30 @@ namespace coliks.Controllers
             return View(model);
         }
 
+        // Verify if the customer already exists
         [AcceptVerbs("Get", "Post")]
         public IActionResult VerifyName(string firstName, string lastName, int? id)
         {
-            if (id != null)
+            // customer id is null when the validation come from to the create customer page
+
+            if (id != null) // we are now in the edit customer page
             {
+                // read the firstaname and lastname for current user
                 var customer = _context.Customers.Where(m => m.Id == id).FirstOrDefault();
+                // check if the lastname and firstname are changed in the form
+                // if nothing change then validation is true. Is no necessary to check if customer exists
                 if (firstName == customer.Firstname && lastName == customer.Lastname)
                     return Json(data: true);
             }
 
+            // read from db if customers already exists
             var coliksContext = _context.Customers.AsQueryable();
             coliksContext = coliksContext.Where(p => p.Lastname.Equals(lastName) && p.Firstname.Equals(firstName));
 
-            if (coliksContext. Count() != 0)
-            {
+            if (coliksContext. Count() != 0)    // customera already exists
                 return Json(data: false);
-            }
 
-            return Json(data: true);
+            return Json(data: true);           // customers don't exists 
         }
 
         // GET: Customers/Details/5
