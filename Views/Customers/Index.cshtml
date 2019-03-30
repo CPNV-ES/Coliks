@@ -101,9 +101,10 @@
                         @Html.DisplayFor(modelItem => item.City.Name)
                     </td>
                     <td id="customer-home-actions" class="text-center">
-                        <a id="edit" asp-action="Edit" asp-route-id="@item.Id" data-toggle="popover" data-content="Modifier les informations du client" data-placement="bottom"><i class="fas fa-user-edit"></i></a> <!--|
+                        <a id="edit" asp-action="Edit" asp-route-id="@item.Id" data-toggle="popover" data-content="Modifier les informations du client" data-placement="bottom"><i class="fas fa-user-edit"></i><span class="d-none">|</span></a>
+                        
                         <a id="details" asp-action="Details" asp-route-id="@item.Id" class="d-none">Details</a>
-                        <a id="delete" asp-action="Delete" asp-route-id="@item.Id" class="fas fa-user-times" data-toggle="popover" data-content="Supprimer le client" data-placement="bottom"></a>-->
+                        <a id="delete" asp-action="Delete" asp-route-id="@item.Id" class="fas fa-user-times d-none" data-toggle="popover" data-content="Supprimer le client" data-placement="bottom"></a>
                     </td>
                 </tr>
             }
