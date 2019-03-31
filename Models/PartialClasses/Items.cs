@@ -11,6 +11,9 @@ namespace coliks.Models
     public class ItemsMetaData
     {
         [Display(Name = "No. article")]
+        [Required(ErrorMessage = "Le numéro d'article doit être défini")]
+        [Remote("IsItemNbExist", "Items", AdditionalFields = "Id",
+                ErrorMessage = "Ce numéro d'article existe déjà !")]
         public string Itemnb { get; set; }
 
         [Display(Name = "Marque")]
@@ -35,7 +38,10 @@ namespace coliks.Models
         [Display(Name = "Numéro de série")]
         public string Serialnumber { get; set; }
 
-        [Display(Name = "Catégories")]
+        [Display(Name = "Catégorie")]
         public Categories Category { get; set; }
+
+        [Display(Name = "Catégorie")]
+        public int CategoryId { get; set; }
     }
 }
