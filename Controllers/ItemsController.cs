@@ -60,7 +60,7 @@ namespace coliks.Controllers
         // GET: Items/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Code");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description");
             return View();
         }
 
@@ -71,14 +71,35 @@ namespace coliks.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Itemnb,Brand,Model,Size,CategoryId,Cost,Returned,Type,Stock,Serialnumber")] Items items)
         {
+            bool IsProductNameExist = _context.Items.Any
+            (x => x.Itemnb == items.Itemnb && x.Id != items.Id);
+            if (IsProductNameExist)
+            {
+                ModelState.AddModelError("Itemnb", "Ce numéro d'article existe déjà !");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(items);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Code", items.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", items.CategoryId);
             return View(items);
+        }
+
+        public JsonResult IsItemNbExist(string ItemNb, int? Id)
+        {
+            var validateName = _context.Items.FirstOrDefault
+                                (x => x.Itemnb == ItemNb && x.Id != Id);
+            if (validateName != null)
+            {
+                return Json(false);
+            }
+            else
+            {
+                return Json(true);
+            }
         }
 
         // GET: Items/Edit/5
@@ -94,47 +115,85 @@ namespace coliks.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Code", items.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", items.CategoryId);
             return View(items);
         }
 
         // POST: Items/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(int? id, [Bind("Id,Itemnb,Brand,Model,Size,CategoryId,Cost,Returned,Type,Stock,Serialnumber")] Items items)
         {
-            var ids = Request.Form["isSelected"]; // All selected items
-            var category = Request.Form["multiple_category"];
-            var stock = Request.Form["multiple_stock"];
+            if(id == null) // multiple items edit
+            {
+                var ids = Request.Form["isSelected"]; // All selected items
+                var category = Request.Form["multiple_category"];
+                var stock = Request.Form["multiple_stock"];
             
 
-            if (ids.Count > 0)
+                if (ids.Count > 0)
+                {
+                    foreach (var i in ids)
+                    {
+                        try
+                        {
+                            Items item = _context.Items.Find(Convert.ToInt32(i));
+
+                            if (!string.IsNullOrEmpty(category))
+                            {
+                                Categories cat = _context.Categories.Find(Convert.ToInt32(category)); 
+                                item.Category = new Categories(); // Item always have a null category, so we have to create a new category object
+                                item.Category = cat; // And asign the category
+                           
+                            }
+
+                            if (!string.IsNullOrEmpty(stock))
+                            {
+                                item.Stock = Convert.ToInt32(stock);
+                            }
+
+                            _context.Update(item);
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            if (!ItemsExists(_context.Items.Find(i).Id))
+                            {
+                                return NotFound();
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            else // Single edit of item
             {
-                foreach (var i in ids)
+                if (id != items.Id)
+                {
+                    return NotFound();
+                }
+
+                bool IsProductNameExist = _context.Items.Any
+                    (x => x.Itemnb == items.Itemnb && x.Id != items.Id);
+                if (IsProductNameExist)
+                {
+                    ModelState.AddModelError("Itemnb", "Ce numéro d'article existe déjà !");
+                }
+
+                if (ModelState.IsValid)
                 {
                     try
                     {
-                        Items item = _context.Items.Find(Convert.ToInt32(i));
-
-                        if (!string.IsNullOrEmpty(category))
-                        {
-                            Categories cat = _context.Categories.Find(Convert.ToInt32(category)); 
-                            item.Category = new Categories(); // Item always have a null category, so we have to create a new category object
-                            item.Category = cat; // And asign the category
-                           
-                        }
-
-                        if (!string.IsNullOrEmpty(stock))
-                        {
-                            item.Stock = Convert.ToInt32(stock);
-                        }
-
-                        _context.Update(item);
+                        _context.Update(items);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!ItemsExists(_context.Items.Find(i).Id))
+                        if (!ItemsExists(items.Id))
                         {
                             return NotFound();
                         }
@@ -143,9 +202,12 @@ namespace coliks.Controllers
                             throw;
                         }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Code", items.CategoryId);
+                return View(items);
             }
-            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Items/Delete/5
@@ -173,6 +235,11 @@ namespace coliks.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var items = await _context.Items.FindAsync(id);
+            var rentedItems = await _context.Renteditems.Where(r => r.ItemId == id).ToListAsync();
+            foreach(var item in rentedItems)
+            {
+                _context.Renteditems.Remove(item);
+            }
             _context.Items.Remove(items);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
