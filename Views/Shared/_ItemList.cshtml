@@ -12,14 +12,22 @@
     double EndButton = 5 > Model.TotalPage ? Model.TotalPage : 5;
 }
 <div class="row">
-    <div class="col-2"></div>
+    <div class="col-2">
+        <a href="/Items/Create" class="nav-link">Cr&eacute;er un objet</a><br />
+
+        @if (showFooter)
+        {
+            <a href="#pagination" id="head">Aller en bas</a>
+        }
+    </div>
+
     <div class="col-8">
         <div class="row">
             <div class="col"> <p>Rechercher par No. article, marque, mod&egrave;le ou stock  : </p></div>
             <div class="col"> <input type="text" id="search" class="form-control filter-text" value="@Model.filters.search" autocomplete="off" /></div>
         </div>
     </div>
-    <div class="col-2"></div>
+    <div class="col-2 col-auto"><a id="clearFilter" href="/Items" class="btn-link" hidden>Effacer les filtre</a></div>
 </div>
 
 <form asp-action="Edit">
@@ -46,7 +54,7 @@
                         }
                     </select>
                 </th>
-                <th></th>
+                <th>&Eacute;dition multiple</th>
             </tr>
         </thead>
         <tbody id="tableBody">
@@ -113,14 +121,14 @@
                         </select>
                     </td>
                     <td>
-                        <input type="submit" />
+                        <input type="submit" class="btn btn-primary" />
                     </td>
                 </tr>
             }
             else
             {
                 <tr>
-                    <td colspan="11" style="text-align: center;">No item found</td>
+                    <td colspan="11" style="text-align: center;">Aucun objet trouv&eacute;</td>
                 </tr>
                 showFooter = false;
             }
@@ -131,13 +139,16 @@
 
 @if (showFooter)
 {
-    <div class="panel-footer">
+    <div class="panel-footer" id="pagination">
+        <div class="row ml-1">
+            <a href="#head">Aller en haut</a>
+        </div>
         <div class="row">
-            <div class="col col-2">
-                Page @Model.CurrentPage of @Model.TotalPage |
-                Total @Model.TotalData Records
+            <div class="col-2">
+                Page @Model.CurrentPage sur @Model.TotalPage <br />
+                Total : @Model.TotalData objets
             </div>
-            <div class="col col-10">
+            <div class="col-10">
                 <ul class="pagination pull-right">
                     @*if current page is 1 then there is no need of showing previous and jump backward buttons*@
                     @if (Model.CurrentPage != 1)
