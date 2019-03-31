@@ -84,6 +84,8 @@ namespace coliks.Controllers
 
                     // If there are multiple filter key passed then the above condition will work as an operator condition  
 
+                    gridData.Data = gridData.Data.OrderBy(data => data.Itemnb).ToList();
+
                     // Total data count after filter  
                     gridData.TotalData = gridData.Data.Count();
 
