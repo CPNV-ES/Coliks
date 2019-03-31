@@ -4,74 +4,108 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>&Eacute;dition article</h1>
 
-<h4>Items</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+
+<form asp-action="Edit" id="form">
+    <div class="row">
+        <div class="col">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Itemnb" class="control-label"></label>
-                <input asp-for="Itemnb" class="form-control" />
-                <span asp-validation-for="Itemnb" class="text-danger"></span>
+            <div class="form-group mb-2 row">
+                <label asp-for="Itemnb" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Itemnb" class="form-control" autocomplete="off" />
+                    <span asp-validation-for="Itemnb" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Brand" class="control-label"></label>
-                <input asp-for="Brand" class="form-control" />
-                <span asp-validation-for="Brand" class="text-danger"></span>
+            <div class="form-group mb-2 row">
+                <label asp-for="Brand" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Brand" class="form-control" />
+                    <span asp-validation-for="Brand" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Model" class="control-label"></label>
-                <input asp-for="Model" class="form-control" />
-                <span asp-validation-for="Model" class="text-danger"></span>
+            <div class="form-group mb-2 row">
+                <label asp-for="Model" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Model" class="form-control" />
+                    <span asp-validation-for="Model" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Size" class="control-label"></label>
-                <input asp-for="Size" class="form-control" />
-                <span asp-validation-for="Size" class="text-danger"></span>
+            <div class="form-group mb-2 row">
+                <label asp-for="Size" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Size" class="form-control" />
+                    <span asp-validation-for="Size" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <div class="form-group mb-2 row">
+                <label asp-for="CategoryId" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Cost" class="control-label"></label>
-                <input asp-for="Cost" class="form-control" />
-                <span asp-validation-for="Cost" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <div class="form-group mb-2 row">
+                <label asp-for="Cost" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Cost" class="form-control" />
+                    <span asp-validation-for="Cost" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Returned" class="control-label"></label>
-                <input asp-for="Returned" class="form-control" />
-                <span asp-validation-for="Returned" class="text-danger"></span>
+            <div class="form-group mb-2 row">
+                <label asp-for="Returned" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Returned" class="form-control" />
+                    <span asp-validation-for="Returned" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
+            <div class="form-group mb-2 row">
+                <label asp-for="Type" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Type" class="form-control" />
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Stock" class="control-label"></label>
-                <input asp-for="Stock" class="form-control" />
-                <span asp-validation-for="Stock" class="text-danger"></span>
+            <div class="form-group mb-2 row">
+                <label asp-for="Stock" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Stock" class="form-control" />
+                    <span asp-validation-for="Stock" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Serialnumber" class="control-label"></label>
-                <input asp-for="Serialnumber" class="form-control" />
-                <span asp-validation-for="Serialnumber" class="text-danger"></span>
+            <div class="form-group mb-2 row">
+                <label asp-for="Serialnumber" class="col-sm col-form-label"></label>
+                <div class="col-sm-8">
+                    <input asp-for="Serialnumber" class="form-control" />
+                    <span asp-validation-for="Serialnumber" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Sauvegarder" class="btn btn-primary" />
-            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-1 mt-1">
+            <input type="button" value="Sauvegarder" class="btn btn-success" id="save" />
+        </div>
+    </div>
+</form>
+
+
+<div class="row">
+    <div class="col">
+        <form asp-action="Delete" id="deleteItem">
+            <input type="hidden" asp-for="Id" />
         </form>
+        <button class="btn btn-danger" onclick="deleteConfirm()">Supprimer</button>
+        <a asp-action="Index" class="btn btn-primary">Retourner &agrave; la liste</a>
     </div>
 </div>
 
-<div>
-    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-    <a asp-action="Index" class="btn btn-primary">Retourner &agrave; la liste</a>
-</div>
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery-confirm.min.js"></script>
+<script src="~/js/item.js"></script>
