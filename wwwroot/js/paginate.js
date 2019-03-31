@@ -16,8 +16,8 @@
 
         // every filters has the common class as filter-text  
         // on keyup or change of the filters, we will call the ajax function  
-        $(document).on('keyup change', '.filter-text', function () {
-            
+        $(document).on('keyup keydown change', '.filter-text', function () {
+            $('#clearFilter').removeAttr('hidden')
             //setting the page no to 1 thus on any filter change matching data will be shown from page 1  
             PageNo = 1;
             Pagination();
