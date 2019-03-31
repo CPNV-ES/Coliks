@@ -6,7 +6,7 @@
 <h1>Cr&eacute;er un article</h1>
 
 <hr />
-<form asp-action="Create" class="form-inline" id="formEdit">
+<form asp-action="Create" id="form">
     <div class="row">
         <div class="col">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -84,14 +84,15 @@
             </div>
         </div>
     </div>
-</form>
-<div class="row">
-    <div class="form-group">
-        <button class="btn btn-success" id="saveEdit" disabled>Cr&eacute;er</button>
+    <div class="row">
+        <div class="col mb-1 mt-1">
+            <input type="button" value="Cr&eacute;er" class="btn btn-success" id="save" disabled />
+        </div>
     </div>
-</div>
+</form>
+
 <div class="row">
-    <div>
+    <div class="col">
         <a asp-action="Index" class="btn btn-danger">Retourner &agrave; la liste</a>
     </div>
 </div>
