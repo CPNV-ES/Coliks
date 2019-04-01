@@ -164,6 +164,20 @@ namespace coliks.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SoftDelete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var contract = await _context.Contracts.FindAsync(id);
+            contract.Effectivereturn = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = contract.Id });
+        }
+
         private bool ContractsExists(int id)
         {
             return _context.Contracts.Any(e => e.Id == id);
