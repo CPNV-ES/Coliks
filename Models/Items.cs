@@ -21,6 +21,7 @@ namespace coliks.Models
         public string Type { get; set; }
         public int? Stock { get; set; }
         public string Serialnumber { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual Categories Category { get; set; }
         public virtual ICollection<Renteditems> Renteditems { get; set; }
