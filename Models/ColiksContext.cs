@@ -33,13 +33,13 @@ namespace coliks.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=Coliks;User=SA;Password=Vallorbe12.;Trusted_Connection=False;");
+                optionsBuilder.UseSqlServer("Server=localhost;Database=Coliks;User=SA;Password=Vallorbe12.;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
 
             modelBuilder.Entity<Categories>(entity =>
             {
@@ -232,6 +232,8 @@ namespace coliks.Models
                 entity.Property(e => e.Cost)
                     .HasColumnName("cost")
                     .HasDefaultValueSql("('0')");
+
+                entity.HasQueryFilter(e => !e.IsDeleted);
 
                 entity.Property(e => e.Itemnb)
                     .IsRequired()
