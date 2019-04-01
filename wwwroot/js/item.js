@@ -20,7 +20,7 @@ function cancelIt(evt) {
 
 
 $(document).ready(function () {
-    $(document).on('keyup keydown change', '.form', function () {
+    $(document).on('keyup keydown change', '#form', function () {
         if ($('#form').valid()) { // The itemnb is not valid and the $('.form-inline').valid() return false (if we do it on the console). But enter the true part of the condition anyway.
             $('.btn-success').removeAttr('disabled')
         }
