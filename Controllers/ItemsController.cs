@@ -235,12 +235,7 @@ namespace coliks.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var items = await _context.Items.FindAsync(id);
-            var rentedItems = await _context.Renteditems.Where(r => r.ItemId == id).ToListAsync();
-            foreach(var item in rentedItems)
-            {
-                _context.Renteditems.Remove(item);
-            }
-            _context.Items.Remove(items);
+            items.IsDeleted = true;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
