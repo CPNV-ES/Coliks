@@ -13,11 +13,13 @@
 }
 <div class="row">
     <div class="col-2">
-        <a href="/Items/Create" class="nav-link">Cr&eacute;er un objet</a><br />
+        <a href="/Items/Create" class="btn btn-primary">Cr&eacute;er un objet</a><br />
 
-        @if (showFooter)
+        @if (showFooter) // This is not working because the affectation was done in the table after
         {
-            <a href="#pagination" id="head">Aller en bas</a>
+            <div class="mt-2">
+                <a href="#pagination" id="head">Aller en bas</a>
+            </div>
         }
     </div>
 
