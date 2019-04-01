@@ -27,7 +27,7 @@
             <div class="col"> <input type="text" id="search" class="form-control filter-text" value="@Model.filters.search" autocomplete="off" /></div>
         </div>
     </div>
-    <div class="col-2 col-auto"><a id="clearFilter" href="/Items" class="btn-link" hidden>Effacer les filtre</a></div>
+    <div class="col-2 col-auto"><a id="clearFilter" href="#" class="btn-link" hidden>Effacer les filtre</a></div>
 </div>
 
 <form asp-action="Edit">
@@ -194,3 +194,6 @@
         </div>
     </div>
 }
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/item.js"></script>
