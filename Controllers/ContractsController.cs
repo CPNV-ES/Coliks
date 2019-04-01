@@ -21,7 +21,7 @@ namespace coliks.Controllers
         // GET: Contracts
         public async Task<IActionResult> Index()
         {
-            var coliksContext = _context.Contracts.Include(c => c.Customer).Include(c => c.HelpStaff).Include(c => c.TuneStaff);
+            var coliksContext = _context.Contracts.Where(c => c.Effectivereturn == null).Include(c => c.Customer).Include(c => c.HelpStaff).Include(c => c.TuneStaff);
             return View(await coliksContext.ToListAsync());
         }
 
