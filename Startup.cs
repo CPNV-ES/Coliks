@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using coliks.Models;
 using ReflectionIT.Mvc.Paging;
+using Microsoft.EntityFrameworkCore;
 
 namespace coliks
 {
@@ -32,7 +33,8 @@ namespace coliks
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            //db connection settings
+            services.AddDbContext<ColiksContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ColiksContext>();
