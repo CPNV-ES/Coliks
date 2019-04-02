@@ -78,7 +78,7 @@ namespace coliks.shared
                 return null;
 
             // calculate and return vaucher 
-            return System.Math.Round((double)((totalPurchase / 100) * 10), 0);
+            return System.Math.Round((double)((totalPurchase / 100)),0, MidpointRounding.AwayFromZero) * 10;
         }
     }
 }
