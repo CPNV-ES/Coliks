@@ -31,7 +31,7 @@ namespace coliks.Models
         [StringLength(50, ErrorMessage = "La taille doit être plus petite que 50 caracters")]
         public string Address { get; set; }
 
-        [DisplayName("Téléphone (Prefix Obligatoire")]
+        [DisplayName("Téléphone (Prefix Obligatoire)")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^(\+?)(\d{2,4})(\s?)(\-?)((\(0\))?)(\s?)(\d{2})(\s?)(\-?)(\d{3})(\s?)(\-?)(\d{2})(\s?)(\-?)(\d{2})", ErrorMessage = "Le numero n'est pas valide")]
         public string Phone { get; set; }
