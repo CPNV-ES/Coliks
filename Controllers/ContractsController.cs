@@ -21,7 +21,7 @@ namespace coliks.Controllers
         // GET: Contracts
         public async Task<IActionResult> Index()
         {
-            var coliksContext = _context.Contracts.Include(c => c.Customer).Include(c => c.HelpStaff).Include(c => c.TuneStaff);
+            var coliksContext = _context.Contracts.Where(c => c.Effectivereturn == null).Include(c => c.Customer).Include(c => c.HelpStaff).Include(c => c.TuneStaff);
             return View(await coliksContext.ToListAsync());
         }
 
@@ -88,6 +88,10 @@ namespace coliks.Controllers
             {
                 return NotFound();
             }
+            if (contracts.Effectivereturn != null)
+            {
+                return RedirectToAction(nameof(Details), new { id = contracts.Id });
+            }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Firstname", contracts.CustomerId);
             ViewData["HelpStaffId"] = new SelectList(_context.Staffs, "Id", "Id", contracts.HelpStaffId);
             ViewData["TuneStaffId"] = new SelectList(_context.Staffs, "Id", "Id", contracts.TuneStaffId);
@@ -132,36 +136,18 @@ namespace coliks.Controllers
             return View(contracts);
         }
 
-        // GET: Contracts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpPost]
+        public async Task<IActionResult> SoftDelete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var contracts = await _context.Contracts
-                .Include(c => c.Customer)
-                .Include(c => c.HelpStaff)
-                .Include(c => c.TuneStaff)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (contracts == null)
-            {
-                return NotFound();
-            }
-
-            return View(contracts);
-        }
-
-        // POST: Contracts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var contracts = await _context.Contracts.FindAsync(id);
-            _context.Contracts.Remove(contracts);
+            var contract = await _context.Contracts.FindAsync(id);
+            contract.Effectivereturn = DateTime.Now;
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details), new { id = contract.Id });
         }
 
         private bool ContractsExists(int id)
