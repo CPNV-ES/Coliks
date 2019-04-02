@@ -10,13 +10,13 @@ namespace coliks.Controllers
     {
 
         //This is the common function used for paging and searching  
-        public GridPagination FilterData(int? PageNumber, FilterItems filters, ColiksContext context)
+        public GridPagination FilterData(int? PageNumber, FilterItems filters, ColiksContext2 context)
         {
             GridPagination gridData = new GridPagination();
             double count = 0;
             try
             {
-                using (ColiksContext db = new ColiksContext())
+                using (ColiksContext2 db = new ColiksContext2())
                 {
                     // Getting all the Data from Database  
                     var empData = db.Items.Include(i => i.Category).ToList();
@@ -31,6 +31,7 @@ namespace coliks.Controllers
                     if (!string.IsNullOrEmpty(filters.search))
                     {
                         // Have to check if the brand or model is null or empty, to avoid a nullErrorExeptions on .ToLower()
+                        // The problem is : If a record have a brand or model set to null we can't find it with the search
                         gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Brand)).ToList(); 
                         gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Model)).ToList(); 
 

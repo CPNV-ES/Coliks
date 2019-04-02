@@ -11,10 +11,10 @@ namespace coliks.Controllers
 {
     public class ItemsController : Controller
     {
-        private readonly ColiksContext _context;
+        private readonly ColiksContext2 _context;
         private FilterDataController filterDataController;
 
-        public ItemsController(ColiksContext context)
+        public ItemsController(ColiksContext2 context)
         {
             filterDataController = new FilterDataController();
             _context = context;
