@@ -18,58 +18,59 @@
 </div>
 
 <hr />
-<form asp-action="Edit">
+<form asp-action="Edit" id="edit-form-customer">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Id" />
     <div class="form-row">
         <div class="form-group col">
             <label asp-for="Lastname" class="control-label"></label>
-            <input asp-for="Lastname" class="form-control" />
+            <input asp-for="Lastname" class="form-control edit-customer-validation" />
             <span asp-validation-for="Lastname" class="text-danger"></span>
         </div>
         <div class="form-group col">
             <label asp-for="Firstname" class="control-label"></label>
-            <input asp-for="Firstname" class="form-control" />
+            <input asp-for="Firstname" class="form-control edit-customer-validation" />
             <span asp-validation-for="Firstname" class="text-danger"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col">
             <label asp-for="Address" class="control-label"></label>
-            <input asp-for="Address" class="form-control" />
+            <input asp-for="Address" class="form-control edit-customer-validation" />
             <span asp-validation-for="Address" class="text-danger"></span>
         </div>
         <div class="form-group col">
             <label asp-for="CityId" class="control-label"></label>
-            <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId"></select>
+            <select asp-for="CityId" class="form-control edit-customer-validation" asp-items="ViewBag.CityId"></select>
             <span asp-validation-for="CityId" class="text-danger"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col">
             <label asp-for="Phone" class="control-label"></label>
-            <input asp-for="Phone" class="form-control" />
+            <input asp-for="Phone" class="form-control edit-customer-validation" />
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
         <div class="form-group col">
             <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" class="form-control" />
+            <input asp-for="Email" class="form-control edit-customer-validation" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-6">
             <label asp-for="Mobile" class="control-label"></label>
-            <input asp-for="Mobile" class="form-control" />
+            <input asp-for="Mobile" class="form-control edit-customer-validation" />
             <span asp-validation-for="Mobile" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group d-flex justify-content-end align-items-end">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <button type="submit" value="Save" class="btn btn-primary disabled" disabled>Save</button>
     </div>
 </form>
 
 <environment include="Development">
+    <script src="~/js/customerModify.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
