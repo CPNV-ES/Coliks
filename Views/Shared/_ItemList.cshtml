@@ -49,7 +49,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Data[0].Category)
                     <select id="item_gender" class="form-control filter-text">
-                        <option value="">Tous</option>
+                        <option value="">Toutes</option>
                         @foreach (var cat in ViewBag.categories)
                         {
                             <option value="@cat.Id" label="@cat.Description"></option>
