@@ -11,7 +11,8 @@
       "inputFileName": [
         "wwwroot/js/site.js",
         "wwwroot/js/cusomers.js",
-        "wwwroot/js/cusomersDetails.js"
+        "wwwroot/js/cusomersDetails.js",
+        "wwwroot/js/cusomersModify.js"
       ],
         "minify": {
             "enabled": true,
