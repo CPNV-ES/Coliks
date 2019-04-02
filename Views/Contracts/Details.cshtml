@@ -93,7 +93,10 @@
     @if (Model.Effectivereturn == null)
     {
         <div class="row">
-            <div class="col">
+            <div class="col-1 offset-9">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Modifier</a>
+            </div>
+            <div class="col-2">
                 <form asp-action="SoftDelete">
                     <input type="hidden" asp-for="Id" />
                     <input type="submit" value="Clore contrat" class="btn btn-danger" />
@@ -104,6 +107,5 @@
     
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
