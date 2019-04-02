@@ -1,6 +1,6 @@
 ﻿/**
  Author: Carboni Davide
- Description: init all necessary events into Customers home page
+ Description: Manage the customer index home page
  version: 1.0
  */
 
@@ -12,7 +12,7 @@ $(document).ready(function () {
 });
 
 /**
- *Customers home page events
+ * Base Module
  * */
 var customersPage = {
     init: function () {
@@ -56,7 +56,7 @@ var customersPage = {
 }
 
 /**
- * Customers base functions
+ * Customer Module
  * */
 var customer = {    
     details: function (elm) {

@@ -1,6 +1,6 @@
 ﻿/**
  Author: Carboni Davide
- Description: init all necessary events into Edit Customer Page
+ Description: Manage the customer edit page
  version: 1.0
  */
 
@@ -12,13 +12,14 @@ $(document).ready(function () {
 });
 
 /**
- *Customers home page events
+ * Base Module
  * */
 var customersModifyPage = {
     init: function () {
         customersModifyPage.loadEvents();
         
     },
+    // load all events
     loadEvents: function () {
         // validate the edit form
         $(".edit-customer-validation").on("change paste keyup click blur", function (e) {
@@ -37,12 +38,10 @@ var customer = {
     enableButtonSubmit(res) {
         // enable button if forms is valide
         if (res) {
-            console.log("valide");
             // enable
             $("#edit-form-customer button").removeClass("disabled");
             $("#edit-form-customer button").removeAttr("disabled");
         } else {
-            console.log("invalide");
             // disable
             $("#edit-form-customer button").addClass("disabled");
             $("#edit-form-customer button").attr("disabled", "disabled");

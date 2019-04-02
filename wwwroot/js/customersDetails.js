@@ -1,23 +1,22 @@
 ﻿/**
  Author: Carboni Davide
- Description: init all necessary events into Customers details page with purchases elements
+ Description: Manage the customer details page
  version: 1.0
- */
-
-/**
- * Entry point
  */
 
 // to check the purchase form status
 var formStatus = {};
 var isPrinted = false;
 
+/**
+ * Entry point
+ */
 $(document).ready(function () {
     customerDetailsPage.init();
 });
 
 /**
- *Customer-Details page events
+ * Base Module
  * */
 var customerDetailsPage = {
     init: function () {
@@ -72,10 +71,8 @@ var customerDetailsPage = {
 }
 
 /**
- * Purchases functions
+ * Purchases Module
  * */
-
-
 var purchase = {
     // add  a new purchase into table
     addPurchase: function () {
@@ -145,6 +142,7 @@ var purchase = {
         }
         return false;
     },
+    // validate the amount value
     validateAmount: function (fieldId) {
         value = $(fieldId).val().replace(/\s/g, '');
 
@@ -172,6 +170,7 @@ var purchase = {
         errorMessage.hide(fieldId);
         return true;
     },
+    //validate the description
     validateDescription: function (fieldId) {
         value = $(fieldId).val().replace(/\s/g, '');
 
@@ -189,6 +188,7 @@ var purchase = {
         errorMessage.hide(fieldId);
         return true;
     },
+    // enable/disable submit button if form is valid
     enableButtonSubmit() {
         // read each field status and check if button can be enabled
         var res = true;
@@ -213,12 +213,14 @@ var purchase = {
     }
 }
 
-// module message
-// hide show a message using bootstrap classes
-// paramters: 
-//  msg: the message to show
-//  node: the node in html dom
-
+/**
+ * Message Module
+ * 
+ * hide show a message using bootstrap classes
+ * @paramters:
+ * msg: the message to show
+ * node: the node in html dom
+ * */
 var errorMessage = {
     show: function (msg, node) {
         // change style into input field with a red border color
@@ -240,9 +242,11 @@ var errorMessage = {
     }
 }
 
-
-// module vaucher
-// show vaucher details and print content
+/**
+ * Vaucher Module
+ * 
+ * show vaucher details and print content
+ * */
 var vaucher = {
     show: function () {
         $("#vaucherModal").modal({
