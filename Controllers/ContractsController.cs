@@ -88,6 +88,10 @@ namespace coliks.Controllers
             {
                 return NotFound();
             }
+            if (contracts.Effectivereturn != null)
+            {
+                return RedirectToAction(nameof(Details), new { id = contracts.Id });
+            }
             ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "Firstname", contracts.CustomerId);
             ViewData["HelpStaffId"] = new SelectList(_context.Staffs, "Id", "Id", contracts.HelpStaffId);
             ViewData["TuneStaffId"] = new SelectList(_context.Staffs, "Id", "Id", contracts.TuneStaffId);
