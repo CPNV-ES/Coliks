@@ -3,6 +3,7 @@ GO
 
 Create Table customer_categories (
 	id int identity primary key,
+	totalamount int, -- of money spent in our store
 	categoryname varchar(20)
 )
 GO
