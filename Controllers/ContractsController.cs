@@ -11,9 +11,9 @@ namespace coliks.Controllers
 {
     public class ContractsController : Controller
     {
-        private readonly ColiksContext _context;
+        private readonly ColiksContext2 _context;
 
-        public ContractsController(ColiksContext context)
+        public ContractsController(ColiksContext2 context)
         {
             _context = context;
         }

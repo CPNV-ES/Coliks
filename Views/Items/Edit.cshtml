@@ -23,7 +23,7 @@
             <div class="form-group mb-2 row">
                 <label asp-for="Brand" class="col-sm col-form-label"></label>
                 <div class="col-sm-8">
-                    <input asp-for="Brand" class="form-control" />
+                    <select asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId"></select>
                     <span asp-validation-for="Brand" class="text-danger"></span>
                 </div>
             </div>
@@ -44,7 +44,6 @@
             <div class="form-group mb-2 row">
                 <label asp-for="CategoryId" class="col-sm col-form-label"></label>
                 <div class="col-sm-8">
-
                     <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>

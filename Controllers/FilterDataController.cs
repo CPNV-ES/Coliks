@@ -19,7 +19,7 @@ namespace coliks.Controllers
                 using (ColiksContext2 db = new ColiksContext2())
                 {
                     // Getting all the Data from Database  
-                    var empData = db.Items.Include(i => i.Category).ToList();
+                    var empData = db.Items.Include(i => i.Category).Include(b => b.Brand).ToList();
                     // Checking if the Page number is passed and is greater than 0 else considered as 1  
                     gridData.CurrentPage = PageNumber.HasValue ? PageNumber.Value <= 0 ? 1 : PageNumber.Value : 1;
                     // Assigning the list of data to the Model's property  
@@ -32,14 +32,14 @@ namespace coliks.Controllers
                     {
                         // Have to check if the brand or model is null or empty, to avoid a nullErrorExeptions on .ToLower()
                         // The problem is : If a record have a brand or model set to null we can't find it with the search
-                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Brand)).ToList(); 
-                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Model)).ToList(); 
+                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Model)).ToList();
+                        gridData.Data = gridData.Data.Where(x => x.BrandId != null).ToList();
 
                         gridData.Data = gridData.Data.Where(x =>
                         x.Itemnb.ToLower().Contains(filters.search.ToLower())  ||
-                        x.Brand.ToLower().Contains(filters.search.ToLower())   ||
                         x.Model.ToLower().Contains(filters.search.ToLower())   ||
-                        x.Stock.ToString().Contains(filters.search.ToLower())
+                        x.Stock.ToString().Contains(filters.search.ToLower())  ||
+                        x.Brand.Brandname.ToLower().Contains(filters.search.ToLower())
                         ).ToList();
                     }
 
@@ -50,10 +50,10 @@ namespace coliks.Controllers
                     }
 
                     //Getting the List with the matching brand 
-                    if (!string.IsNullOrEmpty(filters.brand))
+                    if (filters.brand != null) 
                     {
-                        gridData.Data = gridData.Data.Where(x => !string.IsNullOrEmpty(x.Brand)).ToList(); // Have to check if the brand is null or empty, to avoid a nullErrorExeptions on .ToLower()
-                        gridData.Data = gridData.Data.Where(x => x.Brand.ToLower().Contains(filters.brand.ToLower())).ToList();
+                        gridData.Data = gridData.Data.Where(x => x.BrandId != null).ToList(); // Have to check if the brandId is not null, if I don't do that and an brandId is null an exeption will be trowed
+                        gridData.Data = gridData.Data.Where(x => x.Brand.Id == filters.brand).ToList();
                     }
                     
                     //Getting the List with the matching model  

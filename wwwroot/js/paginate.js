@@ -54,6 +54,7 @@
             success: function (d) {
                 // d will contain the html of partial view  
                 var result = $.parseHTML(d) // Parse string returned
+
                 $('#tableBody').replaceWith(result[2].childNodes[1].childNodes[3]) // Get the tbody from result and display it
                 $('.panel-footer').replaceWith(result[4]) // Get the footer and display it
             },

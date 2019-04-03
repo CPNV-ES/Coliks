@@ -11,9 +11,9 @@ namespace coliks.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly ColiksContext _context;
+        private readonly ColiksContext2 _context;
 
-        public CustomersController(ColiksContext context)
+        public CustomersController(ColiksContext2 context)
         {
             _context = context;
         }

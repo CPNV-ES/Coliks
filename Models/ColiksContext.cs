@@ -15,6 +15,7 @@ namespace coliks.Models
         {
         }
 
+        public virtual DbSet<Brands> Brands { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Contracts> Contracts { get; set; }
@@ -40,6 +41,20 @@ namespace coliks.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
+
+            modelBuilder.Entity<Brands>(entity =>
+            {
+                entity.HasIndex(e => e.Brandname)
+                    .HasName("UQ__Brands__62E74E7507624114")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Brandname)
+                    .HasColumnName("brandname")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
 
             modelBuilder.Entity<Categories>(entity =>
             {
@@ -220,10 +235,7 @@ namespace coliks.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Brand)
-                    .HasColumnName("brand")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.BrandId).HasColumnName("brand_id");
 
                 entity.Property(e => e.CategoryId)
                     .HasColumnName("category_id")
@@ -233,7 +245,7 @@ namespace coliks.Models
                     .HasColumnName("cost")
                     .HasDefaultValueSql("('0')");
 
-                entity.HasQueryFilter(e => !e.IsDeleted);
+                entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
                 entity.Property(e => e.Itemnb)
                     .IsRequired()
@@ -267,6 +279,11 @@ namespace coliks.Models
                     .HasColumnName("type")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Brand)
+                    .WithMany(p => p.Items)
+                    .HasForeignKey(d => d.BrandId)
+                    .HasConstraintName("fk_brand");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Items)

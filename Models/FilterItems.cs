@@ -8,7 +8,7 @@ namespace coliks.Models
     public class FilterItems
     {
         public string itemnb { get; set; }
-        public string brand { get; set; }
+        public int? brand { get; set; }
         public string model { get; set; }
         public Nullable<int> size { get; set; } = null;
         public Nullable<int> stock { get; set; } = null;

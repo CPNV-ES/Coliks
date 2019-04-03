@@ -24,6 +24,7 @@ namespace coliks.Controllers
         public ActionResult PaginateData(int pageNo, FilterItems filter)
         {
             ViewBag.categories = _context.Categories;
+            ViewBag.brand = _context.Brands;
             // This will call the FilterData function with PageNo and filter textboxes value which we passed in our Ajax request  
             return PartialView("_ItemList", filterDataController.FilterData(pageNo, filter, _context));
         }
@@ -31,6 +32,7 @@ namespace coliks.Controllers
         public ActionResult Index()
         {
             ViewBag.categories = _context.Categories;
+            ViewBag.brand = _context.Brands;
             // Calling FilterData function with Page number as 1 on initial load and no filter  
             return View(filterDataController.FilterData(1, new FilterItems(), _context));
         }
@@ -45,6 +47,7 @@ namespace coliks.Controllers
 
             var items = await _context.Items
                 .Include(i => i.Category)
+                .Include(b => b.Brand)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             await _context.Items.Where(i => i.Id == id).Include(r => r.Renteditems).ThenInclude(c => c.Contract).ThenInclude(c => c.Customer).ToListAsync();
@@ -61,6 +64,7 @@ namespace coliks.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description");
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname");
             return View();
         }
 
@@ -69,7 +73,7 @@ namespace coliks.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Itemnb,Brand,Model,Size,CategoryId,Cost,Returned,Type,Stock,Serialnumber")] Items items)
+        public async Task<IActionResult> Create([Bind("Id,Itemnb,BrandId,Model,Size,CategoryId,Cost,Returned,Type,Stock,Serialnumber")] Items items)
         {
             bool IsProductNameExist = _context.Items.Any
             (x => x.Itemnb == items.Itemnb && x.Id != items.Id);
@@ -85,6 +89,7 @@ namespace coliks.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", items.CategoryId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname", items.BrandId);
             return View(items);
         }
 
@@ -116,13 +121,15 @@ namespace coliks.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", items.CategoryId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname", items.BrandId);
+
             return View(items);
         }
 
         // POST: Items/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("Id,Itemnb,Brand,Model,Size,CategoryId,Cost,Returned,Type,Stock,Serialnumber")] Items items)
+        public async Task<IActionResult> Edit(int? id, [Bind("Id,Itemnb,BrandId,Model,Size,CategoryId,Cost,Returned,Type,Stock,Serialnumber")] Items items)
         {
             if(id == null) // multiple items edit
             {
@@ -205,6 +212,7 @@ namespace coliks.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Code", items.CategoryId);
+                ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname", items.BrandId);
                 return View(items);
             }
 

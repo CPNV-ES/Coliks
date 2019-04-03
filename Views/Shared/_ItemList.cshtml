@@ -33,12 +33,21 @@
 </div>
 
 <form asp-action="Edit">
-    <table class="table table-bordered">
+    <table class="table table-bordered text-center">
         <thead>
             @*Setting the filter values in text boxes*@
             <tr>
                 <th>@Html.DisplayNameFor(model => model.Data[0].Itemnb) <input type="text" id="item_nb" class="form-control filter-text" value="@Model.filters.itemnb" autocomplete="off" /></th>
-                <th>@Html.DisplayNameFor(model => model.Data[0].Brand) <input type="text" id="item_brand" class="form-control filter-text" value="@Model.filters.brand" autocomplete="off" /></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data[0].Brand)
+                    <select id="item_brand" class="form-control filter-text">
+                        <option value="">Toutes</option>
+                        @foreach (var brd in ViewBag.brand)
+                        {
+                            <option value="@brd.Id" label="@brd.Brandname"></option>
+                        }
+                    </select>
+                </th>
                 <th>@Html.DisplayNameFor(model => model.Data[0].Model) <input type="text" id="item_model" class="form-control filter-text" value="@Model.filters.model" autocomplete="off" /></th>
                 <th>@Html.DisplayNameFor(model => model.Data[0].Size) <input type="number" id="item_size" class="form-control filter-text" value="@Model.filters.size" autocomplete="off" /></th>
                 <th>@Html.DisplayNameFor(model => model.Data[0].Cost)</th>
@@ -69,7 +78,7 @@
                             @Html.DisplayFor(modelItem => item.Itemnb)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Brand)
+                            @Html.DisplayFor(modelItem => item.Brand.Brandname)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Model)
@@ -96,7 +105,6 @@
                             @Html.DisplayFor(modelItem => item.Category.Description)
                         </td>
                         <td onclick="cancelIt(event);">
-                            @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
                             <input type="checkbox" value="@item.Id" id="isSelected" name="isSelected" />
                         </td>
                     </tr>
@@ -138,10 +146,10 @@
     </table>
 </form>
 
+<div class="panel-footer" id="pagination">
 
-@if (showFooter)
-{
-    <div class="panel-footer" id="pagination">
+    @if (showFooter)
+    {
         <div class="row ml-1">
             <a href="#head">Aller en haut</a>
         </div>
@@ -194,8 +202,8 @@
             </div>
             <div class="col col-xs-4"></div>
         </div>
-    </div>
-}
+    }
+</div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/item.js"></script>

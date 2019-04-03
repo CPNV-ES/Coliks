@@ -17,7 +17,10 @@ namespace coliks.Models
         public string Itemnb { get; set; }
 
         [Display(Name = "Marque")]
-        public string Brand { get; set; }
+        public int? BrandId { get; set; }
+
+        [Display(Name = "Marque")]
+        public virtual Brands Brand { get; set; }
 
         [Display(Name = "Modèle")]
         public string Model { get; set; }

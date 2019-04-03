@@ -6,23 +6,28 @@
  *  - https://github.com/aspnet/EntityFrameworkCore/issues/12245 partial method for dbcontext
  *  - https://github.com/aspnet/EntityFrameworkCore/issues/831   Update model from database (instead of override it)               
  * 
+ * TODO : Replace everything in the file from ColiksContext. Then update ColiksContext of this file to ColiksContext2 (see below)
+ * Finaly, update the Item isDeleted with this line : entity.HasQueryFilter(e => !e.IsDeleted);  (see below)
  */
 
+using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace coliks.Models
 {
-    public partial class ColiksContext2 : DbContext
+    public partial class ColiksContext2 : DbContext // change context here 
     {
-        public ColiksContext2()
+        public ColiksContext2()  // change context here
         {
         }
 
-        public ColiksContext2(DbContextOptions<ColiksContext2> options)
+        public ColiksContext2(DbContextOptions<ColiksContext2> options)  // change context here
             : base(options)
         {
         }
 
+        public virtual DbSet<Brands> Brands { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Contracts> Contracts { get; set; }
@@ -48,6 +53,20 @@ namespace coliks.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
+
+            modelBuilder.Entity<Brands>(entity =>
+            {
+                entity.HasIndex(e => e.Brandname)
+                    .HasName("UQ__Brands__62E74E7507624114")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Brandname)
+                    .HasColumnName("brandname")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
 
             modelBuilder.Entity<Categories>(entity =>
             {
@@ -228,10 +247,7 @@ namespace coliks.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Brand)
-                    .HasColumnName("brand")
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.BrandId).HasColumnName("brand_id");
 
                 entity.Property(e => e.CategoryId)
                     .HasColumnName("category_id")
@@ -241,7 +257,7 @@ namespace coliks.Models
                     .HasColumnName("cost")
                     .HasDefaultValueSql("('0')");
 
-                entity.HasQueryFilter(e => !e.IsDeleted);
+                entity.HasQueryFilter(e => !e.IsDeleted); // Change isDeleted here
 
                 entity.Property(e => e.Itemnb)
                     .IsRequired()
@@ -275,6 +291,11 @@ namespace coliks.Models
                     .HasColumnName("type")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Brand)
+                    .WithMany(p => p.Items)
+                    .HasForeignKey(d => d.BrandId)
+                    .HasConstraintName("fk_brand");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Items)
