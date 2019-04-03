@@ -68,6 +68,9 @@ namespace coliks
                 routes.MapRoute(
                     name: "customers",
                     template: "{controller=Customers}/{action=Index}/{id?}");
+                 routes.MapRoute(
+                    name: "customersCategories",
+                    template: "{controller=CustomerCategories}/{action=Index}/{id?}");
             });
         }
     }
