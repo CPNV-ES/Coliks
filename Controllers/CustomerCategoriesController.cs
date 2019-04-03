@@ -21,7 +21,9 @@ namespace coliks
         // GET: CustomerCategories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CustomerCategories.ToListAsync());
+            //var coliksContext = _context.CustomerCategories.Include(c => c.Customers).AsNoTracking().AsQueryable();
+
+            return View(await _context.CustomerCategories.Include(c => c.Customers).ToListAsync());
         }
 
         // GET: CustomerCategories/Details/5
