@@ -18,6 +18,7 @@ namespace coliks.Models
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Contracts> Contracts { get; set; }
+        public virtual DbSet<CustomerCategories> CustomerCategories { get; set; }
         public virtual DbSet<Customers> Customers { get; set; }
         public virtual DbSet<Durations> Durations { get; set; }
         public virtual DbSet<Geartypes> Geartypes { get; set; }
@@ -33,7 +34,7 @@ namespace coliks.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                //optionsBuilder.UseSqlServer("Server=localhost;Database=Coliks;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=localhost;Database=Coliks;Trusted_Connection=True;");
             }
         }
 
@@ -136,6 +137,20 @@ namespace coliks.Models
                     .HasConstraintName("contract_tune");
             });
 
+            modelBuilder.Entity<CustomerCategories>(entity =>
+            {
+                entity.ToTable("customer_categories");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Categoryname)
+                    .HasColumnName("categoryname")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Totalamount).HasColumnName("totalamount");
+            });
+
             modelBuilder.Entity<Customers>(entity =>
             {
                 entity.ToTable("customers");
@@ -146,6 +161,8 @@ namespace coliks.Models
                     .HasColumnName("address")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.CategoryId).HasColumnName("category_id");
 
                 entity.Property(e => e.CityId).HasColumnName("city_id");
 
@@ -175,6 +192,11 @@ namespace coliks.Models
                     .HasColumnName("phone")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Customers)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("fk_cat");
 
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.Customers)

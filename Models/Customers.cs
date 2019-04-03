@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace coliks.Models
 {
@@ -23,13 +19,11 @@ namespace coliks.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
+        public int? CategoryId { get; set; }
 
+        public virtual CustomerCategories Category { get; set; }
         public virtual Cities City { get; set; }
         public virtual ICollection<Contracts> Contracts { get; set; }
         public virtual ICollection<Purchases> Purchases { get; set; }
     }
-
 }
-
-
-
