@@ -2,9 +2,12 @@
 let paid = []
 let returned = []
 
+// Function to check if a name matches the input by the user and hide the rows which don't
 searchCustomerByName = (event, className, row) => {
     if (event.target.value.length >= 2) {
+        // Get the first name and last name
         const name = row.getElementsByClassName(className)[0].innerHTML.split(' ')
+        // Check if the input is not included in the last name or first name
         if (!name[0].toLowerCase().includes(event.target.value.toLowerCase()) &&
             !name[1].toLowerCase().includes(event.target.value.toLowerCase())
         ) {
@@ -17,12 +20,14 @@ searchCustomerByName = (event, className, row) => {
     }
 }
 
+// Add event listener on input of the search input for not paid contracts
 document.getElementById('search-paid').oninput = (event) => {
     for (const row of document.getElementById('not-paid-tbody').children) {
         searchCustomerByName(event, 'customer-name-paid', row)
     }
 }
 
+// Add event listener on input of the search input for not returned contracts
 document.getElementById('search-returned').oninput = (event) => {
     for (const row of document.getElementById('not-returned-tbody').children) {
         searchCustomerByName(event, 'customer-name-returned', row)
