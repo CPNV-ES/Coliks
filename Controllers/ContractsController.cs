@@ -46,6 +46,16 @@ namespace coliks.Controllers
             return View(contracts);
         }
 
+        // View to display all contracts that were not paid and that are not returned after the planned date
+        public IActionResult NotPaidOrOpen()
+        {
+            // Get all the contracts where there's no Paidon date (means it's not paid)
+            ViewData["NotPaid"] = _context.Contracts.Where(c => c.Paidon == null).Include(c => c.Customer).Take(50).ToList();
+            // Get all the contracts that have no effective return date and where the planned date is in the past
+            ViewData["Open"] = _context.Contracts.Where(c => c.Effectivereturn == null && c.Plannedreturn < DateTime.Now).Include(c => c.Customer).Take(50).ToList();
+            return View();
+        }
+
         // GET: Contracts/Create
         public IActionResult Create()
         {
