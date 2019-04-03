@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using coliks.Models;
+using coliks.shared;
 
 namespace coliks
 {
@@ -22,6 +23,16 @@ namespace coliks
         public async Task<IActionResult> Index()
         {
             return View(await _context.CustomerCategories.Include(c => c.Customers).ToListAsync());
+        }
+
+        public async Task<IActionResult> Promotion()
+        {
+            // get all customers
+            var customers = await _context.Customers
+               .Include(c => c.Purchases)
+               .ToArrayAsync();
+            
+            return View(customers);
         }
 
         // GET: CustomerCategories/Details/5

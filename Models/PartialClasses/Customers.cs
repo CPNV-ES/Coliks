@@ -11,6 +11,8 @@ namespace coliks.Models
     [ModelMetadataType(typeof(CustomersMetadata))]
     public partial class Customers
     {
+        [NotMapped]
+        public int? TotalPurchases { get; set; }
     }
 
     public class CustomersMetadata

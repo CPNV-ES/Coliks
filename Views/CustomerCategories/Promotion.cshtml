@@ -1,0 +1,73 @@
+﻿@model IEnumerable<coliks.Models.Customers>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Promotions</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lastname)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.TotalPurchases >= 1000)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Firstname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lastname)
+                    </td>
+                    <td>
+                        <p>Promotion</p>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger">Promotion Argent</button>
+                    </td>
+                </tr>
+            }
+            @if (item.TotalPurchases >= 2000)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Firstname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lastname)
+                    </td>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-danger">Promotion Gold</button>
+                    </td>
+                </tr>
+            }
+            @if (item.TotalPurchases >= 2000)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Firstname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lastname)
+                    </td>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-danger">Promotion Platinum</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

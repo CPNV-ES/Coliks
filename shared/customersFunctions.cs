@@ -80,5 +80,24 @@ namespace coliks.shared
             // calculate and return vaucher 
             return System.Math.Round((double)((totalPurchase / 100)),0, MidpointRounding.AwayFromZero) * 10;
         }
+
+        /// <summary>
+        /// Calculate the total of all purchases widhout amount
+        /// </summary>
+        /// <param name="purchases"></param>
+        /// <returns></returns>
+        public static double? totalPurchasesWidhoutVaucher(List<Purchases> purchases)
+        {
+            //return an empty list if no purchases exists
+            if (purchases == null)
+                return 0;
+
+            // delete vaucher value into the purchase
+            purchases.RemoveAll(p => p.Description.Contains("***Bon d-achat de"));
+
+            return purchases.Sum(item => item.Amount);
+        }
+
+
     }
 }
