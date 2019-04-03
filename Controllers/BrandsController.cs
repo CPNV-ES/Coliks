@@ -47,19 +47,19 @@ namespace coliks.Controllers
             int? ItemsTotalCost = 0;
             int rentedItemsTotalCount = 0;
             int? rentedItemsTotalCost = 0;
-            foreach (var items in relations[0].Items)
+            foreach (var items in relations[0].Items) // Boucler sur les items trouvé par la relation
             {
                 if(items.Cost != null)
                 {
-                    ItemsTotalCost += items.Cost;
+                    ItemsTotalCost += items.Cost; // Cumuler le cout des items
                 }
-                rentedItemsTotalCount += items.Renteditems.Count();
+                rentedItemsTotalCount += items.Renteditems.Count(); // Nombre total de locations
 
-                foreach(var rntItems in items.Renteditems)
+                foreach(var rntItems in items.Renteditems) // Puis sur les locations (rentedItems)
                 {
                     if(rntItems.Price != null)
                     {
-                        rentedItemsTotalCost += rntItems.Price;
+                        rentedItemsTotalCost += rntItems.Price; // Cumuler le prix de chaque location (rentedItems)
                     }
                 }
             }

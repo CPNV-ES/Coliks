@@ -89,7 +89,7 @@ namespace coliks.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", items.CategoryId);
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname", items.BrandId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname", items.BrandId); // Ajout du brandId pour la liste déroulante
             return View(items);
         }
 
@@ -121,7 +121,7 @@ namespace coliks.Controllers
                 return NotFound();
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Description", items.CategoryId);
-            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname", items.BrandId);
+            ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname", items.BrandId); // Ajout du brandId pour la liste déroulante
 
             return View(items);
         }
@@ -212,7 +212,7 @@ namespace coliks.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Code", items.CategoryId);
-                ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname", items.BrandId);
+                ViewData["BrandId"] = new SelectList(_context.Brands, "Id", "Brandname", items.BrandId); // Ajout du brandId pour la liste déroulante
                 return View(items);
             }
 
