@@ -22,7 +22,9 @@
                 <thead>
                     <th scope="col">Id</th>
                     <th scope="col">Prix Total</th>
-                    <th scope="col">Nom client</th>
+                    <th scope="col">
+                        <input id="search-paid" type="text" placeholder="Nom client" />
+                    </th>
                     <th scope="col">Détails</th>
                     <th scope="col">Payé ?</th>
                 </thead>
@@ -32,7 +34,7 @@
                         <tr>
                             <th scope="row">@NotPaidContract.Id</th>
                             <td>@NotPaidContract.Total .-</td>
-                            <td>@NotPaidContract.Customer.Lastname @NotPaidContract.Customer.Firstname</td>
+                            <td class="customer-name-paid">@NotPaidContract.Customer.Lastname @NotPaidContract.Customer.Firstname</td>
                             <td>
                                 <a asp-action="Details" asp-route-id="@NotPaidContract.Id" class="btn btn-link" target="_blank">Détails</a>
                             </td>
@@ -54,7 +56,9 @@
                 <thead>
                     <th scope="col">Id</th>
                     <th scope="col">Prix Total</th>
-                    <th scope="col">Nom client</th>
+                    <th scope="col">
+                        <input id="search-returned" type="text" placeholder="Nom client" />
+                    </th>
                     <th scope="col">Détails</th>
                     <th scope="col">Rendu ?</th>
                 </thead>
@@ -64,7 +68,7 @@
                         <tr>
                             <th scope="row">@NotReturnedContract.Id</th>
                             <td>@NotReturnedContract.Total</td>
-                            <td>@NotReturnedContract.Customer.Lastname @NotReturnedContract.Customer.Firstname</td>
+                            <td class="customer-name-returned">@NotReturnedContract.Customer.Lastname @NotReturnedContract.Customer.Firstname</td>
                             <td>
                                 <a asp-action="Details" asp-route-id="@NotReturnedContract.Id" class="btn btn-link" target="_blank">Détails</a>
                             </td>

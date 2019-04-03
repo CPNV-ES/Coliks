@@ -2,6 +2,33 @@
 let paid = []
 let returned = []
 
+searchCustomerByName = (event, className, row) => {
+    if (event.target.value.length >= 2) {
+        const name = row.getElementsByClassName(className)[0].innerHTML.split(' ')
+        if (!name[0].toLowerCase().includes(event.target.value.toLowerCase()) &&
+            !name[1].toLowerCase().includes(event.target.value.toLowerCase())
+        ) {
+            row.style.display = 'none'
+        } else {
+            row.style.display = 'table-row'
+        }
+    } else {
+        row.style.display = 'table-row'
+    }
+}
+
+document.getElementById('search-paid').oninput = (event) => {
+    for (const row of document.getElementById('not-paid-tbody').children) {
+        searchCustomerByName(event, 'customer-name-paid', row)
+    }
+}
+
+document.getElementById('search-returned').oninput = (event) => {
+    for (const row of document.getElementById('not-returned-tbody').children) {
+        searchCustomerByName(event, 'customer-name-returned', row)
+    }
+}
+
 // Function to show an alert message with an error as a parameter
 showAlertMessage = (error) => {
     const alert = document.getElementById('AlertMessage')
