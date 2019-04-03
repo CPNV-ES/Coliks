@@ -1,0 +1,42 @@
+﻿@model coliks.Models.Brands
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Brands</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Brandname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Brandname)
+        </dd>
+    </dl>
+</div>
+
+<h2>Statistiques</h2>
+<div class="pt-5">
+    <table class="table">
+        <tr>
+            <th>Nombre d'articles</th>
+            <th>Cout total article</th>
+            <th>Nombre de location</th>
+            <th>Cout total locations</th>
+        </tr>
+        <tr>
+            <td>@ViewBag.nbItems</td>
+            <td>@ViewBag.itemTotalCost</td>
+            <td>@ViewBag.rentedTotalCount</td>
+            <td>@ViewBag.rentedTotalCost</td>
+        </tr>
+    </table>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a> |
+    <a asp-action="Index" class="btn btn-danger">Retourner &agrave; la liste</a>
+</div>

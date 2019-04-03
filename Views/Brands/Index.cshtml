@@ -1,0 +1,29 @@
+﻿@model IEnumerable<coliks.Models.Brands>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Liste des marques</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Cr&eacute;er une nouvelle marque</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Brandname)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr onclick="location.href = 'Brands/Details/@item.Id'">
+            <td>
+                @Html.DisplayFor(modelItem => item.Brandname)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
