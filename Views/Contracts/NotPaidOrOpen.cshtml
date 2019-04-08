@@ -1,0 +1,93 @@
+@model coliks.Models.Contracts
+
+@{
+    ViewData["Title"] = "Pas payés ou pas rendus";
+}
+
+<div id="AlertMessage" class="alert alert-danger" role="alert" style="display: none;"></div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <h2>Pas payés</h2>
+        </div>
+        <div class="col-6">
+            <h2>Pas rendus</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <table class="table">
+                <thead>
+                    <th scope="col">Id</th>
+                    <th scope="col">Prix Total</th>
+                    <th scope="col">
+                        <input id="search-paid" type="text" placeholder="Nom client" />
+                    </th>
+                    <th scope="col">Détails</th>
+                    <th scope="col">Payé ?</th>
+                </thead>
+                <tbody id="not-paid-tbody">
+                    @foreach (var NotPaidContract in ViewBag.NotPaid)
+                    {
+                        <tr>
+                            <th scope="row">@NotPaidContract.Id</th>
+                            <td>@NotPaidContract.Total .-</td>
+                            <td class="customer-name-paid">@NotPaidContract.Customer.Lastname @NotPaidContract.Customer.Firstname</td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@NotPaidContract.Id" class="btn btn-link" target="_blank">Détails</a>
+                            </td>
+                            <td>
+                                <input class="checkboxes-not-paid" type="checkbox" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button id="paid" type="button" class="btn btn-primary">Payés</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <table class="table">
+                <thead>
+                    <th scope="col">Id</th>
+                    <th scope="col">Prix Total</th>
+                    <th scope="col">
+                        <input id="search-returned" type="text" placeholder="Nom client" />
+                    </th>
+                    <th scope="col">Détails</th>
+                    <th scope="col">Rendu ?</th>
+                </thead>
+                <tbody id="not-returned-tbody">
+                    @foreach (var NotReturnedContract in ViewBag.Open)
+                    {
+                        <tr>
+                            <th scope="row">@NotReturnedContract.Id</th>
+                            <td>@NotReturnedContract.Total</td>
+                            <td class="customer-name-returned">@NotReturnedContract.Customer.Lastname @NotReturnedContract.Customer.Firstname</td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@NotReturnedContract.Id" class="btn btn-link" target="_blank">Détails</a>
+                            </td>
+                            <td>
+                                <input class="checkboxes-not-returned" type="checkbox" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-2 offset-10">
+                    <button id="returned" type="button" class="btn btn-primary">Rendus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<environment include="Development">
+    <script src="~/js/NotPaidOrOpen.js"></script>
+</environment>

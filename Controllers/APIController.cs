@@ -163,5 +163,33 @@ namespace coliks.Controllers
             await _context.SaveChangesAsync();
             return itemDB;
         }
+
+        // Endpoint to update a contract and put it in 'paid' status
+        [HttpPut("/api/paid-contract/{id}")]
+        public async Task<ActionResult<Contracts>> ContractPaid(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var contract = await _context.Contracts.FindAsync(id);
+            contract.Paidon = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return contract;
+        }
+
+        // Endpoint to update a contract and put it in 'returned' status
+        [HttpPut("/api/returned-contract/{id}")]
+        public async Task<ActionResult<Contracts>> ContractReturned(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var contract = await _context.Contracts.FindAsync(id);
+            contract.Effectivereturn = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return contract;
+        }
     }
 }

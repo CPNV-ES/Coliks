@@ -30,5 +30,15 @@
             "enabled": true,
             "renameLocals": true
         }
+    },
+    {
+        "outputFileName": "wwwroot/js/NotPaidOrOpen.min.js",
+        "inputFileName": [
+            "wwwroot/js/NotPaidOrOpen.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        }
     }
 ]
